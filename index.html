@@ -1,886 +1,996 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title data-i18n="title">Kakeibo - Mindful Budgeting</title>
-    <meta
-      name="description"
-      data-i18n="meta.description"
-      content="A simple, private budgeting app to track expenses mindfully and build better financial habits."
-    />
-    <link rel="icon" type="image/png" href="favicon.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Text:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      :root {
-        /* Colors from theme/tokens.ts */
-        --background: #141515;
-        --surface: #3e3e3e;
-        --surface-hover: #4a4a4a;
-        --text: #ffffff;
-        --subtext: #8f8f8f;
-        --red: #ef476f;
-        --blue: #118ab2;
-        --green: #06d6a0;
-        --yellow: #ffd166;
-        --border: rgba(255, 255, 255, 0.06);
-
-        /* Spacing */
-        --spacing-xs: 4px;
-        --spacing-sm: 8px;
-        --spacing-md: 16px;
-        --spacing-lg: 24px;
-        --spacing-xl: 32px;
-        --spacing-2xl: 48px;
-
-        /* Border radius */
-        --radius-sm: 4px;
-        --radius-md: 8px;
-        --radius-lg: 16px;
-        --radius-xl: 24px;
-        --radius-pill: 999px;
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family:
-          "Google Sans Text",
-          "Google Sans",
-          -apple-system,
-          BlinkMacSystemFont,
-          sans-serif;
-        background-color: var(--background);
-        color: var(--text);
-        line-height: 1.6;
-        min-height: 100vh;
-      }
-
-      h1,
-      h2,
-      h3,
-      .store-button {
-        font-family:
-          "Google Sans",
-          -apple-system,
-          BlinkMacSystemFont,
-          sans-serif;
-      }
-
-      .container {
-        max-width: 900px;
-        margin: 0 auto;
-        padding: var(--spacing-lg);
-      }
-
-      /* Language Switcher */
-      .lang-switcher {
-        position: fixed;
-        top: var(--spacing-md);
-        right: var(--spacing-md);
-        display: flex;
-        gap: var(--spacing-xs);
-        background-color: var(--surface);
-        padding: var(--spacing-xs);
-        border-radius: var(--radius-pill);
-        z-index: 100;
-      }
-
-      .lang-btn {
-        background: none;
-        border: none;
-        color: var(--subtext);
-        padding: var(--spacing-xs) var(--spacing-sm);
-        border-radius: var(--radius-pill);
-        cursor: pointer;
-        font-family: inherit;
-        font-size: 0.875rem;
-        transition: all 0.2s ease;
-      }
-
-      .lang-btn:hover {
-        color: var(--text);
-      }
-
-      .lang-btn.active {
-        background-color: var(--background);
-        color: var(--text);
-      }
-
-      /* Hero Section */
-      .hero {
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        padding: var(--spacing-2xl) var(--spacing-lg);
-      }
-
-      .hero-content {
-        max-width: 600px;
-      }
-
-      .logo {
-        margin-bottom: var(--spacing-xl);
-      }
-
-      .logo svg {
-        width: 80px;
-        height: 80px;
-      }
-
-      .hero h1 {
-        font-size: 3.5rem;
-        font-weight: 700;
-        margin-bottom: var(--spacing-md);
-        letter-spacing: -0.02em;
-      }
-
-      .hero .tagline {
-        font-size: 1.5rem;
-        color: var(--text);
-        font-weight: 400;
-        margin-bottom: var(--spacing-md);
-        line-height: 1.4;
-      }
-
-      .hero .description {
-        font-size: 1.1rem;
-        color: var(--subtext);
-        margin-bottom: var(--spacing-lg);
-        line-height: 1.7;
-      }
-
-      /* Pricing note */
-      .pricing-note {
-        font-size: 0.9rem;
-        color: var(--subtext);
-        margin-bottom: var(--spacing-xl);
-      }
-
-      .pricing-note strong {
-        color: var(--green);
-        font-weight: 500;
-      }
-
-      /* Store buttons */
-      .store-buttons {
-        display: flex;
-        gap: var(--spacing-md);
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-bottom: var(--spacing-xl);
-      }
-
-      .store-button {
-        display: inline-flex;
-        align-items: center;
-        gap: var(--spacing-sm);
-        background-color: var(--surface);
-        color: var(--text);
-        text-decoration: none;
-        padding: var(--spacing-md) var(--spacing-lg);
-        border-radius: var(--radius-lg);
-        font-weight: 500;
-        transition:
-          transform 0.2s ease,
-          background-color 0.2s ease;
-      }
-
-      .store-button:hover {
-        transform: translateY(-2px);
-        background-color: var(--surface-hover);
-      }
-
-      .store-button svg {
-        width: 24px;
-        height: 24px;
-      }
-
-      .store-button .store-text {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        line-height: 1.2;
-      }
-
-      .store-button .store-text small {
-        font-size: 0.7rem;
-        color: var(--subtext);
-        font-weight: 400;
-      }
-
-      .store-button .store-text span {
-        font-size: 1rem;
-      }
-
-      /* Principles */
-      .principles {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: var(--spacing-sm);
-      }
-
-      .principle {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-sm);
-        background-color: var(--surface);
-        padding: var(--spacing-sm) var(--spacing-md);
-        border-radius: var(--radius-pill);
-        font-size: 0.875rem;
-      }
-
-      .principle-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-      }
-
-      .principle-dot.red {
-        background-color: var(--red);
-      }
-      .principle-dot.blue {
-        background-color: var(--blue);
-      }
-      .principle-dot.green {
-        background-color: var(--green);
-      }
-      .principle-dot.yellow {
-        background-color: var(--yellow);
-      }
-
-      /* Features Section */
-      .features {
-        padding: var(--spacing-xl) 0;
-      }
-
-      .section-header {
-        text-align: center;
-        margin-bottom: var(--spacing-xl);
-      }
-
-      .section-header h2 {
-        font-size: 2rem;
-        font-weight: 700;
-        margin-bottom: var(--spacing-sm);
-      }
-
-      .section-header p {
-        color: var(--subtext);
-        max-width: 500px;
-        margin: 0 auto;
-      }
-
-      .features-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--spacing-lg);
-      }
-
-      .feature {
-        background-color: var(--surface);
-        padding: var(--spacing-lg);
-        border-radius: var(--radius-lg);
-        text-align: center;
-      }
-
-      .feature-icon {
-        width: 48px;
-        height: 48px;
-        border-radius: var(--radius-md);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto var(--spacing-md);
-        font-size: 1.5rem;
-      }
-
-      .feature-icon.red {
-        background-color: rgba(239, 71, 111, 0.2);
-      }
-      .feature-icon.blue {
-        background-color: rgba(17, 138, 178, 0.2);
-      }
-      .feature-icon.green {
-        background-color: rgba(6, 214, 160, 0.2);
-      }
-      .feature-icon.yellow {
-        background-color: rgba(255, 209, 102, 0.2);
-      }
-
-      .feature h3 {
-        font-size: 1rem;
-        font-weight: 500;
-        margin-bottom: var(--spacing-xs);
-      }
-
-      .feature p {
-        font-size: 0.875rem;
-        color: var(--subtext);
-        line-height: 1.5;
-      }
-
-      /* Screenshots Section */
-      .screenshots {
-        padding: var(--spacing-2xl) 0;
-        overflow: hidden;
-      }
-
-      .screenshots-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: var(--spacing-lg);
-        margin-top: var(--spacing-xl);
-      }
-
-      .screenshot-item {
-        position: relative;
-        background: var(--surface);
-        border-radius: var(--radius-xl);
-        padding: var(--spacing-sm);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-        transition: all 0.3s ease;
-      }
-
-      .screenshot-item:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
-      }
-
-      .screenshot-item img {
-        width: 100%;
-        height: auto;
-        display: block;
-        border-radius: var(--radius-lg);
-      }
-
-      /* Philosophy Section */
-      .philosophy {
-        padding: var(--spacing-2xl) 0;
-        text-align: center;
-      }
-
-      .philosophy h2 {
-        font-size: 1.75rem;
-        font-weight: 700;
-        margin-bottom: var(--spacing-md);
-      }
-
-      .philosophy p {
-        color: var(--subtext);
-        max-width: 600px;
-        margin: 0 auto var(--spacing-md);
-        line-height: 1.7;
-      }
-
-      .philosophy .origin {
-        font-size: 0.875rem;
-        color: var(--subtext);
-        margin-top: var(--spacing-lg);
-        padding-top: var(--spacing-lg);
-        border-top: 1px solid var(--border);
-      }
-
-      .philosophy .origin .japanese {
-        color: var(--yellow);
-        font-size: 1.25rem;
-      }
-
-      /* Footer */
-      footer {
-        padding: var(--spacing-xl) var(--spacing-lg);
-        text-align: center;
-        color: var(--subtext);
-        font-size: 0.875rem;
-        border-top: 1px solid var(--border);
-        margin-top: var(--spacing-xl);
-      }
-
-      footer a {
-        color: var(--blue);
-        text-decoration: none;
-      }
-
-      footer a:hover {
-        text-decoration: underline;
-      }
-
-      /* Responsive */
-      @media (max-width: 600px) {
-        .hero h1 {
-          font-size: 2.5rem;
-        }
-
-        .hero .tagline {
-          font-size: 1.25rem;
-        }
-
-        .store-buttons {
-          flex-direction: column;
-          align-items: center;
-        }
-
-        .store-button {
-          width: 100%;
-          max-width: 280px;
-          justify-content: center;
-        }
-
-        .features-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .section-header h2 {
-          font-size: 1.5rem;
-        }
-
-        .screenshots-grid {
-          grid-template-columns: repeat(2, 1fr);
-          gap: var(--spacing-sm);
-        }
-
-        .screenshot-item {
-          padding: var(--spacing-xs);
-        }
-      }
-
-      @media (min-width: 601px) and (max-width: 900px) {
-        .screenshots-grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Language Switcher -->
-    <div class="lang-switcher">
-      <button class="lang-btn active" data-lang="en">EN</button>
-      <button class="lang-btn" data-lang="es">ES</button>
-    </div>
-
-    <main>
-      <!-- Hero Section -->
-      <section class="hero">
-        <div class="hero-content">
-          <div class="logo">
-            <svg
-              viewBox="0 0 1000 1000"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle cx="199.149" cy="800.851" r="199.149" fill="#EF476F" />
-              <circle cx="399.716" cy="600.284" r="199.149" fill="#118AB2" />
-              <circle cx="600.284" cy="399.716" r="199.149" fill="#06D6A0" />
-              <circle cx="800.851" cy="199.149" r="199.149" fill="#FFD166" />
-            </svg>
-          </div>
-
-          <h1>Kakeibo</h1>
-          <p class="tagline" data-i18n="hero.tagline">
-            Know where your money goes
-          </p>
-          <p class="description" data-i18n="hero.description">
-            A simple, private budgeting app that helps you build awareness of
-            your spending habits through tracking and monthly reflection.
-          </p>
-
-          <p class="pricing-note">
-            <span data-i18n="hero.pricing">One-time purchase.</span>
-            <strong data-i18n="hero.pricing.highlight"
-              >No subscriptions. No in-app purchases.</strong
-            >
-          </p>
-
-          <div class="store-buttons">
-            <a
-              href="#"
-              class="store-button"
-              aria-label="Download on the App Store"
-            >
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path
-                  d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"
-                />
-              </svg>
-              <span class="store-text">
-                <small data-i18n="store.apple.prefix">Download on the</small>
-                <span>App Store</span>
-              </span>
-            </a>
-
-            <a href="#" class="store-button" aria-label="Get it on Google Play">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path
-                  d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"
-                />
-              </svg>
-              <span class="store-text">
-                <small data-i18n="store.google.prefix">Get it on</small>
-                <span>Google Play</span>
-              </span>
-            </a>
-          </div>
-
-          <div class="principles">
-            <div class="principle">
-              <span class="principle-dot red"></span>
-              <span data-i18n="principle.offline">100% Offline</span>
-            </div>
-            <div class="principle">
-              <span class="principle-dot blue"></span>
-              <span data-i18n="principle.privacy">Privacy First</span>
-            </div>
-            <div class="principle">
-              <span class="principle-dot green"></span>
-              <span data-i18n="principle.noads">No Ads</span>
-            </div>
-            <div class="principle">
-              <span class="principle-dot yellow"></span>
-              <span data-i18n="principle.notrack">No Tracking</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div class="container">
-        <!-- Screenshots Section -->
-        <section class="screenshots">
-          <div class="section-header">
-            <h2 data-i18n="screenshots.title">See it in action</h2>
-            <p data-i18n="screenshots.subtitle">
-              Simple, beautiful, and easy to use
-            </p>
-          </div>
-
-          <div class="screenshots-grid" id="screenshotsGrid">
-            <div class="screenshot-item">
-              <img src="" alt="" data-screenshot="main" loading="lazy" />
-            </div>
-            <div class="screenshot-item">
-              <img src="" alt="" data-screenshot="record" loading="lazy" />
-            </div>
-            <div class="screenshot-item">
-              <img src="" alt="" data-screenshot="stats" loading="lazy" />
-            </div>
-            <div class="screenshot-item">
-              <img src="" alt="" data-screenshot="reflection" loading="lazy" />
-            </div>
-          </div>
-        </section>
-
-        <!-- Philosophy Section -->
-        <section class="philosophy">
-          <h2 data-i18n="philosophy.title">Awareness changes everything</h2>
-          <p data-i18n="philosophy.p1">
-            Most budgeting apps overwhelm you with charts and categories.
-            Kakeibo takes a different approach: simple tracking and honest
-            reflection.
-          </p>
-          <p data-i18n="philosophy.p2">
-            When you see where your money actually goes, you naturally start
-            making more intentional choices. No guilt, no restrictions—just
-            clarity.
-          </p>
-          <p class="origin">
-            <span class="japanese">家計簿</span><br />
-            <span data-i18n="philosophy.origin"
-              >Based on a century-old Japanese budgeting method</span
-            >
-          </p>
-        </section>
-
-        <!-- Features -->
-        <section class="features">
-          <div class="section-header">
-            <h2 data-i18n="features.title">How it works</h2>
-            <p data-i18n="features.subtitle">
-              Simple tools for mindful spending
-            </p>
-          </div>
-
-          <div class="features-grid">
-            <div class="feature">
-              <div class="feature-icon red">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#EF476F"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path
-                    d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
-                  />
-                </svg>
-              </div>
-              <h3 data-i18n="feature.budget.title">Plan your month</h3>
-              <p data-i18n="feature.budget.desc">
-                Set your income and fixed expenses. See what's left for
-                everything else.
-              </p>
-            </div>
-
-            <div class="feature">
-              <div class="feature-icon blue">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#118AB2"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path
-                    d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-                  />
-                  <polyline points="14 2 14 8 20 8" />
-                  <line x1="16" y1="13" x2="8" y2="13" />
-                  <line x1="16" y1="17" x2="8" y2="17" />
-                </svg>
-              </div>
-              <h3 data-i18n="feature.track.title">Track as you go</h3>
-              <p data-i18n="feature.track.desc">
-                Log expenses in seconds. Simple categories keep things
-                manageable.
-              </p>
-            </div>
-
-            <div class="feature">
-              <div class="feature-icon green">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#06D6A0"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <polyline points="12 6 12 12 16 14" />
-                </svg>
-              </div>
-              <h3 data-i18n="feature.reflect.title">Reflect monthly</h3>
-              <p data-i18n="feature.reflect.desc">
-                At month-end, review your patterns. Small insights lead to big
-                changes.
-              </p>
-            </div>
-
-            <div class="feature">
-              <div class="feature-icon yellow">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#FFD166"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                </svg>
-              </div>
-              <h3 data-i18n="feature.private.title">Completely private</h3>
-              <p data-i18n="feature.private.desc">
-                Your data stays on your device. No accounts, no cloud, no one
-                watching.
-              </p>
-            </div>
-          </div>
-        </section>
-      </div>
-    </main>
-
-    <footer>
-      <div class="container">
-        <p data-i18n="footer.text">Made with care.</p>
-      </div>
-    </footer>
-
-    <script>
-      // Translations
-      const translations = {
-        en: {
-          title: "Kakeibo - Mindful Budgeting",
-          "meta.description":
-            "A simple, private budgeting app to track expenses mindfully and build better financial habits.",
-          "hero.tagline": "Know where your money goes",
-          "hero.description":
-            "A simple, private budgeting app that helps you build awareness of your spending habits through tracking and monthly reflection.",
-          "hero.pricing": "One-time purchase.",
-          "hero.pricing.highlight": "No subscriptions. No in-app purchases.",
-          "store.apple.prefix": "Download on the",
-          "store.google.prefix": "Get it on",
-          "principle.offline": "100% Offline",
-          "principle.privacy": "Privacy First",
-          "principle.noads": "No Ads",
-          "principle.notrack": "No Tracking",
-          "screenshots.title": "See it in action",
-          "screenshots.subtitle": "Simple, beautiful, and easy to use",
-          "screenshot.main.alt": "Budget overview screen",
-          "screenshot.record.alt": "Add transaction screen",
-          "screenshot.stats.alt": "Statistics screen",
-          "screenshot.reflection.alt": "Monthly reflection screen",
-          "philosophy.title": "Awareness changes everything",
-          "philosophy.p1":
-            "Most budgeting apps overwhelm you with charts and categories. Kakeibo takes a different approach: simple tracking and honest reflection.",
-          "philosophy.p2":
-            "When you see where your money actually goes, you naturally start making more intentional choices. No guilt, no restrictions—just clarity.",
-          "philosophy.origin":
-            "Based on a century-old Japanese budgeting method",
-          "features.title": "How it works",
-          "features.subtitle": "Simple tools for mindful spending",
-          "feature.budget.title": "Plan your month",
-          "feature.budget.desc":
-            "Set your income and fixed expenses. See what's left for everything else.",
-          "feature.track.title": "Track as you go",
-          "feature.track.desc":
-            "Log expenses in seconds. Simple categories keep things manageable.",
-          "feature.reflect.title": "Reflect monthly",
-          "feature.reflect.desc":
-            "At month-end, review your patterns. Small insights lead to big changes.",
-          "feature.private.title": "Completely private",
-          "feature.private.desc":
-            "Your data stays on your device. No accounts, no cloud, no one watching.",
-          "footer.text": "Made with care.",
-        },
-        es: {
-          title: "Kakeibo - Presupuestos Conscientes",
-          "meta.description":
-            "Una app simple y privada para controlar tus gastos de forma consciente y crear mejores hábitos financieros.",
-          "hero.tagline": "Conoce a dónde va tu dinero",
-          "hero.description":
-            "Una app de presupuestos simple y privada que te ayuda a tomar conciencia de tus hábitos de gasto a través del seguimiento y la reflexión mensual.",
-          "hero.pricing": "Pago único.",
-          "hero.pricing.highlight": "Sin suscripciones. Sin compras in-app.",
-          "store.apple.prefix": "Descargar en",
-          "store.google.prefix": "Disponible en",
-          "principle.offline": "100% Offline",
-          "principle.privacy": "Privada",
-          "principle.noads": "Sin anuncios",
-          "principle.notrack": "Sin rastreo",
-          "screenshots.title": "Míralo en acción",
-          "screenshots.subtitle": "Simple, bonito y fácil de usar",
-          "screenshot.main.alt": "Pantalla de resumen del presupuesto",
-          "screenshot.record.alt": "Pantalla para añadir transacción",
-          "screenshot.stats.alt": "Pantalla de estadísticas",
-          "screenshot.reflection.alt": "Pantalla de reflexión mensual",
-          "philosophy.title": "La conciencia lo cambia todo",
-          "philosophy.p1":
-            "La mayoría de apps de presupuestos te abruman con gráficos y categorías. Kakeibo toma un enfoque diferente: seguimiento simple y reflexión honesta.",
-          "philosophy.p2":
-            "Cuando ves a dónde va realmente tu dinero, empiezas a tomar decisiones más intencionales de manera natural. Sin culpa, sin restricciones.",
-          "philosophy.origin":
-            "Basado en un método japonés de presupuestos con un siglo de antigüedad",
-          "features.title": "Cómo funciona",
-          "features.subtitle": "Herramientas simples para gastar con intención",
-          "feature.budget.title": "Planifica tu mes",
-          "feature.budget.desc":
-            "Establece tus ingresos y gastos fijos. Ve lo que queda para todo lo demás.",
-          "feature.track.title": "Registra sobre la marcha",
-          "feature.track.desc":
-            "Anota gastos en segundos. Categorías simples para que sea manejable.",
-          "feature.reflect.title": "Reflexiona mensualmente",
-          "feature.reflect.desc":
-            "Al final del mes, revisa tus patrones. Pequeñas ideas llevan a grandes cambios.",
-          "feature.private.title": "Completamente privado",
-          "feature.private.desc":
-            "Tus datos se quedan en tu dispositivo. Sin cuentas, sin nube, sin nadie mirando.",
-          "footer.text": "Hecho con cariño.",
-        },
-      };
-
-      // Get browser language or stored preference
-      function getPreferredLanguage() {
-        const stored = localStorage.getItem("kakeibo-lang");
-        if (stored && translations[stored]) return stored;
-
-        const browserLang = navigator.language.split("-")[0];
-        return translations[browserLang] ? browserLang : "en";
-      }
-
-      // Apply translations
-      function setLanguage(lang) {
-        const t = translations[lang];
-        if (!t) return;
-
-        document.documentElement.lang = lang;
-        localStorage.setItem("kakeibo-lang", lang);
-
-        // Update all elements with data-i18n
-        document.querySelectorAll("[data-i18n]").forEach((el) => {
-          const key = el.getAttribute("data-i18n");
-          if (t[key]) {
-            if (el.tagName === "META") {
-              el.setAttribute("content", t[key]);
-            } else if (el.tagName === "TITLE") {
-              el.textContent = t[key];
-            } else {
-              el.textContent = t[key];
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title data-i18n="title">Kakeibo - Mindful Budgeting</title>
+        <meta
+            name="description"
+            data-i18n="meta.description"
+            content="A simple, private budgeting app to track expenses mindfully and build better financial habits."
+        />
+        <link rel="icon" type="image/png" href="favicon.png" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Text:wght@400;500&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                /* Colors from theme/tokens.ts */
+                --background: #141515;
+                --surface: #3e3e3e;
+                --surface-hover: #4a4a4a;
+                --text: #ffffff;
+                --subtext: #8f8f8f;
+                --red: #ef476f;
+                --blue: #118ab2;
+                --green: #06d6a0;
+                --yellow: #ffd166;
+                --border: rgba(255, 255, 255, 0.06);
+
+                /* Spacing */
+                --spacing-xs: 4px;
+                --spacing-sm: 8px;
+                --spacing-md: 16px;
+                --spacing-lg: 24px;
+                --spacing-xl: 32px;
+                --spacing-2xl: 48px;
+
+                /* Border radius */
+                --radius-sm: 4px;
+                --radius-md: 8px;
+                --radius-lg: 16px;
+                --radius-xl: 24px;
+                --radius-pill: 999px;
             }
-          }
-        });
 
-        // Update active button
-        document.querySelectorAll(".lang-btn").forEach((btn) => {
-          btn.classList.toggle("active", btn.dataset.lang === lang);
-        });
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
 
-        // Update screenshots based on language
-        updateScreenshots(lang);
-      }
+            body {
+                font-family:
+                    "Google Sans Text",
+                    "Google Sans",
+                    -apple-system,
+                    BlinkMacSystemFont,
+                    sans-serif;
+                background-color: var(--background);
+                color: var(--text);
+                line-height: 1.6;
+                min-height: 100vh;
+            }
 
-      // Update screenshot images based on language
-      function updateScreenshots(lang) {
-        const t = translations[lang];
-        const screenshots = document.querySelectorAll("[data-screenshot]");
+            h1,
+            h2,
+            h3,
+            .store-button {
+                font-family:
+                    "Google Sans",
+                    -apple-system,
+                    BlinkMacSystemFont,
+                    sans-serif;
+            }
 
-        screenshots.forEach((img) => {
-          const screenshotType = img.getAttribute("data-screenshot");
-          // Handle the inconsistent naming (reflection vs reflect)
-          const fileName =
-            screenshotType === "reflection" && lang === "es"
-              ? "reflect"
-              : screenshotType;
-          img.src = `screenshots/${lang}/${fileName}.png`;
-          img.alt = t[`screenshot.${screenshotType}.alt`] || "";
-        });
-      }
+            .container {
+                max-width: 900px;
+                margin: 0 auto;
+                padding: var(--spacing-lg);
+            }
 
-      // Initialize
-      document.addEventListener("DOMContentLoaded", () => {
-        const preferredLang = getPreferredLanguage();
-        setLanguage(preferredLang);
+            /* Language Switcher */
+            .lang-switcher {
+                position: fixed;
+                top: var(--spacing-md);
+                right: var(--spacing-md);
+                display: flex;
+                gap: var(--spacing-xs);
+                background-color: var(--surface);
+                padding: var(--spacing-xs);
+                border-radius: var(--radius-pill);
+                z-index: 100;
+            }
 
-        // Language switcher
-        document.querySelectorAll(".lang-btn").forEach((btn) => {
-          btn.addEventListener("click", () => {
-            setLanguage(btn.dataset.lang);
-          });
-        });
-      });
-    </script>
-  </body>
+            .lang-btn {
+                background: none;
+                border: none;
+                color: var(--subtext);
+                padding: var(--spacing-xs) var(--spacing-sm);
+                border-radius: var(--radius-pill);
+                cursor: pointer;
+                font-family: inherit;
+                font-size: 0.875rem;
+                transition: all 0.2s ease;
+            }
+
+            .lang-btn:hover {
+                color: var(--text);
+            }
+
+            .lang-btn.active {
+                background-color: var(--background);
+                color: var(--text);
+            }
+
+            /* Hero Section */
+            .hero {
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                padding: var(--spacing-2xl) var(--spacing-lg);
+            }
+
+            .hero-content {
+                max-width: 600px;
+            }
+
+            .logo {
+                margin-bottom: var(--spacing-xl);
+            }
+
+            .logo svg {
+                width: 80px;
+                height: 80px;
+            }
+
+            .hero h1 {
+                font-size: 3.5rem;
+                font-weight: 700;
+                margin-bottom: var(--spacing-md);
+                letter-spacing: -0.02em;
+            }
+
+            .hero .tagline {
+                font-size: 1.5rem;
+                color: var(--text);
+                font-weight: 400;
+                margin-bottom: var(--spacing-md);
+                line-height: 1.4;
+            }
+
+            .hero .description {
+                font-size: 1.1rem;
+                color: var(--subtext);
+                margin-bottom: var(--spacing-lg);
+                line-height: 1.7;
+            }
+
+            /* Pricing note */
+            .pricing-note {
+                font-size: 0.9rem;
+                color: var(--subtext);
+                margin-bottom: var(--spacing-xl);
+            }
+
+            .pricing-note strong {
+                color: var(--green);
+                font-weight: 500;
+            }
+
+            /* Coming Soon Badge */
+            .coming-soon {
+                display: inline-flex;
+                align-items: center;
+                gap: var(--spacing-sm);
+                background-color: var(--surface);
+                color: var(--text);
+                padding: var(--spacing-md) var(--spacing-lg);
+                border-radius: var(--radius-lg);
+                font-weight: 500;
+                margin-bottom: var(--spacing-xl);
+            }
+
+            .coming-soon-icon {
+                width: 24px;
+                height: 24px;
+                color: var(--yellow);
+            }
+
+            /* Store buttons */
+            .store-buttons {
+                display: flex;
+                gap: var(--spacing-md);
+                flex-wrap: wrap;
+                justify-content: center;
+                margin-bottom: var(--spacing-xl);
+            }
+
+            .store-button {
+                display: inline-flex;
+                align-items: center;
+                gap: var(--spacing-sm);
+                background-color: var(--surface);
+                color: var(--text);
+                text-decoration: none;
+                padding: var(--spacing-md) var(--spacing-lg);
+                border-radius: var(--radius-lg);
+                font-weight: 500;
+                transition:
+                    transform 0.2s ease,
+                    background-color 0.2s ease;
+                opacity: 0.5;
+                pointer-events: none;
+            }
+
+            .store-button:hover {
+                transform: translateY(-2px);
+                background-color: var(--surface-hover);
+            }
+
+            .store-button svg {
+                width: 24px;
+                height: 24px;
+            }
+
+            .store-button .store-text {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                line-height: 1.2;
+            }
+
+            .store-button .store-text small {
+                font-size: 0.7rem;
+                color: var(--subtext);
+                font-weight: 400;
+            }
+
+            .store-button .store-text span {
+                font-size: 1rem;
+            }
+
+            /* Principles */
+            .principles {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: var(--spacing-sm);
+            }
+
+            .principle {
+                display: flex;
+                align-items: center;
+                gap: var(--spacing-sm);
+                background-color: var(--surface);
+                padding: var(--spacing-sm) var(--spacing-md);
+                border-radius: var(--radius-pill);
+                font-size: 0.875rem;
+            }
+
+            .principle-dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+            }
+
+            .principle-dot.red {
+                background-color: var(--red);
+            }
+            .principle-dot.blue {
+                background-color: var(--blue);
+            }
+            .principle-dot.green {
+                background-color: var(--green);
+            }
+            .principle-dot.yellow {
+                background-color: var(--yellow);
+            }
+
+            /* Features Section */
+            .features {
+                padding: var(--spacing-xl) 0;
+            }
+
+            .section-header {
+                text-align: center;
+                margin-bottom: var(--spacing-xl);
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+                font-weight: 700;
+                margin-bottom: var(--spacing-sm);
+            }
+
+            .section-header p {
+                color: var(--subtext);
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .features-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--spacing-lg);
+            }
+
+            .feature {
+                background-color: var(--surface);
+                padding: var(--spacing-lg);
+                border-radius: var(--radius-lg);
+                text-align: center;
+            }
+
+            .feature-icon {
+                width: 48px;
+                height: 48px;
+                border-radius: var(--radius-md);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto var(--spacing-md);
+                font-size: 1.5rem;
+            }
+
+            .feature-icon.red {
+                background-color: rgba(239, 71, 111, 0.2);
+            }
+            .feature-icon.blue {
+                background-color: rgba(17, 138, 178, 0.2);
+            }
+            .feature-icon.green {
+                background-color: rgba(6, 214, 160, 0.2);
+            }
+            .feature-icon.yellow {
+                background-color: rgba(255, 209, 102, 0.2);
+            }
+
+            .feature h3 {
+                font-size: 1rem;
+                font-weight: 500;
+                margin-bottom: var(--spacing-xs);
+            }
+
+            .feature p {
+                font-size: 0.875rem;
+                color: var(--subtext);
+                line-height: 1.5;
+            }
+
+            /* Screenshots Section */
+            .screenshots {
+                padding: var(--spacing-2xl) 0;
+                overflow: hidden;
+            }
+
+            .screenshots-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: var(--spacing-lg);
+                margin-top: var(--spacing-xl);
+            }
+
+            .screenshot-item {
+                position: relative;
+                background: var(--surface);
+                border-radius: var(--radius-xl);
+                padding: var(--spacing-sm);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+                transition: all 0.3s ease;
+            }
+
+            .screenshot-item:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+            }
+
+            .screenshot-item img {
+                width: 100%;
+                height: auto;
+                display: block;
+                border-radius: var(--radius-lg);
+            }
+
+            /* Philosophy Section */
+            .philosophy {
+                padding: var(--spacing-2xl) 0;
+                text-align: center;
+            }
+
+            .philosophy h2 {
+                font-size: 1.75rem;
+                font-weight: 700;
+                margin-bottom: var(--spacing-md);
+            }
+
+            .philosophy p {
+                color: var(--subtext);
+                max-width: 600px;
+                margin: 0 auto var(--spacing-md);
+                line-height: 1.7;
+            }
+
+            .philosophy .origin {
+                font-size: 0.875rem;
+                color: var(--subtext);
+                margin-top: var(--spacing-lg);
+                padding-top: var(--spacing-lg);
+                border-top: 1px solid var(--border);
+            }
+
+            .philosophy .origin .japanese {
+                color: var(--yellow);
+                font-size: 1.25rem;
+            }
+
+            /* Footer */
+            footer {
+                padding: var(--spacing-xl) var(--spacing-lg);
+                text-align: center;
+                color: var(--subtext);
+                font-size: 0.875rem;
+                border-top: 1px solid var(--border);
+                margin-top: var(--spacing-xl);
+            }
+
+            footer a {
+                color: var(--blue);
+                text-decoration: none;
+            }
+
+            footer a:hover {
+                text-decoration: underline;
+            }
+
+            /* Responsive */
+            @media (max-width: 600px) {
+                .hero h1 {
+                    font-size: 2.5rem;
+                }
+
+                .hero .tagline {
+                    font-size: 1.25rem;
+                }
+
+                .store-buttons {
+                    flex-direction: column;
+                    align-items: center;
+                }
+
+                .store-button {
+                    width: 100%;
+                    max-width: 280px;
+                    justify-content: center;
+                }
+
+                .features-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .section-header h2 {
+                    font-size: 1.5rem;
+                }
+
+                .screenshots-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: var(--spacing-sm);
+                }
+
+                .screenshot-item {
+                    padding: var(--spacing-xs);
+                }
+            }
+
+            @media (min-width: 601px) and (max-width: 900px) {
+                .screenshots-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Language Switcher -->
+        <div class="lang-switcher">
+            <button class="lang-btn active" data-lang="en">EN</button>
+            <button class="lang-btn" data-lang="es">ES</button>
+        </div>
+
+        <main>
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="hero-content">
+                    <div class="logo">
+                        <svg
+                            viewBox="0 0 1000 1000"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <circle
+                                cx="199.149"
+                                cy="800.851"
+                                r="199.149"
+                                fill="#EF476F"
+                            />
+                            <circle
+                                cx="399.716"
+                                cy="600.284"
+                                r="199.149"
+                                fill="#118AB2"
+                            />
+                            <circle
+                                cx="600.284"
+                                cy="399.716"
+                                r="199.149"
+                                fill="#06D6A0"
+                            />
+                            <circle
+                                cx="800.851"
+                                cy="199.149"
+                                r="199.149"
+                                fill="#FFD166"
+                            />
+                        </svg>
+                    </div>
+
+                    <h1>Kakeibo</h1>
+                    <p class="tagline" data-i18n="hero.tagline">
+                        Know where your money goes
+                    </p>
+                    <p class="description" data-i18n="hero.description">
+                        A simple, private budgeting app that helps you build
+                        awareness of your spending habits through tracking and
+                        monthly reflection.
+                    </p>
+
+                    <p class="pricing-note">
+                        <span data-i18n="hero.pricing">One-time purchase.</span>
+                        <strong data-i18n="hero.pricing.highlight"
+                            >No subscriptions. No in-app purchases.</strong
+                        >
+                    </p>
+
+                    <div class="coming-soon">
+                        <svg
+                            class="coming-soon-icon"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <span data-i18n="hero.coming-soon">Coming soon</span>
+                    </div>
+
+                    <div class="store-buttons">
+                        <a
+                            href="#"
+                            class="store-button"
+                            aria-label="Download on the App Store"
+                        >
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"
+                                />
+                            </svg>
+                            <span class="store-text">
+                                <small data-i18n="store.apple.prefix"
+                                    >Download on the</small
+                                >
+                                <span>App Store</span>
+                            </span>
+                        </a>
+
+                        <a
+                            href="#"
+                            class="store-button"
+                            aria-label="Get it on Google Play"
+                        >
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"
+                                />
+                            </svg>
+                            <span class="store-text">
+                                <small data-i18n="store.google.prefix"
+                                    >Get it on</small
+                                >
+                                <span>Google Play</span>
+                            </span>
+                        </a>
+                    </div>
+
+                    <div class="principles">
+                        <div class="principle">
+                            <span class="principle-dot red"></span>
+                            <span data-i18n="principle.offline"
+                                >100% Offline</span
+                            >
+                        </div>
+                        <div class="principle">
+                            <span class="principle-dot blue"></span>
+                            <span data-i18n="principle.privacy"
+                                >Privacy First</span
+                            >
+                        </div>
+                        <div class="principle">
+                            <span class="principle-dot green"></span>
+                            <span data-i18n="principle.noads">No Ads</span>
+                        </div>
+                        <div class="principle">
+                            <span class="principle-dot yellow"></span>
+                            <span data-i18n="principle.notrack"
+                                >No Tracking</span
+                            >
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="container">
+                <!-- Screenshots Section -->
+                <section class="screenshots">
+                    <div class="section-header">
+                        <h2 data-i18n="screenshots.title">See it in action</h2>
+                        <p data-i18n="screenshots.subtitle">
+                            Simple, beautiful, and easy to use
+                        </p>
+                    </div>
+
+                    <div class="screenshots-grid" id="screenshotsGrid">
+                        <div class="screenshot-item">
+                            <img
+                                src=""
+                                alt=""
+                                data-screenshot="main"
+                                loading="lazy"
+                            />
+                        </div>
+                        <div class="screenshot-item">
+                            <img
+                                src=""
+                                alt=""
+                                data-screenshot="record"
+                                loading="lazy"
+                            />
+                        </div>
+                        <div class="screenshot-item">
+                            <img
+                                src=""
+                                alt=""
+                                data-screenshot="stats"
+                                loading="lazy"
+                            />
+                        </div>
+                        <div class="screenshot-item">
+                            <img
+                                src=""
+                                alt=""
+                                data-screenshot="reflection"
+                                loading="lazy"
+                            />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Philosophy Section -->
+                <section class="philosophy">
+                    <h2 data-i18n="philosophy.title">
+                        Awareness changes everything
+                    </h2>
+                    <p data-i18n="philosophy.p1">
+                        Most budgeting apps overwhelm you with charts and
+                        categories. Kakeibo takes a different approach: simple
+                        tracking and honest reflection.
+                    </p>
+                    <p data-i18n="philosophy.p2">
+                        When you see where your money actually goes, you
+                        naturally start making more intentional choices. No
+                        guilt, no restrictions—just clarity.
+                    </p>
+                    <p class="origin">
+                        <span class="japanese">家計簿</span><br />
+                        <span data-i18n="philosophy.origin"
+                            >Based on a century-old Japanese budgeting
+                            method</span
+                        >
+                    </p>
+                </section>
+
+                <!-- Features -->
+                <section class="features">
+                    <div class="section-header">
+                        <h2 data-i18n="features.title">How it works</h2>
+                        <p data-i18n="features.subtitle">
+                            Simple tools for mindful spending
+                        </p>
+                    </div>
+
+                    <div class="features-grid">
+                        <div class="feature">
+                            <div class="feature-icon red">
+                                <svg
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="#EF476F"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path
+                                        d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+                                    />
+                                </svg>
+                            </div>
+                            <h3 data-i18n="feature.budget.title">
+                                Plan your month
+                            </h3>
+                            <p data-i18n="feature.budget.desc">
+                                Set your income and fixed expenses. See what's
+                                left for everything else.
+                            </p>
+                        </div>
+
+                        <div class="feature">
+                            <div class="feature-icon blue">
+                                <svg
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="#118AB2"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path
+                                        d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                                    />
+                                    <polyline points="14 2 14 8 20 8" />
+                                    <line x1="16" y1="13" x2="8" y2="13" />
+                                    <line x1="16" y1="17" x2="8" y2="17" />
+                                </svg>
+                            </div>
+                            <h3 data-i18n="feature.track.title">
+                                Track as you go
+                            </h3>
+                            <p data-i18n="feature.track.desc">
+                                Log expenses in seconds. Simple categories keep
+                                things manageable.
+                            </p>
+                        </div>
+
+                        <div class="feature">
+                            <div class="feature-icon green">
+                                <svg
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="#06D6A0"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <circle cx="12" cy="12" r="10" />
+                                    <polyline points="12 6 12 12 16 14" />
+                                </svg>
+                            </div>
+                            <h3 data-i18n="feature.reflect.title">
+                                Reflect monthly
+                            </h3>
+                            <p data-i18n="feature.reflect.desc">
+                                At month-end, review your patterns. Small
+                                insights lead to big changes.
+                            </p>
+                        </div>
+
+                        <div class="feature">
+                            <div class="feature-icon yellow">
+                                <svg
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="#FFD166"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <rect
+                                        x="3"
+                                        y="11"
+                                        width="18"
+                                        height="11"
+                                        rx="2"
+                                        ry="2"
+                                    />
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                </svg>
+                            </div>
+                            <h3 data-i18n="feature.private.title">
+                                Completely private
+                            </h3>
+                            <p data-i18n="feature.private.desc">
+                                Your data stays on your device. No accounts, no
+                                cloud, no one watching.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+        <script>
+            // Translations
+            const translations = {
+                en: {
+                    title: "Kakeibo - Mindful Budgeting",
+                    "meta.description":
+                        "A simple, private budgeting app to track expenses mindfully and build better financial habits.",
+                    "hero.tagline": "Know where your money goes",
+                    "hero.description":
+                        "A simple, private budgeting app that helps you build awareness of your spending habits through tracking and monthly reflection.",
+                    "hero.pricing": "One-time purchase.",
+                    "hero.pricing.highlight":
+                        "No subscriptions. No in-app purchases.",
+                    "hero.coming-soon": "Coming soon",
+                    "store.apple.prefix": "Download on the",
+                    "store.google.prefix": "Get it on",
+                    "principle.offline": "100% Offline",
+                    "principle.privacy": "Privacy First",
+                    "principle.noads": "No Ads",
+                    "principle.notrack": "No Tracking",
+                    "screenshots.title": "See it in action",
+                    "screenshots.subtitle":
+                        "Simple, beautiful, and easy to use (at least that's the idea)",
+                    "screenshot.main.alt": "Budget overview screen",
+                    "screenshot.record.alt": "Add transaction screen",
+                    "screenshot.stats.alt": "Statistics screen",
+                    "screenshot.reflection.alt": "Monthly reflection screen",
+                    "philosophy.title": "Awareness changes everything",
+                    "philosophy.p1":
+                        "Most budgeting apps overwhelm you with automations, bank connections, and thousands of charts. Kakeibo takes a different approach: simple tracking and honest reflection. Nothing you can't do with a notebook and pen, but always in your pocket.",
+                    "philosophy.p2":
+                        "When you see where your money actually goes, you naturally start making more intentional choices. No guilt, no restrictions. The goal is to invest your money in what really makes you happy.",
+                    "philosophy.origin":
+                        "Based on a century-old Japanese budgeting method",
+                    "features.title": "How it works",
+                    "features.subtitle": "Simple tools for mindful spending",
+                    "feature.budget.title": "Plan your month",
+                    "feature.budget.desc":
+                        "Set your income and fixed expenses. See what's left for everything else.",
+                    "feature.track.title": "Track as you go",
+                    "feature.track.desc":
+                        "Log expenses in seconds. Simple categories keep things manageable.",
+                    "feature.reflect.title": "Reflect monthly",
+                    "feature.reflect.desc":
+                        "At month-end, review your expenses and patterns to learn and improve.",
+                    "feature.private.title": "Completely private",
+                    "feature.private.desc":
+                        "Your data stays on your device. No accounts, no cloud, no one watching.",
+                    "footer.text": "Made with care.",
+                },
+                es: {
+                    title: "Kakeibo - Presupuestos Conscientes",
+                    "meta.description":
+                        "Una app simple y privada para controlar tus gastos de forma consciente y crear mejores hábitos financieros.",
+                    "hero.tagline": "Conoce a dónde va tu dinero",
+                    "hero.description":
+                        "Una app de presupuestos simple y privada que te ayuda a tomar conciencia de tus hábitos de gasto a través del seguimiento y la reflexión mensual.",
+                    "hero.pricing": "Pago único.",
+                    "hero.pricing.highlight":
+                        "Sin suscripciones. Sin compras in-app.",
+                    "hero.coming-soon": "Disponible próximamente",
+                    "store.apple.prefix": "Descargar en",
+                    "store.google.prefix": "Disponible en",
+                    "principle.offline": "100% Offline",
+                    "principle.privacy": "Privada",
+                    "principle.noads": "Sin anuncios",
+                    "principle.notrack": "Sin rastreo",
+                    "screenshots.title": "Mírala en acción",
+                    "screenshots.subtitle":
+                        "Simple, bonita y fácil de usar (al menos esa es la idea)",
+                    "screenshot.main.alt":
+                        "Pantalla de resumen del presupuesto",
+                    "screenshot.record.alt": "Pantalla para añadir transacción",
+                    "screenshot.stats.alt": "Pantalla de estadísticas",
+                    "screenshot.reflection.alt":
+                        "Pantalla de reflexión mensual",
+                    "philosophy.title": "La conciencia lo cambia todo",
+                    "philosophy.p1":
+                        "La mayoría de apps de presupuestos te abruman con automatizaciones, conexiones a bancos y miles de gráficos. Kakeibo toma un enfoque diferente: seguimiento simple y reflexión honesta. Nada que no puedas hacer con un cuaderno y un bolígrafo, pero siempre en tu bolsillo.",
+                    "philosophy.p2":
+                        "Cuando ves a dónde va realmente tu dinero, empiezas a tomar decisiones más intencionales de manera natural. Sin culpa, sin restricciones. El objetivo es invertir tu dinero en lo que realmente te haga feliz.",
+                    "philosophy.origin":
+                        "Basado en un método japonés de presupuestos con un siglo de antigüedad",
+                    "features.title": "Cómo funciona",
+                    "features.subtitle":
+                        "Herramientas simples para gastar con intención",
+                    "feature.budget.title": "Planifica tu mes",
+                    "feature.budget.desc":
+                        "Establece tus ingresos y gastos fijos. Ve lo que queda para todo lo demás.",
+                    "feature.track.title": "Registra sobre la marcha",
+                    "feature.track.desc":
+                        "Anota gastos en segundos. Categorías simples para que sea manejable.",
+                    "feature.reflect.title": "Reflexiona mensualmente",
+                    "feature.reflect.desc":
+                        "Al final del mes, revisa tus gastos y patrones para aprender y mejorar.",
+                    "feature.private.title": "Completamente privado",
+                    "feature.private.desc":
+                        "Tus datos se quedan en tu dispositivo. Sin cuentas, sin nube, sin nadie mirando.",
+                },
+            };
+
+            // Get browser language or stored preference
+            function getPreferredLanguage() {
+                const stored = localStorage.getItem("kakeibo-lang");
+                if (stored && translations[stored]) return stored;
+
+                const browserLang = navigator.language.split("-")[0];
+                return translations[browserLang] ? browserLang : "en";
+            }
+
+            // Apply translations
+            function setLanguage(lang) {
+                const t = translations[lang];
+                if (!t) return;
+
+                document.documentElement.lang = lang;
+                localStorage.setItem("kakeibo-lang", lang);
+
+                // Update all elements with data-i18n
+                document.querySelectorAll("[data-i18n]").forEach((el) => {
+                    const key = el.getAttribute("data-i18n");
+                    if (t[key]) {
+                        if (el.tagName === "META") {
+                            el.setAttribute("content", t[key]);
+                        } else if (el.tagName === "TITLE") {
+                            el.textContent = t[key];
+                        } else {
+                            el.textContent = t[key];
+                        }
+                    }
+                });
+
+                // Update active button
+                document.querySelectorAll(".lang-btn").forEach((btn) => {
+                    btn.classList.toggle("active", btn.dataset.lang === lang);
+                });
+
+                // Update screenshots based on language
+                updateScreenshots(lang);
+            }
+
+            // Update screenshot images based on language
+            function updateScreenshots(lang) {
+                const t = translations[lang];
+                const screenshots =
+                    document.querySelectorAll("[data-screenshot]");
+
+                screenshots.forEach((img) => {
+                    const screenshotType = img.getAttribute("data-screenshot");
+                    // Handle the inconsistent naming (reflection vs reflect)
+                    const fileName =
+                        screenshotType === "reflection" && lang === "es"
+                            ? "reflect"
+                            : screenshotType;
+                    img.src = `screenshots/${lang}/${fileName}.png`;
+                    img.alt = t[`screenshot.${screenshotType}.alt`] || "";
+                });
+            }
+
+            // Initialize
+            document.addEventListener("DOMContentLoaded", () => {
+                const preferredLang = getPreferredLanguage();
+                setLanguage(preferredLang);
+
+                // Language switcher
+                document.querySelectorAll(".lang-btn").forEach((btn) => {
+                    btn.addEventListener("click", () => {
+                        setLanguage(btn.dataset.lang);
+                    });
+                });
+            });
+        </script>
+    </body>
 </html>
