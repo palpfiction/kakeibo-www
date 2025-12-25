@@ -121,7 +121,7 @@
                 min-height: 100vh;
                 display: flex;
                 flex-direction: column;
-                justify-content: center;
+                justify-content: space-between;
                 align-items: center;
                 text-align: center;
                 padding: var(--spacing-2xl) var(--spacing-lg);
@@ -129,6 +129,11 @@
 
             .hero-content {
                 max-width: 600px;
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
             }
 
             .logo {
@@ -281,6 +286,22 @@
             }
             .principle-dot.yellow {
                 background-color: var(--yellow);
+            }
+
+            /* Scroll Indicator */
+            .scroll-indicator {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: var(--spacing-xs);
+                color: var(--subtext);
+                font-size: 0.75rem;
+                padding-bottom: var(--spacing-md);
+            }
+
+            .scroll-indicator svg {
+                width: 20px;
+                height: 20px;
             }
 
             /* Features Section */
@@ -623,6 +644,20 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="scroll-indicator">
+                    <span data-i18n="scroll.hint">Scroll down</span>
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
             </section>
 
             <div class="container">
@@ -834,6 +869,7 @@
                     "hero.pricing.highlight":
                         "No subscriptions. No in-app purchases.",
                     "hero.coming-soon": "Coming soon",
+                    "scroll.hint": "Scroll down to learn more",
                     "store.apple.prefix": "Download on the",
                     "store.google.prefix": "Get it on",
                     "principle.offline": "100% Offline",
@@ -881,6 +917,7 @@
                     "hero.pricing.highlight":
                         "Sin suscripciones. Sin compras in-app.",
                     "hero.coming-soon": "Disponible próximamente",
+                    "scroll.hint": "Desplázate hacia abajo para conocer más",
                     "store.apple.prefix": "Descargar en",
                     "store.google.prefix": "Disponible en",
                     "principle.offline": "100% Offline",
