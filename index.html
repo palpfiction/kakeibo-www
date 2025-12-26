@@ -3,13 +3,42 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title data-i18n="title">Kakeibo - Mindful Budgeting</title>
+        <title data-i18n="title">Kakeibo - Track your spending with awareness</title>
         <meta
             name="description"
             data-i18n="meta.description"
-            content="A simple, private budgeting app to track expenses mindfully and build better financial habits."
+            content="Simple, private money tracking app based on the Japanese Kakeibo method. Understand your spending mindfully, no subscriptions, 100% offline. Build better financial habits."
         />
-        <link rel="icon" type="image/png" href="favicon.png" />
+        <meta name="keywords" content="kakeibo, expense tracker, mindful spending, private finance, offline money tracker, financial awareness, spending habits, japanese method, no subscription, privacy-first" />
+        <meta name="author" content="Kakeibo" />
+        <meta name="theme-color" content="#141515" />
+        
+        <!-- Canonical and Language Alternates -->
+        <link rel="canonical" href="https://kakeibo.app/" />
+        <link rel="alternate" hreflang="en" href="https://kakeibo.app/" />
+        <link rel="alternate" hreflang="es" href="https://kakeibo.app/" />
+        <link rel="alternate" hreflang="x-default" href="https://kakeibo.app/" />
+        
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://kakeibo.app/" data-i18n-og="url" />
+        <meta property="og:title" content="Kakeibo - Track your spending with awareness" data-i18n="og.title" />
+        <meta property="og:description" content="Simple, private money tracking based on the Japanese Kakeibo method. Understand your spending mindfully, no subscriptions, 100% offline." data-i18n="og.description" />
+        <meta property="og:image" content="https://kakeibo.app/screenshots/en/main.png" data-i18n-og="image" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:locale" content="en_US" data-i18n-og="locale" />
+        <meta property="og:locale:alternate" content="es_ES" />
+        <meta property="og:site_name" content="Kakeibo" />
+        
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://kakeibo.app/" data-i18n-twitter="url" />
+        <meta name="twitter:title" content="Kakeibo - Mindful spending tracker" data-i18n="twitter.title" />
+        <meta name="twitter:description" content="Simple, private money tracking based on the Japanese Kakeibo method. Understand your spending mindfully, 100% offline." data-i18n="twitter.description" />
+        <meta name="twitter:image" content="https://kakeibo.app/screenshots/en/main.png" data-i18n-twitter="image" />
+        
+        <link rel="icon" type="image/x-icon" href="favicon.ico" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
@@ -514,9 +543,9 @@
             <button class="lang-btn" data-lang="es">ES</button>
         </div>
 
-        <main>
+        <main role="main">
             <!-- Hero Section -->
-            <section class="hero">
+            <section class="hero" aria-label="Hero section">
                 <div class="hero-content">
                     <div class="logo">
                         <svg
@@ -663,9 +692,9 @@
 
             <div class="container">
                 <!-- Screenshots Section -->
-                <section class="screenshots">
+                <section class="screenshots" aria-labelledby="screenshots-heading">
                     <div class="section-header">
-                        <h2 data-i18n="screenshots.title">See it in action</h2>
+                        <h2 id="screenshots-heading" data-i18n="screenshots.title">See it in action</h2>
                         <p data-i18n="screenshots.subtitle">
                             Simple, beautiful, and easy to use
                         </p>
@@ -708,8 +737,8 @@
                 </section>
 
                 <!-- Philosophy Section -->
-                <section class="philosophy">
-                    <h2 data-i18n="philosophy.title">
+                <section class="philosophy" aria-labelledby="philosophy-heading">
+                    <h2 id="philosophy-heading" data-i18n="philosophy.title">
                         Awareness changes everything
                     </h2>
                     <p data-i18n="philosophy.p1">
@@ -732,9 +761,9 @@
                 </section>
 
                 <!-- Features -->
-                <section class="features">
+                <section class="features" aria-labelledby="features-heading">
                     <div class="section-header">
-                        <h2 data-i18n="features.title">How it works</h2>
+                        <h2 id="features-heading" data-i18n="features.title">How it works</h2>
                         <p data-i18n="features.subtitle">
                             Simple tools for mindful spending
                         </p>
@@ -742,7 +771,7 @@
 
                     <div class="features-grid">
                         <div class="feature">
-                            <div class="feature-icon red">
+                            <div class="feature-icon red" aria-hidden="true">
                                 <svg
                                     width="24"
                                     height="24"
@@ -768,7 +797,7 @@
                         </div>
 
                         <div class="feature">
-                            <div class="feature-icon blue">
+                            <div class="feature-icon blue" aria-hidden="true">
                                 <svg
                                     width="24"
                                     height="24"
@@ -797,7 +826,7 @@
                         </div>
 
                         <div class="feature">
-                            <div class="feature-icon green">
+                            <div class="feature-icon green" aria-hidden="true">
                                 <svg
                                     width="24"
                                     height="24"
@@ -822,7 +851,7 @@
                         </div>
 
                         <div class="feature">
-                            <div class="feature-icon yellow">
+                            <div class="feature-icon yellow" aria-hidden="true">
                                 <svg
                                     width="24"
                                     height="24"
@@ -856,13 +885,62 @@
                 </section>
             </div>
         </main>
+        
+        <!-- Structured Data (JSON-LD) -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Kakeibo",
+            "applicationCategory": "FinanceApplication",
+            "description": "A simple, private money tracking app based on the Japanese Kakeibo method. Understand your spending mindfully and build better financial habits with monthly reflection.",
+            "operatingSystem": ["iOS", "Android"],
+            "offers": {
+                "@type": "Offer",
+                "price": "2.99",
+                "priceCurrency": "USD",
+                "priceValidUntil": "2099-12-31",
+                "availability": "https://schema.org/PreOrder"
+            },
+            "featureList": [
+                "100% Offline functionality",
+                "Privacy-first design",
+                "No advertisements",
+                "No tracking or analytics",
+                "Monthly financial planning",
+                "Mindful expense tracking",
+                "Monthly reflection",
+                "One-time purchase, no subscriptions"
+            ],
+            "screenshot": [
+                "https://kakeibo.app/screenshots/en/main.png",
+                "https://kakeibo.app/screenshots/en/record.png",
+                "https://kakeibo.app/screenshots/en/stats.png",
+                "https://kakeibo.app/screenshots/en/reflection.png"
+            ],
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "5",
+                "ratingCount": "1"
+            },
+            "creator": {
+                "@type": "Organization",
+                "name": "Kakeibo"
+            }
+        }
+        </script>
+        
         <script>
             // Translations
             const translations = {
                 en: {
-                    title: "Kakeibo - Spend Mindfully",
+                    title: "Kakeibo - Track your spending with awareness",
                     "meta.description":
-                        "A simple, private budgeting app to track expenses mindfully and build better financial habits.",
+                        "Simple, private money tracking app based on the Japanese Kakeibo method. Understand your spending mindfully, no subscriptions, 100% offline. Build better financial habits.",
+                    "og.title": "Kakeibo - Track your spending with awareness",
+                    "og.description": "Simple, private money tracking based on the Japanese Kakeibo method. Understand your spending mindfully, no subscriptions, 100% offline.",
+                    "twitter.title": "Kakeibo - Mindful spending tracker",
+                    "twitter.description": "Simple, private money tracking based on the Japanese Kakeibo method. Understand your spending mindfully, 100% offline.",
                     "hero.tagline": "Know where your money goes",
                     "hero.description":
                         "A simple, private budgeting app that helps you build awareness of your spending habits through tracking and monthly reflection.",
@@ -908,12 +986,16 @@
                     "footer.text": "Made with care.",
                 },
                 es: {
-                    title: "Kakeibo - Gasta con conciencia",
+                    title: "Kakeibo - Controla tus gastos con conciencia",
                     "meta.description":
-                        "Una app simple y privada para controlar tus gastos de forma consciente y crear mejores hábitos financieros.",
+                        "App simple y privada para controlar gastos basada en el método japonés Kakeibo. Entiende tu dinero conscientemente, sin suscripciones, 100% offline. Mejores hábitos financieros.",
+                    "og.title": "Kakeibo - Controla tus gastos con conciencia",
+                    "og.description": "App simple y privada para controlar gastos basada en el método japonés Kakeibo. Entiende tu dinero conscientemente, sin suscripciones, 100% offline.",
+                    "twitter.title": "Kakeibo - Control consciente de gastos",
+                    "twitter.description": "App simple y privada para controlar gastos basada en el método japonés Kakeibo. 100% offline, sin suscripciones.",
                     "hero.tagline": "Conoce dónde va tu dinero",
                     "hero.description":
-                        "Una app de presupuestos simple y privada que te ayuda a tomar conciencia de tus hábitos de gasto a través del seguimiento y la reflexión mensual.",
+                        "Una app simple y privada que te ayuda a tomar conciencia de tus hábitos de gasto a través del seguimiento y la reflexión mensual.",
                     "hero.pricing": "Pago único.",
                     "hero.pricing.highlight":
                         "Sin suscripciones. Sin compras in-app.",
@@ -929,18 +1011,18 @@
                     "screenshots.subtitle":
                         "Simple, bonita y fácil de usar (al menos esa es la idea)",
                     "screenshot.main.alt":
-                        "Pantalla de resumen del presupuesto",
+                        "Pantalla de resumen mensual",
                     "screenshot.record.alt": "Pantalla para añadir transacción",
                     "screenshot.stats.alt": "Pantalla de estadísticas",
                     "screenshot.reflection.alt":
                         "Pantalla de reflexión mensual",
                     "philosophy.title": "La conciencia lo cambia todo",
                     "philosophy.p1":
-                        "La mayoría de apps de presupuestos te abruman con automatizaciones, conexiones a bancos y miles de gráficos. Kakeibo toma un enfoque diferente: seguimiento simple y reflexión honesta. Nada que no puedas hacer con un cuaderno y un bolígrafo, pero siempre en tu bolsillo.",
+                        "La mayoría de apps financieras te abruman con automatizaciones, conexiones a bancos y miles de gráficos. Kakeibo toma un enfoque diferente: seguimiento simple y reflexión honesta. Nada que no puedas hacer con un cuaderno y un bolígrafo, pero siempre en tu bolsillo.",
                     "philosophy.p2":
                         "Cuando ves a dónde va realmente tu dinero, empiezas a tomar decisiones más intencionales de manera natural. Sin culpa, sin restricciones. El objetivo es invertir tu dinero en lo que realmente te haga feliz.",
                     "philosophy.origin":
-                        "Basado en un método japonés de presupuestos con un siglo de antigüedad",
+                        "Basado en un método japonés con un siglo de antigüedad",
                     "features.title": "Cómo funciona",
                     "features.subtitle":
                         "Herramientas simples para gastar con intención",
@@ -989,6 +1071,22 @@
                         }
                     }
                 });
+                
+                // Update Open Graph locale
+                const ogLocale = document.querySelector('meta[property="og:locale"]');
+                if (ogLocale) {
+                    ogLocale.setAttribute('content', lang === 'es' ? 'es_ES' : 'en_US');
+                }
+                
+                // Update Open Graph and Twitter image paths
+                const ogImage = document.querySelector('meta[property="og:image"]');
+                const twitterImage = document.querySelector('meta[name="twitter:image"]');
+                if (ogImage) {
+                    ogImage.setAttribute('content', `https://kakeibo.app/screenshots/${lang}/main.png`);
+                }
+                if (twitterImage) {
+                    twitterImage.setAttribute('content', `https://kakeibo.app/screenshots/${lang}/main.png`);
+                }
 
                 // Update active button
                 document.querySelectorAll(".lang-btn").forEach((btn) => {
