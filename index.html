@@ -75,6 +75,10 @@
                 --radius-pill: 999px;
             }
 
+            html {
+                scroll-behavior: smooth;
+            }
+
             * {
                 margin: 0;
                 padding: 0;
@@ -225,6 +229,25 @@
                 width: 24px;
                 height: 24px;
                 color: var(--yellow);
+            }
+
+            /* Beta CTA in hero */
+            .beta-cta {
+                font-size: 0.95rem;
+                color: var(--subtext);
+                margin-bottom: var(--spacing-xl);
+            }
+
+            .beta-cta a {
+                color: var(--green);
+                text-decoration: none;
+                font-weight: 500;
+                transition: color 0.2s ease;
+            }
+
+            .beta-cta a:hover {
+                color: var(--text);
+                text-decoration: underline;
             }
 
             /* Store buttons */
@@ -471,6 +494,119 @@
                 font-size: 1.25rem;
             }
 
+            /* Beta Signup Section */
+            .beta-signup {
+                padding: var(--spacing-2xl) 0;
+                text-align: center;
+            }
+
+            .beta-card {
+                background: linear-gradient(135deg, rgba(6, 214, 160, 0.1) 0%, rgba(17, 138, 178, 0.1) 100%);
+                border: 1px solid rgba(6, 214, 160, 0.2);
+                border-radius: var(--radius-xl);
+                padding: var(--spacing-2xl);
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .beta-icon {
+                width: 64px;
+                height: 64px;
+                background: linear-gradient(135deg, var(--green) 0%, var(--blue) 100%);
+                border-radius: var(--radius-lg);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto var(--spacing-lg);
+            }
+
+            .beta-icon svg {
+                width: 32px;
+                height: 32px;
+                color: var(--background);
+            }
+
+            .beta-signup h2 {
+                font-size: 1.75rem;
+                font-weight: 700;
+                margin-bottom: var(--spacing-sm);
+            }
+
+            .beta-signup .beta-subtitle {
+                color: var(--subtext);
+                margin-bottom: var(--spacing-lg);
+                line-height: 1.6;
+            }
+
+            .beta-buttons {
+                display: flex;
+                gap: var(--spacing-md);
+                justify-content: center;
+                flex-wrap: wrap;
+                margin-bottom: var(--spacing-lg);
+            }
+
+            .beta-button {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: var(--spacing-sm);
+                background-color: var(--surface);
+                color: var(--text);
+                text-decoration: none;
+                padding: var(--spacing-md) var(--spacing-lg);
+                border-radius: var(--radius-lg);
+                font-weight: 500;
+                font-family: "Google Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+                transition: all 0.2s ease;
+                border: 1px solid transparent;
+            }
+
+            .beta-button:hover {
+                transform: translateY(-2px);
+                background-color: var(--surface-hover);
+                border-color: var(--green);
+                box-shadow: 0 4px 20px rgba(6, 214, 160, 0.2);
+            }
+
+            .beta-button svg {
+                width: 20px;
+                height: 20px;
+                flex-shrink: 0;
+                display: block;
+            }
+
+            .beta-button.ios svg {
+                color: var(--text);
+            }
+
+            .beta-button.android svg {
+                color: var(--green);
+            }
+
+            .beta-note {
+                font-size: 0.8rem;
+                color: var(--subtext);
+                opacity: 0.8;
+            }
+
+            @media (max-width: 600px) {
+                .beta-card {
+                    padding: var(--spacing-xl);
+                }
+
+                .beta-buttons {
+                    flex-direction: column;
+                    align-items: center;
+                }
+
+                .beta-button {
+                    width: 100%;
+                    max-width: 220px;
+                    justify-content: center;
+                }
+            }
+
             /* Footer */
             footer {
                 padding: var(--spacing-xl) var(--spacing-lg);
@@ -610,6 +746,11 @@
                         </svg>
                         <span data-i18n="hero.coming-soon">Coming soon</span>
                     </div>
+
+                    <p class="beta-cta">
+                        <span data-i18n="hero.beta.prefix">Want early access?</span>
+                        <a href="#beta-heading" data-i18n="hero.beta.link">Join the beta</a>
+                    </p>
 
                     <div class="store-buttons">
                         <a
@@ -883,6 +1024,37 @@
                         </div>
                     </div>
                 </section>
+
+                <!-- Beta Signup Section -->
+                <section class="beta-signup" aria-labelledby="beta-heading">
+                    <div class="beta-card">
+                        <div class="beta-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                        </div>
+                        <h2 id="beta-heading" data-i18n="beta.title">Try the beta</h2>
+                        <p class="beta-subtitle" data-i18n="beta.subtitle">
+                            Be among the first to try Kakeibo. Just pick your platform and we'll send you early access.
+                        </p>
+                        <div class="beta-buttons">
+                            <a href="mailto:beta@getkakeibo.com?subject=Beta%20Request%20%E2%80%93%20iOS&body=Hi!%20I'd%20love%20to%20try%20Kakeibo%20on%20iOS." class="beta-button ios" aria-label="Request beta access for iOS">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                                </svg>
+                                <span data-i18n="beta.ios">iOS</span>
+                            </a>
+                            <a href="mailto:beta@getkakeibo.com?subject=Beta%20Request%20%E2%80%93%20Android&body=Hi!%20I'd%20love%20to%20try%20Kakeibo%20on%20Android." class="beta-button android" aria-label="Request beta access for Android">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
+                                </svg>
+                                <span data-i18n="beta.android">Android</span>
+                            </a>
+                        </div>
+                        <p class="beta-note" data-i18n="beta.note">We'll never share your email or spam you.</p>
+                    </div>
+                </section>
             </div>
         </main>
 
@@ -952,6 +1124,8 @@
                     "hero.pricing.highlight":
                         "No subscriptions. No in-app purchases.",
                     "hero.coming-soon": "Coming soon",
+                    "hero.beta.prefix": "Want early access?",
+                    "hero.beta.link": "Join the beta",
                     "scroll.hint": "Scroll down to learn more",
                     "store.apple.prefix": "Download on the",
                     "store.google.prefix": "Get it on",
@@ -987,6 +1161,11 @@
                     "feature.private.title": "Completely private",
                     "feature.private.desc":
                         "Your data stays on your device. No accounts, no cloud, no one watching.",
+                    "beta.title": "Try the beta",
+                    "beta.subtitle": "Be among the first to try Kakeibo. Just pick your platform and we'll send you early access.",
+                    "beta.ios": "iOS",
+                    "beta.android": "Android",
+                    "beta.note": "We'll never share your email or spam you.",
                     "footer.text": "Made with care.",
                     "footer.privacy": "Privacy Policy",
                 },
@@ -1005,6 +1184,8 @@
                     "hero.pricing.highlight":
                         "Sin suscripciones. Sin compras in-app.",
                     "hero.coming-soon": "Disponible próximamente",
+                    "hero.beta.prefix": "¿Quieres acceso anticipado?",
+                    "hero.beta.link": "Únete a la beta",
                     "scroll.hint": "Desplázate hacia abajo para conocer más",
                     "store.apple.prefix": "Descargar en",
                     "store.google.prefix": "Disponible en",
@@ -1043,6 +1224,11 @@
                     "feature.private.title": "Completamente privada",
                     "feature.private.desc":
                         "Tus datos se quedan en tu dispositivo. Sin cuentas, sin nube, sin nadie mirando.",
+                    "beta.title": "Prueba la beta",
+                    "beta.subtitle": "Sé de los primeros en probar Kakeibo. Elige tu plataforma y te enviaremos acceso anticipado.",
+                    "beta.ios": "iOS",
+                    "beta.android": "Android",
+                    "beta.note": "Nunca compartiremos tu email ni te enviaremos spam.",
                     "footer.privacy": "Política de privacidad",
                 },
             };
@@ -1101,6 +1287,23 @@
 
                 // Update screenshots based on language
                 updateScreenshots(lang);
+
+                // Update beta email links based on language
+                updateBetaLinks(lang);
+            }
+
+            // Update beta mailto links based on language
+            function updateBetaLinks(lang) {
+                const iosBtn = document.querySelector('.beta-button.ios');
+                const androidBtn = document.querySelector('.beta-button.android');
+                
+                if (lang === 'es') {
+                    iosBtn.href = "mailto:beta@getkakeibo.com?subject=Solicitud%20Beta%20%E2%80%93%20iOS&body=%C2%A1Hola!%20Me%20encantar%C3%ADa%20probar%20Kakeibo%20en%20iOS.";
+                    androidBtn.href = "mailto:beta@getkakeibo.com?subject=Solicitud%20Beta%20%E2%80%93%20Android&body=%C2%A1Hola!%20Me%20encantar%C3%ADa%20probar%20Kakeibo%20en%20Android.";
+                } else {
+                    iosBtn.href = "mailto:beta@getkakeibo.com?subject=Beta%20Request%20%E2%80%93%20iOS&body=Hi!%20I'd%20love%20to%20try%20Kakeibo%20on%20iOS.";
+                    androidBtn.href = "mailto:beta@getkakeibo.com?subject=Beta%20Request%20%E2%80%93%20Android&body=Hi!%20I'd%20love%20to%20try%20Kakeibo%20on%20Android.";
+                }
             }
 
             // Update screenshot images based on language
