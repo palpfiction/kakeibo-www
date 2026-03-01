@@ -1,0 +1,225 @@
+---
+
+---
+
+<section class="section categories" id="categories">
+    <div class="section-inner">
+        <div class="section-header fade-in">
+            <h2 class="section-title">Every expense has a place</h2>
+            <p class="section-subtitle">
+                Kakeibo organizes your spending into four categories. No complex
+                budgets, just a clear lens to understand where your money really
+                goes.
+            </p>
+        </div>
+
+        <div class="categories-grid">
+            <div
+                class="category-card fade-in"
+                style="--cat-color: var(--dark-green);"
+            >
+                <div class="category-header">
+                    <span
+                        class="category-dot"
+                        style="background: var(--dark-green);"></span>
+                    <h3>Needs</h3>
+                </div>
+                <p class="category-description">
+                    The essentials. Rent, groceries, utilities, insurance: the
+                    things you can't go without.
+                </p>
+                <div class="category-examples">
+                    <span class="category-tag">&#127968; Rent</span>
+                    <span class="category-tag">&#128737;&#65039; Insurance</span
+                    >
+                    <span class="category-tag">&#9889; Utilities</span>
+                </div>
+                <div class="category-bar">
+                    <div
+                        class="category-bar-fill"
+                        style="width: 45%; background: var(--dark-green);"
+                    >
+                    </div>
+                </div>
+                <span class="category-percent">45% of budget</span>
+            </div>
+
+            <div
+                class="category-card fade-in fade-in-delay-1"
+                style="--cat-color: var(--red);"
+            >
+                <div class="category-header">
+                    <span class="category-dot" style="background: var(--red);"
+                    ></span>
+                    <h3>Wants</h3>
+                </div>
+                <p class="category-description">
+                    The nice-to-haves. Dining out, shopping, entertainment:
+                    enjoyable but not essential.
+                </p>
+                <div class="category-examples">
+                    <span class="category-tag">&#127860; Dining</span>
+                    <span class="category-tag">&#128717; Shopping</span>
+                    <span class="category-tag">&#127916; Movies</span>
+                </div>
+                <div class="category-bar">
+                    <div
+                        class="category-bar-fill"
+                        style="width: 28%; background: var(--red);"
+                    >
+                    </div>
+                </div>
+                <span class="category-percent">28% of budget</span>
+            </div>
+
+            <div
+                class="category-card fade-in fade-in-delay-2"
+                style="--cat-color: var(--dark-yellow);"
+            >
+                <div class="category-header">
+                    <span
+                        class="category-dot"
+                        style="background: var(--dark-yellow);"></span>
+                    <h3>Culture</h3>
+                </div>
+                <p class="category-description">
+                    Growth and enrichment. Books, courses, museums, hobbies:
+                    investments in who you're becoming.
+                </p>
+                <div class="category-examples">
+                    <span class="category-tag">&#128218; Books</span>
+                    <span class="category-tag">&#127911; Music</span>
+                    <span class="category-tag">&#127912; Art</span>
+                </div>
+                <div class="category-bar">
+                    <div
+                        class="category-bar-fill"
+                        style="width: 17%; background: var(--dark-yellow);"
+                    >
+                    </div>
+                </div>
+                <span class="category-percent">17% of budget</span>
+            </div>
+
+            <div
+                class="category-card fade-in fade-in-delay-3"
+                style="--cat-color: var(--dark-blue);"
+            >
+                <div class="category-header">
+                    <span
+                        class="category-dot"
+                        style="background: var(--dark-blue);"></span>
+                    <h3>Unexpected</h3>
+                </div>
+                <p class="category-description">
+                    Life's surprises. Car repairs, medical bills, gifts: the
+                    costs you didn't see coming.
+                </p>
+                <div class="category-examples">
+                    <span class="category-tag">&#128657; Repairs</span>
+                    <span class="category-tag">&#127873; Gifts</span>
+                    <span class="category-tag">&#129658; Medical</span>
+                </div>
+                <div class="category-bar">
+                    <div
+                        class="category-bar-fill"
+                        style="width: 10%; background: var(--dark-blue);"
+                    >
+                    </div>
+                </div>
+                <span class="category-percent">10% of budget</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .categories-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-lg);
+    }
+
+    .category-card {
+        background: var(--bg-elevated);
+        border-radius: var(--radius-xl);
+        padding: var(--space-xl);
+        transition:
+            transform var(--transition-normal),
+            box-shadow var(--transition-normal);
+        position: relative;
+    }
+
+    .category-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .category-header {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        margin-bottom: var(--space-md);
+    }
+
+    .category-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+
+    .category-header h3 {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--cat-color);
+    }
+
+    .category-description {
+        font-size: 0.9rem;
+        color: var(--subtext);
+        line-height: 1.7;
+        margin-bottom: var(--space-md);
+    }
+
+    .category-examples {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-sm);
+        margin-bottom: var(--space-lg);
+    }
+
+    .category-tag {
+        font-size: 0.75rem;
+        background: rgba(255, 255, 255, 0.04);
+        padding: 4px 10px;
+        border-radius: var(--radius-pill);
+        color: var(--text-secondary);
+    }
+
+    .category-bar {
+        height: 4px;
+        background: rgba(255, 255, 255, 0.04);
+        border-radius: var(--radius-pill);
+        margin-bottom: var(--space-sm);
+        overflow: hidden;
+    }
+
+    .category-bar-fill {
+        height: 100%;
+        border-radius: var(--radius-pill);
+        transition: width 1.2s ease;
+    }
+
+    .category-percent {
+        font-size: 0.75rem;
+        color: var(--subtext);
+        font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+        .categories-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
