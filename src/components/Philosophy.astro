@@ -1,17 +1,21 @@
 ---
+import type { Locale, Translations } from "../i18n";
 
+interface Props {
+    locale: Locale;
+    t: Translations;
+}
+
+const { t } = Astro.props;
+const p = t.philosophy;
 ---
 
 <section class="section philosophy" id="philosophy">
     <div class="section-inner">
         <div class="section-header fade-in">
-            <h2 class="section-title">
-                Plan, track, reflect.<br />Every month.
-            </h2>
+            <h2 class="section-title" set:html={p.title.replace("\n", "<br />")} />
             <p class="section-subtitle">
-                Kakeibo is based on a budgeting method that dates back to 1904
-                Japan. The idea is simple: awareness changes behavior. No
-                spreadsheets, no algorithms: just you and your intentions.
+                {p.subtitle}
             </p>
         </div>
 
@@ -37,12 +41,8 @@
                     </svg>
                 </div>
                 <div class="cycle-number">01</div>
-                <h3>Plan</h3>
-                <p>
-                    At the start of each month, set your budget with intention.
-                    How much will you earn? What are your fixed costs? What do
-                    you want to save? Make a plan that reflects your values.
-                </p>
+                <h3>{p.steps.plan.title}</h3>
+                <p>{p.steps.plan.description}</p>
             </div>
 
             <div class="cycle-connector fade-in" aria-hidden="true">
@@ -76,12 +76,8 @@
                     </svg>
                 </div>
                 <div class="cycle-number">02</div>
-                <h3>Track</h3>
-                <p>
-                    Throughout the month, log your spending. Each entry is a
-                    moment of awareness. No auto-imports, no bank connections:
-                    the act of recording is the point.
-                </p>
+                <h3>{p.steps.track.title}</h3>
+                <p>{p.steps.track.description}</p>
             </div>
 
             <div class="cycle-connector fade-in" aria-hidden="true">
@@ -117,13 +113,8 @@
                     </svg>
                 </div>
                 <div class="cycle-number">03</div>
-                <h3>Reflect</h3>
-                <p>
-                    At month's end, review what happened. Did you keep your
-                    promises? What surprised you? Reflection is where the magic
-                    happens: it's how you learn and change your habits to spend
-                    money in what really matters to you.
-                </p>
+                <h3>{p.steps.reflect.title}</h3>
+                <p>{p.steps.reflect.description}</p>
             </div>
         </div>
     </div>

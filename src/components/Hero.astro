@@ -1,6 +1,15 @@
 ---
+import type { Locale, Translations } from "../i18n";
 import { Image } from "astro:assets";
 import icon from "../assets/icon.svg";
+
+interface Props {
+    locale: Locale;
+    t: Translations;
+}
+
+const { locale, t } = Astro.props;
+const h = t.hero;
 ---
 
 <section class="hero" aria-label="Hero section">
@@ -11,18 +20,17 @@ import icon from "../assets/icon.svg";
                     src={icon}
                     width={72}
                     height={72}
-                    alt="Kakeibo logo — four overlapping circles"
+                    alt={h.logoAlt}
                 />
             </div>
 
-            <h1 class="fade-in fade-in-delay-1">Kakeibo</h1>
+            <h1 class="fade-in fade-in-delay-1">{h.heading}</h1>
             <p class="hero-sub fade-in fade-in-delay-1">
-                Spend your money on what really makes you happy
+                {h.subheading}
             </p>
 
             <p class="tagline fade-in fade-in-delay-2">
-                Track your spending habits, reflect on what matters, and learn
-                to spend with intention. One month at a time.
+                {h.tagline}
             </p>
 
             <div class="hero-actions fade-in fade-in-delay-3">
@@ -30,7 +38,7 @@ import icon from "../assets/icon.svg";
                     href="mailto:hola@getkakeibo.com?subject=Join%20Kakeibo%20Beta&body=Hi!%20I%27d%20love%20to%20join%20the%20beta.%0A%0AMy%20device%20(iOS%2FAndroid)%3A%20%0AMy%20email%3A%20"
                     class="beta-button"
                 >
-                    Join the beta
+                    {h.joinBeta}
                 </a>
 
                 <div class="store-buttons">
@@ -45,8 +53,8 @@ import icon from "../assets/icon.svg";
                             ></path>
                         </svg>
                         <span class="store-text">
-                            <small>Download on the</small>
-                            <span>App Store</span>
+                            <small>{h.appStoreLabel}</small>
+                            <span>{h.appStore}</span>
                         </span>
                     </div>
 
@@ -61,13 +69,13 @@ import icon from "../assets/icon.svg";
                             ></path>
                         </svg>
                         <span class="store-text">
-                            <small>Get it on</small>
-                            <span>Google Play</span>
+                            <small>{h.playStoreLabel}</small>
+                            <span>{h.playStore}</span>
                         </span>
                     </div>
                 </div>
                 <p class="coming-soon-note">
-                    Coming soon to App Store & Google Play
+                    {h.comingSoon}
                 </p>
             </div>
 
@@ -77,28 +85,28 @@ import icon from "../assets/icon.svg";
                         class="dot"
                         style="background-color: var(--green);"
                         aria-hidden="true"></span>
-                    100% Offline
+                    {h.principles.offline}
                 </span>
                 <span class="principle">
                     <span
                         class="dot"
                         style="background-color: var(--blue);"
                         aria-hidden="true"></span>
-                    Privacy First
+                    {h.principles.privacy}
                 </span>
                 <span class="principle">
                     <span
                         class="dot"
                         style="background-color: var(--red);"
                         aria-hidden="true"></span>
-                    No Ads
+                    {h.principles.noAds}
                 </span>
                 <span class="principle">
                     <span
                         class="dot"
                         style="background-color: var(--yellow);"
                         aria-hidden="true"></span>
-                    No Tracking
+                    {h.principles.noTracking}
                 </span>
             </div>
         </div>
@@ -106,8 +114,8 @@ import icon from "../assets/icon.svg";
         <div class="hero-visual fade-in fade-in-delay-2">
             <div class="phone-mockup">
                 <img
-                    src="/screenshots/en/main.png"
-                    alt="Kakeibo app showing budget overview"
+                    src={`/screenshots/${locale}/main.png`}
+                    alt={h.screenshotAlt}
                     width="280"
                     class="hero-screenshot"
                 />
@@ -337,26 +345,6 @@ import icon from "../assets/icon.svg";
 
     .hero-screenshot:hover {
         transform: rotateY(0deg) rotateX(0deg);
-    }
-
-    .app-currency {
-        font-size: 16px;
-        color: var(--subtext);
-        opacity: 0.7;
-        margin-right: 2px;
-    }
-    .app-budget-status {
-        font-size: 11px;
-        color: var(--subtext);
-        margin-bottom: 10px;
-    }
-
-    .app-budget-bar {
-        height: 4px;
-        background: rgba(255, 255, 255, 0.06);
-        border-radius: 999px;
-        margin-bottom: 10px;
-        overflow: hidden;
     }
 
     .scroll-indicator {

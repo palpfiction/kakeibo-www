@@ -1,38 +1,36 @@
 ---
+import type { Locale, Translations } from "../i18n";
 
+interface Props {
+    locale: Locale;
+    t: Translations;
+}
+
+const { t } = Astro.props;
+const pr = t.pricing;
 ---
 
 <section class="section pricing" id="pricing">
     <div class="section-inner">
         <div class="section-header fade-in">
-            <h2 class="section-title">One price. Forever yours.</h2>
-            <p class="section-subtitle">
-                No subscriptions. No in-app purchases. No premium tiers. Pay
-                once, use forever. Regional pricing. We think that's how
-                software should work.
-            </p>
+            <h2 class="section-title">{pr.title}</h2>
+            <p class="section-subtitle">{pr.subtitle}</p>
         </div>
 
         <div class="pricing-contrast fade-in">
             <div class="pricing-contrast-item negative">
-                <h4>Subscription apps</h4>
+                <h4>{pr.subscriptions.title}</h4>
                 <ul>
-                    <li>$5&ndash;15/month, forever</li>
-                    <li>Your data on their servers</li>
-                    <li>Ads and upsells</li>
-                    <li>Lose access if you stop paying</li>
+                    {pr.subscriptions.items.map((item: string) => <li>{item}</li>)}
                 </ul>
             </div>
             <div class="pricing-contrast-divider">
-                <span>vs.</span>
+                <span>{pr.vs}</span>
             </div>
             <div class="pricing-contrast-item positive">
-                <h4>Kakeibo</h4>
+                <h4>{pr.kakeibo.title}</h4>
                 <ul>
-                    <li>One-time purchase</li>
-                    <li>Data stays on your device</li>
-                    <li>No ads, no upsells</li>
-                    <li>Yours forever</li>
+                    {pr.kakeibo.items.map((item: string) => <li>{item}</li>)}
                 </ul>
             </div>
         </div>
@@ -42,88 +40,6 @@
 <style>
     .pricing {
         background: var(--bg);
-    }
-
-    .pricing-card {
-        max-width: 440px;
-        margin: 0 auto var(--space-3xl);
-    }
-
-    .pricing-card-inner {
-        background: var(--bg-elevated);
-        border: 1px solid var(--border-light);
-        border-radius: var(--radius-xl);
-        padding: var(--space-2xl);
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .pricing-card-inner::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(90deg, var(--green), var(--blue));
-    }
-
-    .pricing-top {
-        margin-bottom: var(--space-lg);
-    }
-
-    .pricing-headline {
-        font-size: 1.75rem;
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        margin-bottom: var(--space-xs);
-    }
-
-    .pricing-period {
-        font-size: 0.9rem;
-        color: var(--subtext);
-        font-weight: 500;
-    }
-
-    .pricing-divider {
-        height: 1px;
-        background: var(--border);
-        margin: var(--space-lg) 0;
-    }
-
-    .pricing-features {
-        list-style: none;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-md);
-        text-align: left;
-        margin-bottom: var(--space-xl);
-    }
-
-    .pricing-features li {
-        display: flex;
-        align-items: center;
-        gap: var(--space-sm);
-        font-size: 0.9rem;
-        color: var(--text-secondary);
-    }
-
-    .pricing-features li svg {
-        flex-shrink: 0;
-    }
-
-    .pricing-comparison {
-        background: var(--surface);
-        border-radius: var(--radius-md);
-        padding: var(--space-md);
-    }
-
-    .pricing-comparison-label {
-        font-size: 0.9rem;
-        font-weight: 600;
-        display: block;
     }
 
     /* Comparison */

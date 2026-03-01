@@ -1,16 +1,20 @@
 ---
+import type { Locale, Translations } from "../i18n";
 
+interface Props {
+    locale: Locale;
+    t: Translations;
+}
+
+const { t } = Astro.props;
+const p = t.privacy;
 ---
 
 <section class="section privacy" id="privacy">
     <div class="section-inner">
         <div class="section-header fade-in">
-            <h2 class="section-title">Your money, your business</h2>
-            <p class="section-subtitle">
-                Kakeibo is built with a radical idea: your financial data should
-                belong to you and only you. Not to servers, not to advertisers,
-                not to anyone.
-            </p>
+            <h2 class="section-title">{p.title}</h2>
+            <p class="section-subtitle">{p.subtitle}</p>
         </div>
 
         <div class="privacy-grid">
@@ -34,12 +38,8 @@
                         ></path><path d="M22 4v16"></path>
                     </svg>
                 </div>
-                <h3>100% Offline</h3>
-                <p>
-                    Everything runs on your device. No internet required, no
-                    cloud sync, no servers. Your data lives in a local database
-                    &mdash; fast, reliable, and completely under your control.
-                </p>
+                <h3>{p.offline.title}</h3>
+                <p>{p.offline.description}</p>
             </div>
 
             <div class="privacy-card fade-in fade-in-delay-1">
@@ -61,12 +61,8 @@
                         ></path>
                     </svg>
                 </div>
-                <h3>Privacy first</h3>
-                <p>
-                    No account creation. No email required. No data collection
-                    of any kind. We don't know who you are, what you spend, or
-                    how you use the app. And we like it that way.
-                </p>
+                <h3>{p.privacyFirst.title}</h3>
+                <p>{p.privacyFirst.description}</p>
             </div>
 
             <div class="privacy-card fade-in fade-in-delay-2">
@@ -88,12 +84,8 @@
                         ></rect><path d="m3 3 18 18"></path>
                     </svg>
                 </div>
-                <h3>No ads, ever</h3>
-                <p>
-                    You pay once, you get the full app. No banners, no pop-ups,
-                    no sponsored content. A clean, distraction-free experience
-                    that respects your attention.
-                </p>
+                <h3>{p.noAds.title}</h3>
+                <p>{p.noAds.description}</p>
             </div>
 
             <div class="privacy-card fade-in fade-in-delay-3">
@@ -117,12 +109,8 @@
                         <line x1="1" y1="1" x2="23" y2="23"></line>
                     </svg>
                 </div>
-                <h3>Zero tracking</h3>
-                <p>
-                    No analytics. No telemetry. No usage tracking. We don't have
-                    dashboards monitoring your behavior. The app works for you,
-                    not the other way around.
-                </p>
+                <h3>{p.zeroTracking.title}</h3>
+                <p>{p.zeroTracking.description}</p>
             </div>
         </div>
     </div>

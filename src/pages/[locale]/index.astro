@@ -1,0 +1,33 @@
+---
+import type { GetStaticPaths } from "astro";
+import { locales, getTranslations, type Locale } from "../../i18n";
+import Layout from "../../layouts/Layout.astro";
+import Hero from "../../components/Hero.astro";
+import Philosophy from "../../components/Philosophy.astro";
+import Categories from "../../components/Categories.astro";
+import Features from "../../components/Features.astro";
+import Privacy from "../../components/Privacy.astro";
+import Pricing from "../../components/Pricing.astro";
+import CtaFooter from "../../components/CtaFooter.astro";
+
+export const getStaticPaths: GetStaticPaths = () => {
+    return locales.map((locale) => ({
+        params: { locale },
+    }));
+};
+
+const locale = Astro.params.locale as Locale;
+const t = getTranslations(locale);
+---
+
+<Layout locale={locale} t={t}>
+    <main>
+        <Hero locale={locale} t={t} />
+        <Philosophy locale={locale} t={t} />
+        <Categories locale={locale} t={t} />
+        <Features locale={locale} t={t} />
+        <Privacy locale={locale} t={t} />
+        <Pricing locale={locale} t={t} />
+        <CtaFooter locale={locale} t={t} />
+    </main>
+</Layout>

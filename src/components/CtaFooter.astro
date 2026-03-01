@@ -1,23 +1,30 @@
 ---
+import type { Locale, Translations } from "../i18n";
 import { Image } from "astro:assets";
 import icon from "../assets/icon.svg";
+
+interface Props {
+    locale: Locale;
+    t: Translations;
+}
+
+const { t } = Astro.props;
+const ct = t.cta;
+const ft = t.footer;
 ---
 
 <section class="section cta" id="cta">
     <div class="section-inner">
         <div class="cta-content fade-in">
             <Image src={icon} width={56} height={56} alt="" class="cta-logo" />
-            <h2>Start spending with intention</h2>
-            <p>
-                Change your relationship with money. Not with spreadsheets or
-                algorithms, but with awareness. One month at a time.
-            </p>
+            <h2>{ct.heading}</h2>
+            <p>{ct.description}</p>
 
             <a
                 href="mailto:hola@getkakeibo.com?subject=I%20want%20to%20join%20the%20Kakeibo%20beta"
                 class="cta-beta-button"
             >
-                Join the beta
+                {ct.joinBeta}
             </a>
 
             <div class="cta-store-row">
@@ -32,8 +39,8 @@ import icon from "../assets/icon.svg";
                         ></path>
                     </svg>
                     <span class="cta-store-text">
-                        <small>Download on the</small>
-                        <span>App Store</span>
+                        <small>{ct.appStoreLabel}</small>
+                        <span>{ct.appStore}</span>
                     </span>
                 </div>
 
@@ -48,13 +55,13 @@ import icon from "../assets/icon.svg";
                         ></path>
                     </svg>
                     <span class="cta-store-text">
-                        <small>Get it on</small>
-                        <span>Google Play</span>
+                        <small>{ct.playStoreLabel}</small>
+                        <span>{ct.playStore}</span>
                     </span>
                 </div>
             </div>
             <p class="cta-coming-soon">
-                Coming soon to App Store & Google Play
+                {ct.comingSoon}
             </p>
         </div>
     </div>
@@ -67,14 +74,14 @@ import icon from "../assets/icon.svg";
                 <Image src={icon} width={24} height={24} alt="" />
                 <span>Kakeibo</span>
             </div>
-            <p class="footer-tagline">Mindful budgeting, one month at a time</p>
+            <p class="footer-tagline">{ft.tagline}</p>
         </div>
         <div class="footer-right">
-            <a href="mailto:hola@getkakeibo.com">Contact</a>
+            <a href="mailto:hola@getkakeibo.com">{ft.contact}</a>
         </div>
     </div>
     <div class="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} Kakeibo. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Kakeibo. {ft.rights}</p>
     </div>
 </footer>
 

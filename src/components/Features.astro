@@ -1,17 +1,23 @@
 ---
+import type { Locale, Translations } from "../i18n";
 
+interface Props {
+    locale: Locale;
+    t: Translations;
+}
+
+const { locale, t } = Astro.props;
+const f = t.features;
 ---
 
 <section class="section features" id="features">
     <div class="section-inner">
         <div class="section-header fade-in">
-            <h2 class="section-title">
-                Everything you need,<br />nothing you don't
-            </h2>
-            <p class="section-subtitle">
-                Simple by design. No feature bloat, no complexity. Every screen
-                serves a purpose.
-            </p>
+            <h2
+                class="section-title"
+                set:html={f.title.replace("\n", "<br />")}
+            />
+            <p class="section-subtitle">{f.subtitle}</p>
         </div>
 
         <!-- Feature 1: Budget Wizard -->
@@ -36,22 +42,16 @@
                         ></path>
                     </svg>
                 </div>
-                <h3>Monthly budget wizard</h3>
-                <p>
-                    Start each month with clarity. A simple, guided wizard walks
-                    you through setting your income, fixed expenses, and savings
-                    goals. Copy from last month to save time.
-                </p>
+                <h3>{f.budget.title}</h3>
+                <p>{f.budget.description}</p>
                 <ul class="feature-bullets">
-                    <li>Step-by-step budget creation</li>
-                    <li>Copy previous month's setup</li>
-                    <li>Set savings goals and promises to yourself</li>
+                    {f.budget.bullets.map((b: string) => <li>{b}</li>)}
                 </ul>
             </div>
             <div class="feature-visual">
                 <img
-                    src="/screenshots/en/budget.jpeg"
-                    alt="Budget wizard showing fixed expenses"
+                    src={`/screenshots/${locale}/budget.png`}
+                    alt={f.budget.screenshotAlt}
                     width="380"
                     class="screenshot"
                 />
@@ -79,22 +79,16 @@
                         ></path>
                     </svg>
                 </div>
-                <h3>Clear, beautiful statistics</h3>
-                <p>
-                    See your spending patterns at a glance. Weekly, monthly, or
-                    yearly, with category breakdowns, daily averages, and period
-                    comparisons that actually make sense.
-                </p>
+                <h3>{f.statistics.title}</h3>
+                <p>{f.statistics.description}</p>
                 <ul class="feature-bullets">
-                    <li>Week, month, and year views</li>
-                    <li>Category and tag breakdowns</li>
-                    <li>Compare against previous periods</li>
+                    {f.statistics.bullets.map((b: string) => <li>{b}</li>)}
                 </ul>
             </div>
             <div class="feature-visual">
                 <img
-                    src="/screenshots/en/statistics.png"
-                    alt="Statistics showing spending breakdown"
+                    src={`/screenshots/${locale}/statistics.png`}
+                    alt={f.statistics.screenshotAlt}
                     width="380"
                     class="screenshot"
                 />
@@ -123,23 +117,16 @@
                         ></path>
                     </svg>
                 </div>
-                <h3>Month-end reflection</h3>
-                <p>
-                    This is the heart of Kakeibo. A guided reflection that walks
-                    you through your month, week by week, category by category,
-                    tag by tag. Did you keep your promises? What will you do
-                    differently?
-                </p>
+                <h3>{f.reflection.title}</h3>
+                <p>{f.reflection.description}</p>
                 <ul class="feature-bullets">
-                    <li>Guided 5-step review process</li>
-                    <li>Week-by-week spending breakdown</li>
-                    <li>Personal goals and promises check-in</li>
+                    {f.reflection.bullets.map((b: string) => <li>{b}</li>)}
                 </ul>
             </div>
             <div class="feature-visual">
                 <img
-                    src="/screenshots/en/howyoudo.jpeg"
-                    alt="Month-end reflection"
+                    src={`/screenshots/${locale}/howyoudo.png`}
+                    alt={f.reflection.screenshotAlt}
                     width="380"
                     class="screenshot"
                 />
@@ -168,22 +155,16 @@
                         ></path><path d="M7 7h.01"></path>
                     </svg>
                 </div>
-                <h3>Custom tags</h3>
-                <p>
-                    Tags cut across categories. Track vacation spending, work
-                    meals, or any theme that matters to you. Each tag gets its
-                    own emoji so you can spot patterns instantly.
-                </p>
+                <h3>{f.tags.title}</h3>
+                <p>{f.tags.description}</p>
                 <ul class="feature-bullets">
-                    <li>Create custom tags with emoji labels</li>
-                    <li>Emoji labels for quick recognition</li>
-                    <li>Cross-category expense tracking</li>
+                    {f.tags.bullets.map((b: string) => <li>{b}</li>)}
                 </ul>
             </div>
             <div class="feature-visual">
                 <img
-                    src="/screenshots/en/tags.png"
-                    alt="Custom tags feature"
+                    src={`/screenshots/${locale}/tags.png`}
+                    alt={f.tags.screenshotAlt}
                     width="380"
                     class="screenshot"
                 />
@@ -211,11 +192,8 @@
                             d="m21 21-4.35-4.35"></path>
                     </svg>
                 </div>
-                <h4>Search & filter</h4>
-                <p>
-                    Find any transaction instantly. Filter by date, category,
-                    tag, or type.
-                </p>
+                <h4>{f.mini.search.title}</h4>
+                <p>{f.mini.search.description}</p>
             </div>
             <div class="mini-feature fade-in fade-in-delay-1">
                 <div
@@ -237,11 +215,8 @@
                         ></polyline><line x1="12" y1="15" x2="12" y2="3"></line>
                     </svg>
                 </div>
-                <h4>Data export</h4>
-                <p>
-                    Export your data anytime. It's your data: take it wherever
-                    you want.
-                </p>
+                <h4>{f.mini.export.title}</h4>
+                <p>{f.mini.export.description}</p>
             </div>
             <div class="mini-feature fade-in fade-in-delay-2">
                 <div
@@ -262,11 +237,8 @@
                         ></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
                     </svg>
                 </div>
-                <h4>Respectful reminders</h4>
-                <p>
-                    Gentle daily, weekly, or monthly nudges to keep your
-                    tracking habit alive.
-                </p>
+                <h4>{f.mini.reminders.title}</h4>
+                <p>{f.mini.reminders.description}</p>
             </div>
             <div class="mini-feature fade-in fade-in-delay-3">
                 <div
@@ -289,11 +261,8 @@
                         ></path>
                     </svg>
                 </div>
-                <h4>27 currencies</h4>
-                <p>
-                    From USD to JPY to EUR. Use the currency that matches your
-                    life.
-                </p>
+                <h4>{f.mini.currencies.title}</h4>
+                <p>{f.mini.currencies.description}</p>
             </div>
         </div>
     </div>
@@ -381,358 +350,6 @@
         background: var(--green);
     }
 
-    /* Mock: Budget Wizard */
-    .mock-wizard {
-        background: var(--bg-elevated);
-        border: 1px solid var(--border-light);
-        border-radius: var(--radius-xl);
-        padding: var(--space-xl);
-        width: 100%;
-        max-width: 380px;
-    }
-
-    .mock-wizard-progress {
-        display: flex;
-        gap: 6px;
-        margin-bottom: var(--space-lg);
-    }
-
-    .mock-progress-step {
-        flex: 1;
-        height: 4px;
-        border-radius: var(--radius-pill);
-        background: var(--surface);
-    }
-
-    .mock-progress-step.active {
-        background: var(--blue);
-    }
-
-    .mock-wizard-title {
-        font-size: 1.15rem;
-        font-weight: 700;
-        margin-bottom: var(--space-xs);
-    }
-
-    .mock-wizard-subtitle {
-        font-size: 0.85rem;
-        color: var(--subtext);
-        margin-bottom: var(--space-lg);
-    }
-
-    .mock-expense-list {
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-sm);
-    }
-
-    .mock-expense {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 12px 16px;
-        background: var(--surface);
-        border-radius: var(--radius-md);
-        border: 1px solid var(--border);
-    }
-
-    .mock-expense-name {
-        font-size: 0.9rem;
-        font-weight: 500;
-    }
-
-    .mock-expense-amount {
-        font-size: 0.9rem;
-        font-weight: 700;
-    }
-
-    .mock-add-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: var(--space-sm);
-        padding: 12px;
-        border: 1.5px dashed var(--border-light);
-        border-radius: var(--radius-md);
-        color: var(--blue);
-        font-size: 0.85rem;
-        font-weight: 500;
-    }
-
-    /* Mock: Stats */
-    .mock-stats {
-        background: var(--bg-elevated);
-        border: 1px solid var(--border-light);
-        border-radius: var(--radius-xl);
-        padding: var(--space-xl);
-        width: 100%;
-        max-width: 380px;
-    }
-
-    .mock-stats-header {
-        margin-bottom: var(--space-lg);
-    }
-
-    .mock-period-tabs {
-        display: flex;
-        gap: 4px;
-        background: var(--surface);
-        border-radius: var(--radius-md);
-        padding: 3px;
-    }
-
-    .mock-tab {
-        flex: 1;
-        text-align: center;
-        font-size: 0.8rem;
-        font-weight: 500;
-        padding: 6px 12px;
-        border-radius: 6px;
-        color: var(--subtext);
-    }
-
-    .mock-tab.active {
-        background: var(--blue);
-        color: var(--text);
-    }
-
-    .mock-stat-cards {
-        display: flex;
-        gap: var(--space-sm);
-        margin-bottom: var(--space-lg);
-    }
-
-    .mock-stat-card {
-        flex: 1;
-        background: var(--surface);
-        border-radius: var(--radius-md);
-        padding: var(--space-md);
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-    }
-
-    .mock-stat-label {
-        font-size: 0.7rem;
-        color: var(--subtext);
-    }
-
-    .mock-stat-value {
-        font-size: 1.25rem;
-        font-weight: 700;
-    }
-
-    .mock-breakdown {
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-sm);
-    }
-
-    .mock-breakdown-row {
-        display: flex;
-        align-items: center;
-        gap: var(--space-sm);
-    }
-
-    .mock-breakdown-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        flex-shrink: 0;
-    }
-
-    .mock-breakdown-name {
-        font-size: 0.8rem;
-        font-weight: 500;
-        width: 76px;
-        flex-shrink: 0;
-    }
-
-    .mock-breakdown-bar-track {
-        flex: 1;
-        height: 6px;
-        background: rgba(255, 255, 255, 0.06);
-        border-radius: var(--radius-pill);
-        overflow: hidden;
-    }
-
-    .mock-breakdown-bar {
-        height: 100%;
-        border-radius: var(--radius-pill);
-    }
-
-    .mock-breakdown-amount {
-        font-size: 0.8rem;
-        font-weight: 700;
-        width: 44px;
-        text-align: right;
-        flex-shrink: 0;
-    }
-
-    /* Mock: Reflection */
-    .mock-reflection {
-        background: var(--bg-elevated);
-        border: 1px solid var(--border-light);
-        border-radius: var(--radius-xl);
-        padding: var(--space-xl);
-        width: 100%;
-        max-width: 380px;
-    }
-
-    .mock-reflection-header {
-        text-align: center;
-        margin-bottom: var(--space-lg);
-    }
-
-    .mock-sparkle {
-        width: 48px;
-        height: 48px;
-        border-radius: var(--radius-md);
-        background: rgba(255, 209, 102, 0.12);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto var(--space-md);
-    }
-
-    .mock-reflection-title {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 4px;
-    }
-
-    .mock-reflection-subtitle {
-        font-size: 0.8rem;
-        color: var(--subtext);
-    }
-
-    .mock-reflection-stats {
-        display: flex;
-        gap: var(--space-md);
-        margin-bottom: var(--space-lg);
-    }
-
-    .mock-reflection-stat {
-        flex: 1;
-        background: var(--surface);
-        border-radius: var(--radius-md);
-        padding: var(--space-md);
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-    }
-
-    .mock-reflection-stat-value {
-        font-size: 1.25rem;
-        font-weight: 700;
-    }
-
-    .mock-reflection-stat-value.green {
-        color: var(--green);
-    }
-
-    .mock-reflection-stat-label {
-        font-size: 0.7rem;
-        color: var(--subtext);
-    }
-
-    .mock-reflection-question {
-        background: var(--surface);
-        border-radius: var(--radius-md);
-        padding: var(--space-md);
-    }
-
-    .mock-q-label {
-        font-size: 0.85rem;
-        font-weight: 600;
-        display: block;
-        margin-bottom: var(--space-sm);
-    }
-
-    .mock-q-options {
-        display: flex;
-        gap: var(--space-sm);
-    }
-
-    .mock-q-option {
-        font-size: 0.75rem;
-        padding: 6px 12px;
-        border-radius: var(--radius-pill);
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid var(--border);
-        cursor: default;
-    }
-
-    .mock-q-option.selected {
-        background: rgba(17, 138, 178, 0.15);
-        border-color: var(--blue);
-        color: var(--blue);
-    }
-
-    /* Mock: Tags */
-    .mock-tags {
-        background: var(--bg-elevated);
-        border: 1px solid var(--border-light);
-        border-radius: var(--radius-xl);
-        padding: var(--space-xl);
-        width: 100%;
-        max-width: 380px;
-    }
-
-    .mock-tags-title {
-        font-size: 0.85rem;
-        font-weight: 600;
-        margin-bottom: var(--space-md);
-        color: var(--subtext);
-    }
-
-    .mock-tags-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: var(--space-sm);
-        margin-bottom: var(--space-lg);
-    }
-
-    .mock-tag-chip {
-        font-size: 0.8rem;
-        padding: 6px 14px;
-        border-radius: var(--radius-pill);
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid var(--border);
-    }
-
-    .mock-tag-stats {
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-sm);
-        border-top: 1px solid var(--border);
-        padding-top: var(--space-md);
-    }
-
-    .mock-tag-stat-row {
-        display: flex;
-        align-items: center;
-        gap: var(--space-sm);
-        font-size: 0.8rem;
-    }
-
-    .mock-tag-stat-label {
-        font-weight: 500;
-        flex: 1;
-    }
-
-    .mock-tag-stat-count {
-        color: var(--subtext);
-        font-size: 0.7rem;
-    }
-
-    .mock-tag-stat-amount {
-        font-weight: 700;
-        width: 48px;
-        text-align: right;
-    }
-
     /* Mini features grid */
     .features-mini-grid {
         display: grid;
@@ -788,10 +405,6 @@
     @media (max-width: 480px) {
         .features-mini-grid {
             grid-template-columns: 1fr;
-        }
-
-        .mock-q-options {
-            flex-direction: column;
         }
     }
 </style>
