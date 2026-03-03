@@ -43,7 +43,7 @@ export const es: Translations = {
   philosophy: {
     title: "Planifica, registra, reflexiona.\nMes a mes.",
     subtitle:
-      "Kakeibo (también escrito kakebo)  se basa en un método de presupuesto que data de 1904 en Japón. La idea es simple: la conciencia cambia el comportamiento. Sin hojas de cálculo, sin algoritmos: solo tú y tus decisiones.",
+      "Kakeibo  se basa en un método de presupuesto que data de 1904 en Japón. La idea es simple: la conciencia cambia el comportamiento. Sin hojas de cálculo, sin algoritmos: solo tú y tus decisiones.",
     steps: {
       plan: {
         title: "Planifica",

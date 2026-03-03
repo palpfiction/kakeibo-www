@@ -21,7 +21,8 @@ export const en = {
       "Track your spending, reflect on your habits, and discover where your money really goes. One month at a time.",
     joinBeta: "Join the beta",
     betaEmailSubject: "Join Kakeibo Beta",
-    betaEmailBody: "Hi! I'd love to join the beta.\n\nMy device (iOS/Android): \nMy email: ",
+    betaEmailBody:
+      "Hi! I'd love to join the beta.\n\nMy device (iOS/Android): \nMy email: ",
     appStoreLabel: "Download on the",
     appStore: "App Store",
     playStoreLabel: "Get it on",
@@ -40,7 +41,7 @@ export const en = {
   philosophy: {
     title: "Plan, track, reflect.\nEvery month.",
     subtitle:
-      "Kakeibo (also written kakebo) is based on a budgeting method that dates back to 1904 Japan. The idea is simple: awareness changes behavior. No spreadsheets, no algorithms: just you and your decisions.",
+      "Kakeibo is based on a budgeting method that dates back to 1904 Japan. The idea is simple: awareness changes behavior. No spreadsheets, no algorithms: just you and your decisions.",
     steps: {
       plan: {
         title: "Plan",
@@ -228,7 +229,8 @@ export const en = {
       "Change your relationship with money. Not with spreadsheets or algorithms, but with awareness. One month at a time.",
     joinBeta: "Join the beta",
     betaEmailSubject: "Join Kakeibo Beta",
-    betaEmailBody: "Hi! I'd love to join the beta.\n\nMy device (iOS/Android): \nMy email: ",
+    betaEmailBody:
+      "Hi! I'd love to join the beta.\n\nMy device (iOS/Android): \nMy email: ",
     appStoreLabel: "Download on the",
     appStore: "App Store",
     playStoreLabel: "Get it on",
