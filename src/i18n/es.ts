@@ -5,7 +5,7 @@ export const es: Translations = {
   // -- Layout / meta --
   meta: {
     title:
-      "Kakeibo — La App de Presupuesto Consciente | Gasta en lo que Importa",
+      "Kakeibo — La app de presupuesto consciente | Gasta en lo que importa",
     description:
       "El arte japonés del gasto consciente, ahora en una app de presupuesto simple y privada. Registra gastos, reflexiona sobre tus hábitos y ahorra más. Pago único. Sin suscripciones, sin anuncios, sin rastreo.",
   },
