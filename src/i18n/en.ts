@@ -20,6 +20,8 @@ export const en = {
     tagline:
       "Track your spending, reflect on your habits, and discover where your money really goes. One month at a time.",
     joinBeta: "Join the beta",
+    betaEmailSubject: "Join Kakeibo Beta",
+    betaEmailBody: "Hi! I'd love to join the beta.\n\nMy device (iOS/Android): \nMy email: ",
     appStoreLabel: "Download on the",
     appStore: "App Store",
     playStoreLabel: "Get it on",
@@ -225,6 +227,8 @@ export const en = {
     description:
       "Change your relationship with money. Not with spreadsheets or algorithms, but with awareness. One month at a time.",
     joinBeta: "Join the beta",
+    betaEmailSubject: "Join Kakeibo Beta",
+    betaEmailBody: "Hi! I'd love to join the beta.\n\nMy device (iOS/Android): \nMy email: ",
     appStoreLabel: "Download on the",
     appStore: "App Store",
     playStoreLabel: "Get it on",

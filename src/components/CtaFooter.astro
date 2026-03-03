@@ -11,6 +11,7 @@ interface Props {
 
 const { locale, t } = Astro.props;
 const ct = t.cta;
+const betaHref = `mailto:hola@getkakeibo.com?subject=${encodeURIComponent(ct.betaEmailSubject)}&body=${encodeURIComponent(ct.betaEmailBody)}`;
 ---
 
 <section class="section cta" id="cta">
@@ -21,7 +22,7 @@ const ct = t.cta;
             <p>{ct.description}</p>
 
             <a
-                href="mailto:hola@getkakeibo.com?subject=I%20want%20to%20join%20the%20Kakeibo%20beta"
+                href={betaHref}
                 class="cta-beta-button"
             >
                 {ct.joinBeta}

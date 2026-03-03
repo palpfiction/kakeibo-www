@@ -10,6 +10,7 @@ interface Props {
 
 const { locale, t } = Astro.props;
 const h = t.hero;
+const betaHref = `mailto:hola@getkakeibo.com?subject=${encodeURIComponent(h.betaEmailSubject)}&body=${encodeURIComponent(h.betaEmailBody)}`;
 ---
 
 <section class="hero" aria-label="Hero section">
@@ -35,7 +36,7 @@ const h = t.hero;
 
             <div class="hero-actions fade-in fade-in-delay-3">
                 <a
-                    href="mailto:hola@getkakeibo.com?subject=Join%20Kakeibo%20Beta&body=Hi!%20I%27d%20love%20to%20join%20the%20beta.%0A%0AMy%20device%20(iOS%2FAndroid)%3A%20%0AMy%20email%3A%20"
+                    href={betaHref}
                     class="beta-button"
                 >
                     {h.joinBeta}
