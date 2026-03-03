@@ -4,16 +4,24 @@ import type { Locale, Translations } from "../i18n";
 interface Props {
     locale: Locale;
     t: Translations;
+    /** Optional sub-path to append, e.g. "privacy" → /es/privacy/ */
+    path?: string;
+    /**
+     * Whether the switcher is fixed-positioned (default: true).
+     * Pass false when embedding inside a header.
+     */
+    fixed?: boolean;
 }
 
-const { locale } = Astro.props;
+const { locale, path, fixed = true } = Astro.props;
 const otherLocale: Locale = locale === "en" ? "es" : "en";
 const otherLabel = otherLocale === "en" ? "EN" : "ES";
+const otherHref = path ? `/${otherLocale}/${path}/` : `/${otherLocale}/`;
 ---
 
-<nav class="lang-switcher" aria-label="Language">
+<nav class:list={["lang-switcher", { "lang-switcher--fixed": fixed }]} aria-label="Language">
     <a
-        href={`/${otherLocale}/`}
+        href={otherHref}
         class="lang-link"
         aria-label={otherLocale === "en" ? "Switch to English" : "Cambiar a Español"}
     >
@@ -37,7 +45,7 @@ const otherLabel = otherLocale === "en" ? "EN" : "ES";
 </nav>
 
 <style>
-    .lang-switcher {
+    .lang-switcher--fixed {
         position: fixed;
         top: var(--space-md);
         right: var(--space-md);

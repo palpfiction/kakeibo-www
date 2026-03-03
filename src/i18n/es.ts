@@ -4,9 +4,10 @@ export const es: Translations = {
   locale: "es",
   // -- Layout / meta --
   meta: {
-    title: "Kakeibo - Gasta en lo que importa",
+    title:
+      "Kakeibo — La App de Presupuesto Consciente | Gasta en lo que Importa",
     description:
-      "El arte japonés del gasto consciente. Una app de presupuesto simple y privada que te ayuda a entender tus hábitos de gasto. Pago único. Sin suscripciones, sin anuncios, sin rastreo.",
+      "El arte japonés del gasto consciente, ahora en una app de presupuesto simple y privada. Registra gastos, reflexiona sobre tus hábitos y ahorra más. Pago único. Sin suscripciones, sin anuncios, sin rastreo.",
   },
 
   // -- Language switcher --
@@ -20,7 +21,7 @@ export const es: Translations = {
     heading: "Kakeibo",
     subheading: "Gasta en lo que importa",
     tagline:
-      "Registra tus hábitos de gasto, reflexiona sobre lo que importa y aprende a gastar con intención. Mes a mes.",
+      "Registra tus gastos, reflexiona sobre ellos y descubre dónde va realmente tu dinero. Mes a mes.",
     joinBeta: "Únete a la beta",
     appStoreLabel: "Descárgalo en",
     appStore: "App Store",
@@ -33,19 +34,19 @@ export const es: Translations = {
       noAds: "Sin anuncios",
       noTracking: "Sin rastreo",
     },
-    screenshotAlt: "Página principal de Kakeibo",
+    screenshotAlt: "App Kakeibo mostrando resumen del presupuesto",
   },
 
   // -- Philosophy --
   philosophy: {
     title: "Planifica, registra, reflexiona.\nMes a mes.",
     subtitle:
-      "Kakeibo se basa en un método de presupuesto que data de 1904 en Japón. La idea es simple: la conciencia cambia el comportamiento. Sin hojas de cálculo, sin algoritmos: solo tú y tus intenciones.",
+      "Kakeibo (también escrito kakebo)  se basa en un método de presupuesto que data de 1904 en Japón. La idea es simple: la conciencia cambia el comportamiento. Sin hojas de cálculo, sin algoritmos: solo tú y tus decisiones.",
     steps: {
       plan: {
         title: "Planifica",
         description:
-          "Al inicio de cada mes, define tu presupuesto con intención. ¿Cuánto ganarás? ¿Cuáles son tus gastos fijos? ¿Cuánto quieres ahorrar? Haz un plan que refleje tus valores.",
+          "Al inicio de cada mes, define tu presupuesto. ¿Cuánto ganarás? ¿Cuáles son tus gastos fijos? ¿Cuánto quieres ahorrar? Haz un plan que refleje tus valores.",
       },
       track: {
         title: "Registra",
@@ -114,7 +115,7 @@ export const es: Translations = {
     statistics: {
       title: "Estadísticas claras y bonitas",
       description:
-        "Ve tus patrones de gasto de un vistazo. Semanal, mensual o anual, con desgloses por categoría, promedios diarios y comparaciones entre periodos que realmente tienen sentido.",
+        "Ve tus patrones de gasto de un vistazo. Semanal, mensual o anual, con desgloses por categoría, promedios diarios y comparaciones entre periodos.",
       bullets: [
         "Vistas por semana, mes y año",
         "Desglosa por categoría y etiqueta",
@@ -188,10 +189,10 @@ export const es: Translations = {
       description:
         "Pagas una vez, tienes la app completa. Sin banners, sin pop-ups, sin contenido patrocinado. Una experiencia limpia y sin distracciones que respeta tu atención.",
     },
-    zeroTracking: {
-      title: "Cero rastreo",
+    dataExport: {
+      title: "Tus datos, siempre exportables",
       description:
-        "No rastreamos lo que haces. No medimos cómo usas la app. No hay nadie al otro lado mirando. La app trabaja para ti, no al revés.",
+        "Exporta tus datos en CSV o llévate la base de datos SQLite completa. Edítala, hazle una copia de seguridad, restáurala — no vamos a impedírtelo. Tu historial financiero es tuyo.",
     },
   },
 
@@ -223,7 +224,7 @@ export const es: Translations = {
 
   // -- CTA & Footer --
   cta: {
-    heading: "Empieza a gastar con intención",
+    heading: "Empieza a gastar en lo que importa",
     description:
       "Cambia tu relación con el dinero. No con hojas de cálculo ni algoritmos, sino con conciencia. Mes a mes.",
     joinBeta: "Únete a la beta",
@@ -234,8 +235,48 @@ export const es: Translations = {
     comingSoon: "Próximamente en App Store y Google Play",
   },
   footer: {
-    tagline: "Presupuesto consciente, Mes a mes",
+    appName: "Kakeibo",
+    tagline: "Gasta en lo que importa",
     contact: "Contacto",
+    privacyPolicy: "Política de privacidad",
     rights: "Todos los derechos reservados.",
+  },
+
+  // -- Privacy Policy page --
+  privacyPage: {
+    meta: {
+      title: "Política de Privacidad - Kakeibo",
+      description:
+        "Política de privacidad de Kakeibo. No recopilamos datos. Tu información financiera permanece en tu dispositivo. 100% offline, sin cuentas, sin rastreo.",
+    },
+    backToHome: "Volver al inicio",
+    heading: "Política de privacidad",
+    lastUpdated: "Última actualización: 27 de diciembre de 2025",
+    highlight: "Kakeibo no recopila datos. Ninguno. Cero.",
+    section1: {
+      title: "La versión corta",
+      p1: "Tus datos financieros permanecen en tu dispositivo. No los recopilamos, no los almacenamos, no los transmitimos y no los queremos.",
+    },
+    section2: {
+      title: "Lo que no recopilamos",
+      intro: "Para ser completamente claros, no recopilamos:",
+      items: [
+        "Información personal",
+        "Datos financieros o transacciones",
+        "Analíticas de uso",
+        "Información del dispositivo",
+        "Datos de ubicación",
+        "Nada más",
+      ],
+    },
+    section3: {
+      title: "Cómo funciona",
+      p1: "Kakeibo es una app 100% offline. Todos tus datos se almacenan localmente en tu dispositivo. No hay cuentas, no hay sincronización en la nube, no hay servidores recibiendo tu información.",
+      p2: "Cuando eliminas la app, tus datos se van con ella.",
+    },
+    section4: {
+      title: "Contacto",
+      p1: "Si tienes alguna pregunta sobre esta política de privacidad, puedes contactarnos en hola@getkakeibo.com.",
+    },
   },
 } satisfies Translations;

@@ -2,15 +2,15 @@
 import type { Locale, Translations } from "../i18n";
 import { Image } from "astro:assets";
 import icon from "../assets/icon.svg";
+import PageFooter from "./PageFooter.astro";
 
 interface Props {
     locale: Locale;
     t: Translations;
 }
 
-const { t } = Astro.props;
+const { locale, t } = Astro.props;
 const ct = t.cta;
-const ft = t.footer;
 ---
 
 <section class="section cta" id="cta">
@@ -67,23 +67,7 @@ const ft = t.footer;
     </div>
 </section>
 
-<footer class="footer">
-    <div class="footer-inner">
-        <div class="footer-left">
-            <div class="footer-logo">
-                <Image src={icon} width={24} height={24} alt="" />
-                <span>Kakeibo</span>
-            </div>
-            <p class="footer-tagline">{ft.tagline}</p>
-        </div>
-        <div class="footer-right">
-            <a href="mailto:hola@getkakeibo.com">{ft.contact}</a>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} Kakeibo. {ft.rights}</p>
-    </div>
-</footer>
+<PageFooter locale={locale} t={t} />
 
 <style>
     .cta {
@@ -216,68 +200,6 @@ const ft = t.footer;
         margin-bottom: 0;
     }
 
-    /* Footer */
-    .footer {
-        background: var(--bg);
-        border-top: 1px solid var(--border);
-        padding: var(--space-2xl) var(--space-lg);
-    }
-
-    .footer-inner {
-        max-width: var(--max-width);
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: var(--space-xl);
-    }
-
-    .footer-logo {
-        display: flex;
-        align-items: center;
-        gap: var(--space-sm);
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: var(--space-xs);
-    }
-
-    .footer-logo img {
-        width: 24px;
-        height: 24px;
-    }
-
-    .footer-tagline {
-        font-size: 0.8rem;
-        color: var(--subtext);
-    }
-
-    .footer-right {
-        display: flex;
-        gap: var(--space-lg);
-    }
-
-    .footer-right a {
-        font-size: 0.85rem;
-        color: var(--subtext);
-        transition: color var(--transition-fast);
-    }
-
-    .footer-right a:hover {
-        color: var(--text);
-    }
-
-    .footer-bottom {
-        max-width: var(--max-width);
-        margin: 0 auto;
-        padding-top: var(--space-lg);
-        border-top: 1px solid var(--border);
-    }
-
-    .footer-bottom p {
-        font-size: 0.75rem;
-        color: var(--subtext);
-    }
-
     @media (max-width: 640px) {
         .cta-beta-button {
             width: 100%;
@@ -294,15 +216,6 @@ const ft = t.footer;
             max-width: 200px;
             justify-content: center;
         }
-
-        .footer-inner {
-            flex-direction: column;
-            text-align: center;
-            gap: var(--space-lg);
-        }
-
-        .footer-bottom {
-            text-align: center;
-        }
     }
 </style>
+

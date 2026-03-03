@@ -4,8 +4,10 @@
 // Canonical points to /en/ so search engines consolidate link equity there.
 // The noscript fallback also redirects to /en/.
 import { getTranslations } from "../i18n";
+import { SITE_URL } from "../consts";
 
 const t = getTranslations("en");
+const ogImageUrl = `${SITE_URL}/ogimage.png`;
 ---
 
 <!doctype html>
@@ -15,15 +17,23 @@ const t = getTranslations("en");
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="canonical" href="https://getkakeibo.com/en/" />
+        <link rel="apple-touch-icon" href="/ogimage.png" />
+        <link rel="canonical" href={`${SITE_URL}/en/`} />
         <title>{t.meta.title}</title>
         <meta name="description" content={t.meta.description} />
-        <link rel="alternate" hreflang="en" href="https://getkakeibo.com/en/" />
-        <link rel="alternate" hreflang="es" href="https://getkakeibo.com/es/" />
+        <meta property="og:title" content={t.meta.title} />
+        <meta property="og:description" content={t.meta.description} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`${SITE_URL}/en/`} />
+        <meta property="og:image" content={ogImageUrl} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content={ogImageUrl} />
+        <link rel="alternate" hreflang="en" href={`${SITE_URL}/en/`} />
+        <link rel="alternate" hreflang="es" href={`${SITE_URL}/es/`} />
         <link
             rel="alternate"
             hreflang="x-default"
-            href="https://getkakeibo.com/en/"
+            href={`${SITE_URL}/en/`}
         />
         <script is:inline>
             (function () {

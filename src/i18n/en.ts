@@ -2,9 +2,9 @@ export const en = {
   locale: "en",
   // -- Layout / meta --
   meta: {
-    title: "Kakeibo - Spend on what matters",
+    title: "Kakeibo — The Mindful Budgeting App | Spend on What Matters",
     description:
-      "The Japanese art of mindful spending. A simple, private budgeting app that helps you build awareness of your spending habits. One-time purchase. No subscriptions, no ads, no tracking.",
+      "The Japanese art of mindful spending, now in a simple, private app. Track expenses, reflect on habits, and save more. One-time purchase. No subscriptions, no ads, no tracking.",
   },
 
   // -- Language switcher --
@@ -18,7 +18,7 @@ export const en = {
     heading: "Kakeibo",
     subheading: "Spend on what matters",
     tagline:
-      "Track your spending habits, reflect on what matters, and learn to spend with intention. One month at a time.",
+      "Track your spending, reflect on your habits, and discover where your money really goes. One month at a time.",
     joinBeta: "Join the beta",
     appStoreLabel: "Download on the",
     appStore: "App Store",
@@ -38,12 +38,12 @@ export const en = {
   philosophy: {
     title: "Plan, track, reflect.\nEvery month.",
     subtitle:
-      "Kakeibo is based on a budgeting method that dates back to 1904 Japan. The idea is simple: awareness changes behavior. No spreadsheets, no algorithms: just you and your intentions.",
+      "Kakeibo (also written kakebo) is based on a budgeting method that dates back to 1904 Japan. The idea is simple: awareness changes behavior. No spreadsheets, no algorithms: just you and your decisions.",
     steps: {
       plan: {
         title: "Plan",
         description:
-          "At the start of each month, set your budget with intention. How much will you earn? What are your fixed costs? What do you want to save? Make a plan that reflects your values.",
+          "At the start of each month, set your budget. How much will you earn? What are your fixed costs? What do you want to save? Make a plan that reflects your values.",
       },
       track: {
         title: "Track",
@@ -112,7 +112,7 @@ export const en = {
     statistics: {
       title: "Clear, beautiful statistics",
       description:
-        "See your spending patterns at a glance. Weekly, monthly, or yearly, with category breakdowns, daily averages, and period comparisons that actually make sense.",
+        "See your spending patterns at a glance. Weekly, monthly, or yearly, with category breakdowns, daily averages, and period comparisons.",
       bullets: [
         "Week, month, and year views",
         "Category and tag breakdowns",
@@ -186,10 +186,10 @@ export const en = {
       description:
         "You pay once, you get the full app. No banners, no pop-ups, no sponsored content. A clean, distraction-free experience that respects your attention.",
     },
-    zeroTracking: {
-      title: "Zero tracking",
+    dataExport: {
+      title: "Your data, always exportable",
       description:
-        "No analytics. No telemetry. No usage tracking. We don't have dashboards monitoring your behavior. The app works for you, not the other way around.",
+        "Export your data as CSV or take the full SQLite database with you. Edit it, back it up, restore it — we won't stop you. Your financial history belongs to you.",
     },
   },
 
@@ -221,7 +221,7 @@ export const en = {
 
   // -- CTA & Footer --
   cta: {
-    heading: "Start spending with intention",
+    heading: "Start spending on what matters",
     description:
       "Change your relationship with money. Not with spreadsheets or algorithms, but with awareness. One month at a time.",
     joinBeta: "Join the beta",
@@ -232,8 +232,48 @@ export const en = {
     comingSoon: "Coming soon to App Store & Google Play",
   },
   footer: {
-    tagline: "Mindful budgeting, one month at a time",
+    appName: "Kakeibo",
+    tagline: "Spend on what matters",
     contact: "Contact",
+    privacyPolicy: "Privacy Policy",
     rights: "All rights reserved.",
+  },
+
+  // -- Privacy Policy page --
+  privacyPage: {
+    meta: {
+      title: "Privacy Policy - Kakeibo",
+      description:
+        "Kakeibo privacy policy. We collect no data. Your financial information stays on your device. 100% offline, no accounts, no tracking.",
+    },
+    backToHome: "Back to home",
+    heading: "Privacy Policy",
+    lastUpdated: "Last updated: December 27, 2025",
+    highlight: "Kakeibo collects no data. None. Zero.",
+    section1: {
+      title: "The Short Version",
+      p1: "Your financial data stays on your device. We don't collect it, we don't store it, we don't transmit it, and we don't want it.",
+    },
+    section2: {
+      title: "What We Don't Collect",
+      intro: "To be completely clear, we do not collect:",
+      items: [
+        "Personal information",
+        "Financial data or transactions",
+        "Usage analytics",
+        "Device information",
+        "Location data",
+        "Anything else",
+      ],
+    },
+    section3: {
+      title: "How It Works",
+      p1: "Kakeibo is a 100% offline app. All your data is stored locally on your device. There are no accounts, no cloud sync, no servers receiving your information.",
+      p2: "When you delete the app, your data goes with it.",
+    },
+    section4: {
+      title: "Contact",
+      p1: "If you have any questions about this privacy policy, you can contact us at hola@getkakeibo.com.",
+    },
   },
 };
