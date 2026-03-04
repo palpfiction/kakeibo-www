@@ -98,7 +98,7 @@ export const en = {
 
   // -- Features --
   features: {
-    title: "Everything you need,\nnothing you don't",
+    title: "Just what you need",
     subtitle:
       "Simple by design. No feature bloat, no complexity. Every screen serves a purpose.",
     budget: {

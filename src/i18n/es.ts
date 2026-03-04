@@ -24,7 +24,8 @@ export const es: Translations = {
       "Registra tus gastos, reflexiona sobre ellos y descubre dónde va realmente tu dinero. Mes a mes.",
     joinBeta: "Únete a la beta",
     betaEmailSubject: "Quiero unirme a la beta de Kakeibo",
-    betaEmailBody: "¡Hola! Me gustaría unirme a la beta.\n\nMi dispositivo (iOS/Android): \nMi email: ",
+    betaEmailBody:
+      "¡Hola! Me gustaría unirme a la beta.\n\nMi dispositivo (iOS/Android): \nMi email: ",
     appStoreLabel: "Descárgalo en",
     appStore: "App Store",
     playStoreLabel: "Disponible en",
@@ -100,7 +101,7 @@ export const es: Translations = {
 
   // -- Features --
   features: {
-    title: "Todo lo que necesitas,\nnada de más",
+    title: "Justo lo que necesitas",
     subtitle:
       "Simple por diseño. Sin funciones innecesarias, sin complejidad. Cada pantalla tiene un propósito.",
     budget: {
@@ -231,7 +232,8 @@ export const es: Translations = {
       "Cambia tu relación con el dinero. No con hojas de cálculo ni algoritmos, sino con conciencia. Mes a mes.",
     joinBeta: "Únete a la beta",
     betaEmailSubject: "Quiero unirme a la beta de Kakeibo",
-    betaEmailBody: "¡Hola! Me gustaría unirme a la beta.\n\nMi dispositivo (iOS/Android): \nMi email: ",
+    betaEmailBody:
+      "¡Hola! Me gustaría unirme a la beta.\n\nMi dispositivo (iOS/Android): \nMi email: ",
     appStoreLabel: "Descárgalo en",
     appStore: "App Store",
     playStoreLabel: "Disponible en",
