@@ -20,14 +20,6 @@ export const en = {
     tagline:
       "Track your spending, reflect on your habits, and discover where your money really goes. One month at a time.",
     joinBeta: "Join the beta",
-    betaEmailSubject: "Join Kakeibo Beta",
-    betaEmailBody:
-      "Hi! I'd love to join the beta.\n\nMy device (iOS/Android): \nMy email: ",
-    appStoreLabel: "Download on the",
-    appStore: "App Store",
-    playStoreLabel: "Get it on",
-    playStore: "Google Play",
-    comingSoon: "Coming soon to App Store & Google Play",
     principles: {
       offline: "100% Offline",
       privacy: "Privacy First",
@@ -35,6 +27,43 @@ export const en = {
       noTracking: "No Tracking",
     },
     screenshotAlt: "Kakeibo app showing budget overview",
+  },
+
+  beta: {
+    iosButton: "iPhone",
+    androidButton: "Android",
+    pages: {
+      backToHome: "Back to home",
+      ios: {
+        meta: {
+          title: "iOS Beta - Kakeibo",
+          description: "Install the Kakeibo beta on iPhone via TestFlight.",
+        },
+        title: "iOS Beta",
+        steps: [
+          "Install Apple's TestFlight app if you don't have it yet.",
+          "Tap the button below to open the invite link.",
+          "Accept the invite and install Kakeibo.",
+        ],
+        primaryAction: "Open TestFlight invite",
+        tip: "Works on iPhone. If the link opens in Safari first, TestFlight will take over once you confirm.",
+      },
+      android: {
+        meta: {
+          title: "Android Beta - Kakeibo",
+          description: "Install the Kakeibo beta on Android via Google Play.",
+        },
+        title: "Android Beta",
+        steps: [
+          "Join the Kakeibo testers Google Group.",
+          "Open the Google Play beta link with the same Google account.",
+          "Install the app.",
+        ],
+        primaryAction: "Open Google Play beta",
+        secondaryAction: "Join Google Group",
+        tip: "Both steps must use the same Google account. If Play says the app is unavailable, wait a minute and try again.",
+      },
+    },
   },
 
   // -- Philosophy --
@@ -227,15 +256,6 @@ export const en = {
     heading: "Start spending on what matters",
     description:
       "Change your relationship with money. Not with spreadsheets or algorithms, but with awareness. One month at a time.",
-    joinBeta: "Join the beta",
-    betaEmailSubject: "Join Kakeibo Beta",
-    betaEmailBody:
-      "Hi! I'd love to join the beta.\n\nMy device (iOS/Android): \nMy email: ",
-    appStoreLabel: "Download on the",
-    appStore: "App Store",
-    playStoreLabel: "Get it on",
-    playStore: "Google Play",
-    comingSoon: "Coming soon to App Store & Google Play",
   },
   footer: {
     appName: "Kakeibo",

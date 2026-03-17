@@ -1,0 +1,243 @@
+---
+import type { GetStaticPaths } from "astro";
+import { locales, getTranslations, type Locale } from "../../../i18n";
+import InnerLayout from "../../../layouts/InnerLayout.astro";
+import {
+    ANDROID_BETA_GROUP_URL,
+    ANDROID_BETA_PLAY_URL,
+    APPLE_TESTFLIGHT_URL,
+} from "../../../consts";
+
+type Platform = "ios" | "android";
+
+export const getStaticPaths: GetStaticPaths = () => {
+    return locales.flatMap((locale) =>
+        (["ios", "android"] as const).map((platform) => ({
+            params: { locale, platform },
+        })),
+    );
+};
+
+const locale = Astro.params.locale as Locale;
+const platform = Astro.params.platform as Platform;
+const t = getTranslations(locale);
+const pages = t.beta.pages;
+
+const page = platform === "ios" ? pages.ios : pages.android;
+const path = `beta/${platform}`;
+const isAndroid = platform === "android";
+---
+
+<InnerLayout
+    locale={locale}
+    t={t}
+    title={page.meta.title}
+    description={page.meta.description}
+    path={path}
+>
+    <a href={`/${locale}/`} class="back-link">&larr; {pages.backToHome}</a>
+
+    <h1 class="page-heading">{page.title}</h1>
+
+    <div class="content-card">
+        <div class="section-block">
+            <ol class="steps">
+                {page.steps.map((step: string, i: number) => (
+                    <li>
+                        <span class="step-number">{i + 1}</span>
+                        <span>{step}</span>
+                    </li>
+                ))}
+            </ol>
+        </div>
+
+        <div class="section-block actions">
+            {isAndroid && (
+                <a
+                    href={ANDROID_BETA_GROUP_URL}
+                    class="action-btn action-btn-outline"
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    <span class="action-order">1</span>
+                    {pages.android.secondaryAction}
+                </a>
+            )}
+            <a
+                href={isAndroid ? ANDROID_BETA_PLAY_URL : APPLE_TESTFLIGHT_URL}
+                class="action-btn action-btn-primary"
+                target="_blank"
+                rel="noreferrer"
+            >
+                {isAndroid && <span class="action-order">2</span>}
+                {page.primaryAction}
+            </a>
+        </div>
+
+        <p class="tip">{page.tip}</p>
+    </div>
+</InnerLayout>
+
+<style>
+    .back-link {
+        display: inline-flex;
+        margin-bottom: var(--space-xl);
+        color: var(--subtext);
+        font-size: 0.88rem;
+        transition: color var(--transition-fast);
+    }
+
+    .back-link:hover {
+        color: var(--text);
+    }
+
+    .page-heading {
+        font-family: "Sora", sans-serif;
+        font-size: clamp(2rem, 5vw, 3rem);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+        margin-bottom: var(--space-3xl);
+    }
+
+    .content-card {
+        background: var(--surface);
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-xl);
+        overflow: hidden;
+    }
+
+    .section-block {
+        padding: var(--space-xl);
+        border-bottom: 1px solid var(--border);
+    }
+
+    .section-block:last-child {
+        border-bottom: none;
+    }
+
+    /* Steps */
+    .steps {
+        list-style: none;
+        display: grid;
+        gap: var(--space-md);
+    }
+
+    .steps li {
+        display: flex;
+        align-items: baseline;
+        gap: var(--space-md);
+        color: var(--text-secondary);
+        line-height: 1.65;
+    }
+
+    .step-number {
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: rgba(255, 214, 102, 0.12);
+        color: var(--yellow);
+        font-size: 0.78rem;
+        font-weight: 700;
+        font-family: "Sora", sans-serif;
+    }
+
+    /* Actions */
+    .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-sm);
+    }
+
+    .action-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        min-height: 48px;
+        padding: 0 24px;
+        border-radius: var(--radius-lg);
+        font-size: 0.95rem;
+        font-weight: 700;
+        transition:
+            transform var(--transition-normal),
+            background-color var(--transition-normal),
+            border-color var(--transition-normal),
+            box-shadow var(--transition-normal);
+    }
+
+    .action-btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .action-btn-primary {
+        background: var(--blue);
+        color: var(--text);
+        box-shadow: 0 10px 24px rgba(17, 138, 178, 0.25);
+    }
+
+    .action-btn-primary:hover {
+        background: #0e9ac7;
+        box-shadow: 0 14px 28px rgba(17, 138, 178, 0.3);
+    }
+
+    .action-btn-outline {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--border-light);
+        color: var(--text);
+    }
+
+        .action-btn-outline:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .action-order {
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.12);
+        color: var(--text);
+        font-size: 0.78rem;
+        font-weight: 700;
+        font-family: "Sora", sans-serif;
+    }
+
+    .action-btn-primary .action-order {
+        background: rgba(255, 255, 255, 0.18);
+    }
+
+    /* Tip */
+    .tip {
+        padding: var(--space-lg) var(--space-xl);
+        color: var(--subtext);
+        font-size: 0.88rem;
+        line-height: 1.65;
+    }
+
+    @media (max-width: 640px) {
+        .section-block {
+            padding: var(--space-lg);
+        }
+
+        .tip {
+            padding: var(--space-md) var(--space-lg);
+        }
+
+        .actions {
+            flex-direction: column;
+        }
+
+        .action-btn {
+            width: 100%;
+        }
+    }
+</style>

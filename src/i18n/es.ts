@@ -23,14 +23,6 @@ export const es: Translations = {
     tagline:
       "Registra tus gastos, reflexiona sobre ellos y descubre dónde va realmente tu dinero. Mes a mes.",
     joinBeta: "Únete a la beta",
-    betaEmailSubject: "Quiero unirme a la beta de Kakeibo",
-    betaEmailBody:
-      "¡Hola! Me gustaría unirme a la beta.\n\nMi dispositivo (iOS/Android): \nMi email: ",
-    appStoreLabel: "Descárgalo en",
-    appStore: "App Store",
-    playStoreLabel: "Disponible en",
-    playStore: "Google Play",
-    comingSoon: "Próximamente en App Store y Google Play",
     principles: {
       offline: "100% offline",
       privacy: "Privacidad ante todo",
@@ -38,6 +30,44 @@ export const es: Translations = {
       noTracking: "Sin rastreo",
     },
     screenshotAlt: "App Kakeibo mostrando resumen del presupuesto",
+  },
+
+  beta: {
+    iosButton: "iPhone",
+    androidButton: "Android",
+    pages: {
+      backToHome: "Volver al inicio",
+      ios: {
+        meta: {
+          title: "Beta en iOS - Kakeibo",
+          description: "Instala la beta de Kakeibo en iPhone con TestFlight.",
+        },
+        title: "Beta en iOS",
+        steps: [
+          "Instala la app TestFlight de Apple si no la tienes.",
+          "Pulsa el bot\u00f3n de abajo para abrir el enlace de invitaci\u00f3n.",
+          "Acepta la invitaci\u00f3n e instala Kakeibo.",
+        ],
+        primaryAction: "Abrir invitaci\u00f3n de TestFlight",
+        tip: "Funciona en iPhone. Si el enlace se abre primero en Safari, TestFlight tomar\u00e1 el control cuando confirmes.",
+      },
+      android: {
+        meta: {
+          title: "Beta en Android - Kakeibo",
+          description:
+            "Instala la beta de Kakeibo en Android a trav\u00e9s de Google Play.",
+        },
+        title: "Beta en Android",
+        steps: [
+          "\u00danete al Google Group de testers de Kakeibo.",
+          "Abre el enlace de Google Play con la misma cuenta de Google.",
+          "Instala la app.",
+        ],
+        primaryAction: "Abrir beta en Google Play",
+        secondaryAction: "Unirse al Google Group",
+        tip: "Los dos pasos deben usar la misma cuenta de Google. Si Play dice que la app no est\u00e1 disponible, espera un minuto y vuelve a intentarlo.",
+      },
+    },
   },
 
   // -- Philosophy --
@@ -230,15 +260,6 @@ export const es: Translations = {
     heading: "Empieza a gastar en lo que importa",
     description:
       "Cambia tu relación con el dinero. No con hojas de cálculo ni algoritmos, sino con conciencia. Mes a mes.",
-    joinBeta: "Únete a la beta",
-    betaEmailSubject: "Quiero unirme a la beta de Kakeibo",
-    betaEmailBody:
-      "¡Hola! Me gustaría unirme a la beta.\n\nMi dispositivo (iOS/Android): \nMi email: ",
-    appStoreLabel: "Descárgalo en",
-    appStore: "App Store",
-    playStoreLabel: "Disponible en",
-    playStore: "Google Play",
-    comingSoon: "Próximamente en App Store y Google Play",
   },
   footer: {
     appName: "Kakeibo",

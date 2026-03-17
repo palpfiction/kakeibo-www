@@ -10,7 +10,6 @@ interface Props {
 
 const { locale, t } = Astro.props;
 const h = t.hero;
-const betaHref = `mailto:hola@getkakeibo.com?subject=${encodeURIComponent(h.betaEmailSubject)}&body=${encodeURIComponent(h.betaEmailBody)}`;
 ---
 
 <section class="hero" aria-label="Hero section">
@@ -34,51 +33,20 @@ const betaHref = `mailto:hola@getkakeibo.com?subject=${encodeURIComponent(h.beta
                 {h.tagline}
             </p>
 
-            <div class="hero-actions fade-in fade-in-delay-3">
-                <a
-                    href={betaHref}
-                    class="beta-button"
-                >
-                    {h.joinBeta}
-                </a>
-
-                <div class="store-buttons">
-                    <div class="store-button" aria-hidden="true">
-                        <svg
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            aria-hidden="true"
-                        >
-                            <path
-                                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"
-                            ></path>
-                        </svg>
-                        <span class="store-text">
-                            <small>{h.appStoreLabel}</small>
-                            <span>{h.appStore}</span>
-                        </span>
-                    </div>
-
-                    <div class="store-button" aria-hidden="true">
-                        <svg
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            aria-hidden="true"
-                        >
-                            <path
-                                d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"
-                            ></path>
-                        </svg>
-                        <span class="store-text">
-                            <small>{h.playStoreLabel}</small>
-                            <span>{h.playStore}</span>
-                        </span>
-                    </div>
-                </div>
-                <p class="coming-soon-note">
-                    {h.comingSoon}
-                </p>
-            </div>
+             <div class="hero-actions fade-in fade-in-delay-3">
+                 <a href="#cta" class="beta-button">
+                    <span>{h.joinBeta}</span>
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path
+                            d="M12 5v14M5 12l7 7 7-7"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        ></path>
+                    </svg>
+                 </a>
+             </div>
 
             <div class="principles fade-in fade-in-delay-4">
                 <span class="principle">
@@ -226,81 +194,48 @@ const betaHref = `mailto:hola@getkakeibo.com?subject=${encodeURIComponent(h.beta
 
     .hero-actions {
         margin-bottom: var(--space-xl);
+        max-width: 640px;
     }
 
     .beta-button {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        background: var(--blue);
+        gap: 8px;
+        min-height: 44px;
+        padding: 0 20px;
+        background:
+            linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 45%),
+            var(--blue);
         color: var(--text);
-        padding: 14px 32px;
         border-radius: var(--radius-lg);
-        font-size: 1rem;
-        font-weight: 600;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        font-size: 0.95rem;
+        font-weight: 700;
         transition:
             transform var(--transition-normal),
             background-color var(--transition-normal),
+            border-color var(--transition-normal),
             box-shadow var(--transition-normal);
-        box-shadow: 0 4px 16px rgba(17, 138, 178, 0.25);
-        margin-bottom: var(--space-lg);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.08),
+            0 10px 24px rgba(17, 138, 178, 0.25);
     }
 
     .beta-button:hover {
         transform: translateY(-2px);
         background: #0e9ac7;
-        box-shadow: 0 6px 24px rgba(17, 138, 178, 0.35);
+        border-color: rgba(255, 255, 255, 0.18);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.1),
+            0 14px 28px rgba(17, 138, 178, 0.3);
     }
 
-    .store-buttons {
-        display: flex;
-        gap: var(--space-sm);
-        margin-bottom: var(--space-xs);
-    }
-
-    .store-button {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background-color: var(--surface);
-        color: var(--text);
-        padding: 8px 14px;
-        border-radius: var(--radius-md);
-        font-weight: 500;
-        border: 1px solid var(--border);
-        opacity: 0.3;
-        filter: grayscale(1);
-        pointer-events: none;
-        user-select: none;
-        font-size: 0.85rem;
-    }
-
-    .store-button svg {
-        width: 18px;
-        height: 18px;
+    .beta-button svg {
+        width: 14px;
+        height: 14px;
         flex-shrink: 0;
-    }
-
-    .store-text {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        line-height: 1.2;
-    }
-
-    .store-text small {
-        font-size: 0.6rem;
-        color: var(--subtext);
-        font-weight: 400;
-    }
-    .store-text span {
-        font-size: 0.8rem;
-    }
-
-    .coming-soon-note {
-        font-size: 0.75rem;
-        color: var(--subtext);
-        opacity: 0.6;
+        opacity: 0.9;
     }
 
     .principles {
@@ -393,9 +328,6 @@ const betaHref = `mailto:hola@getkakeibo.com?subject=${encodeURIComponent(h.beta
             width: 100%;
             max-width: 280px;
         }
-        .store-buttons {
-            justify-content: center;
-        }
         .principles {
             justify-content: center;
         }
@@ -414,15 +346,6 @@ const betaHref = `mailto:hola@getkakeibo.com?subject=${encodeURIComponent(h.beta
     @media (max-width: 480px) {
         .hero {
             padding-top: var(--space-2xl);
-        }
-        .store-buttons {
-            flex-direction: column;
-            align-items: center;
-        }
-        .store-button {
-            width: 100%;
-            max-width: 200px;
-            justify-content: center;
         }
         .hero-screenshot {
             width: 220px;
