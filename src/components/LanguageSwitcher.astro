@@ -6,6 +6,8 @@ interface Props {
     t: Translations;
     /** Optional sub-path to append, e.g. "privacy" → /es/privacy/ */
     path?: string;
+    /** Optional explicit href map, useful when localized slugs differ. */
+    hrefs?: Partial<Record<Locale, string>>;
     /**
      * Whether the switcher is fixed-positioned (default: true).
      * Pass false when embedding inside a header.
@@ -13,10 +15,12 @@ interface Props {
     fixed?: boolean;
 }
 
-const { locale, path, fixed = true } = Astro.props;
+const { locale, path, hrefs, fixed = true } = Astro.props;
 const otherLocale: Locale = locale === "en" ? "es" : "en";
 const otherLabel = otherLocale === "en" ? "EN" : "ES";
-const otherHref = path ? `/${otherLocale}/${path}/` : `/${otherLocale}/`;
+const otherHref =
+    hrefs?.[otherLocale] ??
+    (path ? `/${otherLocale}/${path}/` : `/${otherLocale}/`);
 ---
 
 <nav class:list={["lang-switcher", { "lang-switcher--fixed": fixed }]} aria-label="Language">

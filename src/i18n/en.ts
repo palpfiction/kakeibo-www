@@ -260,9 +260,35 @@ export const en = {
   footer: {
     appName: "Kakeibo",
     tagline: "Spend on what matters",
+    blog: "Blog",
     contact: "Contact",
     privacyPolicy: "Privacy Policy",
     rights: "All rights reserved.",
+  },
+
+  blog: {
+    listing: {
+      meta: {
+        title: "The Kakeibo blog",
+        description:
+          "Human-written articles about Kakeibo, Japanese budgeting, mindful spending, and practical ways to build a calmer money habit with the Kakeibo app.",
+      },
+      title: "The Kakeibo blog",
+      intro:
+        "Short, practical articles about the Kakeibo method, mindful budgeting, and how to put it into practice inside the app.",
+      humanWrittenBody:
+        "This blog is written by humans for humans, without the help of any AI. Mistakes are our own.",
+      ctaTitle: "Put the method into practice",
+      ctaDescription:
+        "Try Kakeibo on iPhone or Android and start spending on what matters.",
+    },
+    post: {
+      blogName: "The Kakeibo blog",
+      backToBlog: "Back to blog",
+      byAuthor: "By",
+      alternateEnglish: "Read the English version",
+      alternateSpanish: "Leer la versión en español",
+    },
   },
 
   // -- Privacy Policy page --

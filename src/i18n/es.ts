@@ -264,9 +264,35 @@ export const es: Translations = {
   footer: {
     appName: "Kakeibo",
     tagline: "Gasta en lo que importa",
+    blog: "Blog",
     contact: "Contacto",
     privacyPolicy: "Política de privacidad",
     rights: "Todos los derechos reservados.",
+  },
+
+  blog: {
+    listing: {
+      meta: {
+        title: "El blog de Kakeibo",
+        description:
+          "Artículos sobre Kakeibo, el presupuesto japonés, el gasto consciente y formas prácticas de crear un hábito financiero más sereno con la app.",
+      },
+      title: "El blog de Kakeibo",
+      intro:
+        "Artículos breves y prácticos sobre el método Kakeibo, el presupuesto consciente y cómo llevarlo a la práctica dentro de la app.",
+      humanWrittenBody:
+        "Este blog está escrito por humanos para humanos, sin la ayuda de ninguna IA. Los errores son nuestros.",
+      ctaTitle: "Llévalo a la práctica",
+      ctaDescription:
+        "Prueba Kakeibo en iPhone o Android y empieza a gastar en lo que importa.",
+    },
+    post: {
+      blogName: "El blog de Kakeibo",
+      backToBlog: "Volver al blog",
+      byAuthor: "Por",
+      alternateEnglish: "Read the English version",
+      alternateSpanish: "Leer la versión en español",
+    },
   },
 
   // -- Privacy Policy page --

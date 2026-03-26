@@ -1,0 +1,248 @@
+---
+import type { GetStaticPaths } from "astro";
+import {
+    locales,
+    getTranslations,
+    type Locale,
+    type Translations,
+} from "../../../i18n";
+import InnerLayout from "../../../layouts/InnerLayout.astro";
+import BlogCta from "../../../components/BlogCta.astro";
+import {
+    formatBlogDate,
+    getAlternateBlogEntry,
+    getBlogEntries,
+    getBlogIndexUrl,
+    getEntrySlug,
+    getBlogPostUrl,
+    type BlogEntry,
+} from "../../../lib/blog";
+
+export const getStaticPaths: GetStaticPaths = () => {
+    return locales.map((locale) => ({
+        params: { locale },
+    }));
+};
+
+const locale = Astro.params.locale as Locale;
+const t: Translations = getTranslations(locale);
+const blogTranslations = t.blog.listing;
+const entries = await getBlogEntries(locale);
+
+const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: blogTranslations.title,
+    description: blogTranslations.meta.description,
+    url: getBlogIndexUrl(locale),
+    inLanguage: locale === "es" ? "es-ES" : "en-US",
+    publisher: {
+        "@type": "Organization",
+        name: t.footer.appName,
+        url: "https://getkakeibo.com",
+    },
+    blogPost: await Promise.all(
+        entries.map(async (entry: BlogEntry) => {
+            const alternateEntry = await getAlternateBlogEntry(entry);
+
+            return {
+                "@type": "BlogPosting",
+                headline: entry.data.title,
+                description: entry.data.description,
+                url: getBlogPostUrl(locale, getEntrySlug(entry)),
+                datePublished: entry.data.publishedAt.toISOString(),
+                dateModified: (
+                    entry.data.updatedAt ?? entry.data.publishedAt
+                ).toISOString(),
+                keywords: entry.data.tags.join(", "),
+                author: {
+                    "@type": "Person",
+                    name: entry.data.author.name,
+                },
+                mainEntityOfPage: getBlogPostUrl(locale, getEntrySlug(entry)),
+                inLanguage: entry.data.locale === "es" ? "es-ES" : "en-US",
+                translationOfWork: alternateEntry
+                    ? {
+                          "@type": "BlogPosting",
+                          url: getBlogPostUrl(
+                              alternateEntry.data.locale,
+                              getEntrySlug(alternateEntry),
+                          ),
+                      }
+                    : undefined,
+            };
+        }),
+    ),
+};
+---
+
+<InnerLayout
+    locale={locale}
+    t={t}
+    title={blogTranslations.meta.title}
+    description={blogTranslations.meta.description}
+    path="blog"
+    jsonLd={jsonLd}
+>
+    <section class="blog-header">
+        <h1>{blogTranslations.title}</h1>
+        <p class="intro">{blogTranslations.intro}</p>
+        <p class="human-note" role="note">
+            {blogTranslations.humanWrittenBody}
+        </p>
+    </section>
+
+    <section class="post-list" aria-label={blogTranslations.title}>
+        {
+            entries.map((entry: BlogEntry) => (
+                <article class="post-item">
+                    <div class="post-top">
+                        <div>
+                            <time
+                                datetime={entry.data.publishedAt.toISOString()}
+                            >
+                                {formatBlogDate(entry.data.publishedAt, locale)}
+                            </time>
+                        </div>
+                        <span class="reading-time">
+                            {entry.data.readingTime}
+                        </span>
+                    </div>
+
+                    <h2>
+                        <a href={`/${locale}/blog/${getEntrySlug(entry)}/`}>
+                            {entry.data.title}
+                        </a>
+                    </h2>
+
+                    <p class="post-excerpt">{entry.data.excerpt}</p>
+
+                    <div class="post-author">
+                        <img
+                            src={entry.data.author.image}
+                            alt={entry.data.author.name}
+                            width="40"
+                            height="40"
+                            loading="lazy"
+                        />
+                        <span>{entry.data.author.name}</span>
+                    </div>
+                </article>
+            ))
+        }
+    </section>
+
+    <BlogCta locale={locale} t={t} />
+</InnerLayout>
+
+<style>
+    .blog-header {
+        margin-bottom: var(--space-3xl);
+    }
+
+    .blog-header h1 {
+        font-family: "Sora", sans-serif;
+        font-size: clamp(2.1rem, 4.5vw, 3.4rem);
+        line-height: 1.03;
+        letter-spacing: -0.04em;
+        margin-bottom: var(--space-md);
+    }
+
+    .intro,
+    .post-excerpt {
+        color: var(--text-secondary);
+        line-height: 1.75;
+    }
+
+    .intro {
+        margin-bottom: var(--space-md);
+    }
+
+    .human-note {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.7rem 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: var(--radius-lg);
+        background:
+            linear-gradient(
+                180deg,
+                rgba(255, 255, 255, 0.05),
+                rgba(255, 255, 255, 0.02)
+            ),
+            var(--surface);
+        color: var(--text);
+        line-height: 1.5;
+        font-size: 0.95rem;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    .post-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .post-item {
+        padding: var(--space-xl) 0;
+        border-bottom: 1px solid var(--border-light);
+    }
+
+    .post-item:first-child {
+        border-top: 1px solid var(--border-light);
+    }
+
+    .post-top {
+        display: flex;
+        justify-content: space-between;
+        gap: var(--space-md);
+        color: var(--subtext);
+        font-size: 0.9rem;
+        margin-bottom: var(--space-md);
+    }
+
+    .post-item h2 {
+        font-family: "Sora", sans-serif;
+        font-size: clamp(1.35rem, 2vw, 1.7rem);
+        line-height: 1.15;
+        letter-spacing: -0.03em;
+        margin-bottom: var(--space-sm);
+    }
+
+    .post-item h2 a:hover {
+        color: var(--green);
+    }
+
+    .post-excerpt {
+        margin-bottom: var(--space-lg);
+    }
+
+    .post-author {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        color: var(--text);
+        font-weight: 500;
+    }
+
+    .post-author img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid var(--border-light);
+    }
+
+    .reading-time {
+        white-space: nowrap;
+    }
+
+    @media (max-width: 640px) {
+        .post-item {
+            padding: var(--space-lg) 0;
+        }
+
+        .post-top {
+            flex-direction: column;
+        }
+    }
+</style>

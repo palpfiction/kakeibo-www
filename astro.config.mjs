@@ -17,4 +17,14 @@ export default defineConfig({
             },
         }),
     ],
+    vite: {
+        server: {
+            watch: {
+                awaitWriteFinish: {
+                    stabilityThreshold: 150,
+                    pollInterval: 25,
+                },
+            },
+        },
+    },
 });

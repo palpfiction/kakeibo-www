@@ -1,0 +1,342 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection, render } from "astro:content";
+import { getTranslations, type Locale, type Translations } from "../../../i18n";
+import InnerLayout from "../../../layouts/InnerLayout.astro";
+import BlogCta from "../../../components/BlogCta.astro";
+import {
+    formatBlogDate,
+    getAlternateBlogEntry,
+    getEntrySlug,
+    getBlogIndexUrl,
+    getBlogPostUrl,
+    type BlogEntry,
+} from "../../../lib/blog";
+
+export const getStaticPaths: GetStaticPaths = async () => {
+    const entries: BlogEntry[] = await getCollection("blog");
+
+    return entries.map((entry: BlogEntry) => ({
+        params: {
+            locale: entry.data.locale,
+            slug: getEntrySlug(entry),
+        },
+        props: { entry },
+    }));
+};
+
+const { entry } = Astro.props as { entry: BlogEntry };
+const locale = Astro.params.locale as Locale;
+const t: Translations = getTranslations(locale);
+const blogT = t.blog.post;
+const { Content } = await render(entry);
+const alternateEntry = await getAlternateBlogEntry(entry);
+const canonicalSlug = getEntrySlug(entry);
+const canonicalUrl = getBlogPostUrl(locale, canonicalSlug);
+const englishUrl =
+    locale === "en"
+        ? canonicalUrl
+        : alternateEntry?.data.locale === "en"
+          ? getBlogPostUrl("en", getEntrySlug(alternateEntry))
+          : canonicalUrl;
+
+const alternateLinks = [
+    { hreflang: locale, href: canonicalUrl },
+    ...(alternateEntry
+        ? [
+              {
+                  hreflang: alternateEntry.data.locale,
+                  href: getBlogPostUrl(
+                      alternateEntry.data.locale,
+                      getEntrySlug(alternateEntry),
+                  ),
+              },
+          ]
+        : []),
+    { hreflang: "x-default", href: englishUrl },
+];
+
+const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: entry.data.seoTitle,
+    description: entry.data.seoDescription,
+    url: canonicalUrl,
+    image: ["https://getkakeibo.com/ogimage.png"],
+    datePublished: entry.data.publishedAt.toISOString(),
+    dateModified: (
+        entry.data.updatedAt ?? entry.data.publishedAt
+    ).toISOString(),
+    inLanguage: locale === "es" ? "es-ES" : "en-US",
+    keywords: entry.data.tags.join(", "),
+    author: {
+        "@type": "Person",
+        name: entry.data.author.name,
+        image: `https://getkakeibo.com${entry.data.author.image}`,
+    },
+    publisher: {
+        "@type": "Organization",
+        name: t.footer.appName,
+        url: "https://getkakeibo.com",
+        logo: {
+            "@type": "ImageObject",
+            url: "https://getkakeibo.com/ogimage.png",
+        },
+    },
+    mainEntityOfPage: canonicalUrl,
+    isAccessibleForFree: true,
+};
+
+const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+        {
+            "@type": "ListItem",
+            position: 1,
+            name: t.footer.appName,
+            item: `https://getkakeibo.com/${locale}/`,
+        },
+        {
+            "@type": "ListItem",
+            position: 2,
+            name: blogT.blogName,
+            item: getBlogIndexUrl(locale),
+        },
+        {
+            "@type": "ListItem",
+            position: 3,
+            name: entry.data.title,
+            item: canonicalUrl,
+        },
+    ],
+};
+---
+
+<InnerLayout
+    locale={locale}
+    t={t}
+    title={entry.data.seoTitle}
+    description={entry.data.seoDescription}
+    canonicalUrl={canonicalUrl}
+    alternateLinks={alternateLinks}
+    jsonLd={[articleJsonLd, breadcrumbJsonLd]}
+    ogType="article"
+    switcherHrefs={alternateEntry
+        ? {
+              [locale]: `/${locale}/blog/${canonicalSlug}/`,
+              [alternateEntry.data.locale]:
+                  `/${alternateEntry.data.locale}/blog/${getEntrySlug(alternateEntry)}/`,
+          }
+        : undefined}
+>
+    <a href={`/${locale}/blog/`} class="back-link">{blogT.backToBlog}</a>
+
+    <article class="article-shell">
+        <header class="article-header">
+            <h1>{entry.data.title}</h1>
+            <p class="article-description">{entry.data.description}</p>
+
+            <div class="meta-row">
+                <div class="author-inline">
+                    <img
+                        src={entry.data.author.image}
+                        alt={entry.data.author.name}
+                        width="40"
+                        height="40"
+                    />
+                    <span>{blogT.byAuthor} {entry.data.author.name}</span>
+                </div>
+                <span>{entry.data.readingTime}</span>
+            </div>
+
+            <div class="date-row">
+                <p>
+                    <time datetime={entry.data.publishedAt.toISOString()}>
+                        {formatBlogDate(entry.data.publishedAt, locale)}
+                    </time>
+                </p>
+            </div>
+
+            {
+                alternateEntry && (
+                    <a
+                        href={`/${alternateEntry.data.locale}/blog/${getEntrySlug(alternateEntry)}/`}
+                        class="alternate-link"
+                        hreflang={alternateEntry.data.locale}
+                        rel="alternate"
+                    >
+                        {alternateEntry.data.locale === "en"
+                            ? blogT.alternateEnglish
+                            : blogT.alternateSpanish}
+                    </a>
+                )
+            }
+        </header>
+
+        <div class="prose">
+            <Content />
+        </div>
+    </article>
+
+    <BlogCta locale={locale} t={t} />
+</InnerLayout>
+
+<style>
+    .back-link,
+    .alternate-link {
+        color: var(--text-secondary);
+        transition: color var(--transition-fast);
+    }
+
+    .back-link:hover,
+    .alternate-link:hover {
+        color: var(--green);
+    }
+
+    .back-link {
+        display: inline-flex;
+        margin-bottom: var(--space-xl);
+        font-size: 0.95rem;
+    }
+
+    .article-shell {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .article-header h1 {
+        font-family: "Sora", sans-serif;
+        font-size: clamp(2.2rem, 5vw, 3.8rem);
+        line-height: 1.02;
+        letter-spacing: -0.05em;
+        margin-bottom: var(--space-md);
+    }
+
+    .article-description {
+        color: var(--text-secondary);
+        line-height: 1.8;
+    }
+
+    .article-description {
+        margin-bottom: var(--space-lg);
+    }
+
+    .meta-row,
+    .date-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: var(--space-md);
+        color: var(--subtext);
+        font-size: 0.92rem;
+    }
+
+    .meta-row {
+        align-items: center;
+        margin-bottom: var(--space-md);
+    }
+
+    .author-inline {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        color: var(--text);
+    }
+
+    .author-inline img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid var(--border-light);
+    }
+
+    .date-row {
+        margin-bottom: var(--space-lg);
+    }
+
+    .date-row p {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .alternate-link {
+        display: inline-flex;
+        margin-bottom: var(--space-2xl);
+        font-weight: 600;
+    }
+
+    .prose {
+        font-size: 1.03rem;
+        line-height: 1.85;
+        color: var(--text-secondary);
+    }
+
+    .prose :global(h2),
+    .prose :global(h3) {
+        font-family: "Sora", sans-serif;
+        color: var(--text);
+        letter-spacing: -0.03em;
+        line-height: 1.15;
+        scroll-margin-top: 104px;
+    }
+
+    .prose :global(h2) {
+        font-size: 1.8rem;
+        margin: var(--space-2xl) 0 var(--space-md);
+    }
+
+    .prose :global(h3) {
+        font-size: 1.25rem;
+        margin: var(--space-xl) 0 var(--space-sm);
+    }
+
+    .prose :global(p),
+    .prose :global(ul),
+    .prose :global(ol),
+    .prose :global(blockquote) {
+        margin-bottom: var(--space-lg);
+    }
+
+    .prose :global(ul),
+    .prose :global(ol) {
+        padding-left: 1.2rem;
+    }
+
+    .prose :global(li + li) {
+        margin-top: 0.45rem;
+    }
+
+    .prose :global(strong) {
+        color: var(--text);
+    }
+
+    .prose :global(a) {
+        color: var(--green);
+        text-decoration: underline;
+        text-underline-offset: 0.16em;
+    }
+
+    .prose :global(blockquote) {
+        padding: var(--space-md) var(--space-lg);
+        border-left: 3px solid var(--green);
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        color: var(--text);
+    }
+
+    .prose :global(hr) {
+        border: 0;
+        border-top: 1px solid var(--border);
+        margin: var(--space-2xl) 0;
+    }
+
+    @media (max-width: 640px) {
+        .meta-row,
+        .date-row {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+</style>
