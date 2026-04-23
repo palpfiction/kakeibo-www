@@ -221,7 +221,7 @@ export const en = {
     dataExport: {
       title: "Your data, always exportable",
       description:
-        "Export your data as CSV or take the full SQLite database with you. Edit it, back it up, restore it — we won't stop you. Your financial history belongs to you.",
+        "Export your data as CSV or take the full SQLite database with you. Edit it, back it up, restore it: we won't stop you. Your financial history belongs to you.",
     },
   },
 

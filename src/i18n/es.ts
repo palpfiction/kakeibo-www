@@ -225,7 +225,7 @@ export const es: Translations = {
     dataExport: {
       title: "Tus datos, siempre exportables",
       description:
-        "Exporta tus datos en CSV o llévate la base de datos SQLite completa. Edítala, hazle una copia de seguridad, restáurala — no vamos a impedírtelo. Tu historial financiero es tuyo.",
+        "Exporta tus datos en CSV o llévate la base de datos SQLite completa. Edítala, hazle una copia de seguridad, restáurala: no vamos a impedírtelo. Tu historial financiero es tuyo.",
     },
   },
 
