@@ -1,6 +1,6 @@
 ---
 import type { Locale, Translations } from "../i18n";
-import BetaAccess from "./BetaAccess.astro";
+import AppDownload from "./AppDownload.astro";
 
 interface Props {
     locale: Locale;
@@ -18,7 +18,7 @@ const blogT = t.blog.listing;
     </div>
 
     <div class="actions">
-        <BetaAccess locale={locale} t={t} />
+        <AppDownload />
     </div>
 </section>
 
@@ -29,8 +29,17 @@ const blogT = t.blog.listing;
         border-radius: var(--radius-xl);
         border: 1px solid rgba(6, 214, 160, 0.18);
         background:
-            radial-gradient(circle at top right, rgba(255, 209, 102, 0.12), transparent 32%),
-            linear-gradient(135deg, rgba(6, 214, 160, 0.16), rgba(17, 138, 178, 0.12) 58%, rgba(12, 13, 13, 0.4));
+            radial-gradient(
+                circle at top right,
+                rgba(255, 209, 102, 0.12),
+                transparent 32%
+            ),
+            linear-gradient(
+                135deg,
+                rgba(6, 214, 160, 0.16),
+                rgba(17, 138, 178, 0.12) 58%,
+                rgba(12, 13, 13, 0.4)
+            );
         box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
         overflow: hidden;
         position: relative;
@@ -46,7 +55,11 @@ const blogT = t.blog.listing;
         width: 280px;
         height: 280px;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(17, 138, 178, 0.22), transparent 68%);
+        background: radial-gradient(
+            circle,
+            rgba(17, 138, 178, 0.22),
+            transparent 68%
+        );
         pointer-events: none;
     }
 
@@ -75,9 +88,6 @@ const blogT = t.blog.listing;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .blog-cta :global(.beta-buttons) {
-        justify-content: flex-start;
-    }
 
     .blog-cta :global(.store-btn) {
         background: rgba(12, 13, 13, 0.36);

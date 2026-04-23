@@ -19,7 +19,6 @@ export const en = {
     subheading: "Spend on what matters",
     tagline:
       "Track your spending, reflect on your habits, and discover where your money really goes. One month at a time.",
-    joinBeta: "Join the beta",
     principles: {
       offline: "100% Offline",
       privacy: "Privacy First",
@@ -27,43 +26,6 @@ export const en = {
       noTracking: "No Tracking",
     },
     screenshotAlt: "Kakeibo app showing budget overview",
-  },
-
-  beta: {
-    iosButton: "iPhone",
-    androidButton: "Android",
-    pages: {
-      backToHome: "Back to home",
-      ios: {
-        meta: {
-          title: "iOS Beta - Kakeibo",
-          description: "Install the Kakeibo beta on iPhone via TestFlight.",
-        },
-        title: "iOS Beta",
-        steps: [
-          "Install Apple's TestFlight app if you don't have it yet.",
-          "Tap the button below to open the invite link.",
-          "Accept the invite and install Kakeibo.",
-        ],
-        primaryAction: "Open TestFlight invite",
-        tip: "Works on iPhone. If the link opens in Safari first, TestFlight will take over once you confirm.",
-      },
-      android: {
-        meta: {
-          title: "Android Beta - Kakeibo",
-          description: "Install the Kakeibo beta on Android via Google Play.",
-        },
-        title: "Android Beta",
-        steps: [
-          "Join the Kakeibo testers Google Group.",
-          "Open the Google Play beta link with the same Google account.",
-          "Install the app.",
-        ],
-        primaryAction: "Open Google Play beta",
-        secondaryAction: "Join Google Group",
-        tip: "Both steps must use the same Google account. If Play says the app is unavailable, wait a minute and try again.",
-      },
-    },
   },
 
   // -- Philosophy --
@@ -280,7 +242,7 @@ export const en = {
         "This blog is written by humans for humans, without the help of any AI. Mistakes are our own.",
       ctaTitle: "Put the method into practice",
       ctaDescription:
-        "Try Kakeibo on iPhone or Android and start spending on what matters.",
+        "Try Kakeibo on iOS or Android and start spending on what matters.",
     },
     post: {
       blogName: "The Kakeibo blog",

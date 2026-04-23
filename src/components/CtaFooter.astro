@@ -3,7 +3,7 @@ import type { Locale, Translations } from "../i18n";
 import { Image } from "astro:assets";
 import icon from "../assets/icon.svg";
 import PageFooter from "./PageFooter.astro";
-import BetaAccess from "./BetaAccess.astro";
+import AppDownload from "./AppDownload.astro";
 
 interface Props {
     locale: Locale;
@@ -21,7 +21,9 @@ const ct = t.cta;
             <h2>{ct.heading}</h2>
             <p>{ct.description}</p>
 
-            <BetaAccess locale={locale} t={t} />
+            <div class="cta-actions">
+                <AppDownload />
+            </div>
         </div>
     </div>
 </section>
@@ -79,5 +81,10 @@ const ct = t.cta;
         color: var(--subtext);
         line-height: 1.7;
         margin-bottom: var(--space-lg);
+    }
+
+    .cta-actions {
+        display: flex;
+        justify-content: center;
     }
 </style>
