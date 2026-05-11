@@ -1,0 +1,129 @@
+---
+import { Image } from "astro:assets";
+import { SITE_URL } from "../consts";
+import { getTranslations } from "../i18n";
+import PromoCodeClaim from "../components/PromoCodeClaim.astro";
+import InnerLayout from "../layouts/InnerLayout.astro";
+import icon from "../assets/icon.svg";
+
+const locale = "en" as const;
+const t = getTranslations(locale);
+const title = "Kakeibo — Hacker News promo codes";
+const description =
+    "Get a free Kakeibo promo code for iOS or Android and send feedback.";
+const promoEndpoint = "https://kakeibot.palpspi.duckdns.org/promo-code";
+const supportEmail = "pablo@getkakeibo.com";
+---
+
+<InnerLayout
+    locale={locale}
+    t={t}
+    title={title}
+    description={description}
+    canonicalUrl={`${SITE_URL}/hn/`}
+    robots="noindex, nofollow, noarchive"
+    showLanguageSwitcher={false}
+    contentWidth="narrow"
+>
+    <section class="hn-page">
+        <div class="hn-copy fade-in fade-in-delay-1">
+            <h1>Hey HN, try Kakeibo for free</h1>
+            <p>
+                Pick your platform below to get a promo code. Try the app and
+                send me honest feedback. If you like it, keep using it, it's
+                yours forever.
+            </p>
+        </div>
+
+        <PromoCodeClaim endpoint={promoEndpoint} />
+
+        <p class="fair-use fade-in fade-in-delay-2">
+            <strong>Fair use:</strong> one code per IP and platform. If anything breaks,
+            or there are no more promo codes available, email <a
+                href={`mailto:${supportEmail}`}>{supportEmail}</a
+            >.
+        </p>
+    </section>
+</InnerLayout>
+
+<style>
+    .hn-page {
+        display: grid;
+        gap: clamp(18px, 3vw, 28px);
+        padding-top: var(--space-xs);
+    }
+
+    .hn-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--subtext);
+        font-size: 0.88rem;
+        font-weight: 600;
+    }
+
+    .hn-kicker img {
+        width: 28px;
+        height: 28px;
+    }
+
+    .hn-copy {
+        display: grid;
+        gap: 12px;
+    }
+
+    .hn-copy h1 {
+        font-family: "Sora", sans-serif;
+        font-size: clamp(2.1rem, 6vw, 3.15rem);
+        line-height: 1.06;
+        letter-spacing: -0.045em;
+        max-width: 11ch;
+    }
+
+    .hn-copy p {
+        max-width: 46ch;
+        color: var(--text-secondary);
+        font-size: 1.02rem;
+        line-height: 1.75;
+    }
+
+    .fair-use {
+        max-width: 58ch;
+        color: var(--subtext);
+        font-size: 0.94rem;
+        line-height: 1.7;
+        margin-top: 2px;
+    }
+
+    .fair-use strong {
+        color: var(--text);
+    }
+
+    .fair-use a {
+        color: var(--green);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+    }
+
+    @media (max-width: 640px) {
+        .hn-page {
+            gap: var(--space-lg);
+            padding-top: 0;
+        }
+
+        .hn-copy h1 {
+            max-width: 12ch;
+        }
+
+        .hn-copy p,
+        .fair-use {
+            font-size: 0.98rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hn-copy h1 {
+            max-width: none;
+        }
+    }
+</style>

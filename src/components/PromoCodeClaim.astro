@@ -1,0 +1,402 @@
+---
+interface Props {
+    endpoint: string;
+}
+
+const { endpoint } = Astro.props;
+---
+
+<section
+    class="promo-picker fade-in fade-in-delay-2"
+    data-promo-code-claim
+    data-endpoint={endpoint}
+    data-state="idle"
+>
+    <div
+        class="platform-buttons"
+        role="group"
+        aria-label="Choose your platform"
+    >
+        <button type="button" class="platform-btn" data-platform="ios">
+            iOS
+        </button>
+        <button type="button" class="platform-btn" data-platform="android">
+            Android
+        </button>
+    </div>
+
+    <p class="picker-message" data-promo-message hidden></p>
+
+    <div class="promo-result" data-promo-result hidden>
+        <div class="promo-result-head">
+            <p class="promo-result-label" data-promo-platform>Promo code</p>
+            <button type="button" class="copy-btn" data-copy-btn disabled>
+                Copy
+            </button>
+        </div>
+
+        <button
+            type="button"
+            class="promo-code"
+            data-copy-surface
+            disabled
+            aria-label="Copy promo code"
+        >
+            <span data-promo-code></span>
+        </button>
+    </div>
+</section>
+
+<style>
+    .promo-picker {
+        display: grid;
+        gap: 14px;
+        padding: var(--space-lg);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.02);
+    }
+
+    .platform-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .platform-btn {
+        appearance: none;
+        border: 1px solid var(--border-light);
+        background: var(--surface);
+        color: var(--text);
+        min-height: 48px;
+        padding: 0 18px;
+        border-radius: 14px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+            transform var(--transition-fast),
+            border-color var(--transition-fast),
+            background-color var(--transition-fast),
+            opacity var(--transition-fast);
+    }
+
+    .platform-btn:hover:not(:disabled) {
+        transform: translateY(-1px);
+        border-color: rgba(255, 255, 255, 0.2);
+        background: var(--surface-hover);
+    }
+
+    .platform-btn[data-active="true"] {
+        border-color: rgba(255, 255, 255, 0.22);
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .platform-btn:disabled {
+        cursor: wait;
+        opacity: 0.72;
+    }
+
+    .picker-message {
+        color: var(--subtext);
+        line-height: 1.6;
+        font-size: 0.92rem;
+        margin: 0;
+    }
+
+    .promo-picker[data-state="error"] .picker-message {
+        color: #ff8da8;
+    }
+
+    .promo-result {
+        border: 1px dashed var(--border-light);
+        border-radius: 16px;
+        padding: var(--space-md);
+        background: rgba(12, 13, 13, 0.32);
+    }
+
+    .promo-result-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-md);
+        margin-bottom: 10px;
+    }
+
+    .promo-result-label {
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--subtext);
+    }
+
+    .copy-btn {
+        appearance: none;
+        border: 1px solid var(--border-light);
+        background: transparent;
+        color: var(--text);
+        border-radius: var(--radius-pill);
+        padding: 6px 12px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+            background-color var(--transition-fast),
+            border-color var(--transition-fast),
+            opacity var(--transition-fast);
+    }
+
+    .copy-btn:hover:not(:disabled) {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .copy-btn:disabled {
+        cursor: default;
+        opacity: 0.5;
+    }
+
+    .promo-code {
+        width: 100%;
+        appearance: none;
+        border: 0;
+        background: transparent;
+        color: var(--text);
+        padding: 0;
+        text-align: left;
+        font-family: "JetBrains Mono", "Fira Mono", "Courier New", monospace;
+        font-size: clamp(1.05rem, 3vw, 1.4rem);
+        line-height: 1.5;
+        letter-spacing: 0.11em;
+        word-break: break-word;
+        cursor: copy;
+    }
+
+    .promo-code:disabled {
+        cursor: default;
+    }
+
+    @media (max-width: 640px) {
+        .promo-picker {
+            padding: var(--space-md);
+        }
+
+        .platform-buttons {
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+
+        .platform-btn {
+            text-align: left;
+        }
+    }
+</style>
+
+<script is:inline>
+    (() => {
+        const platformLabels = {
+            ios: "iOS",
+            android: "Android",
+        };
+
+        const copyToClipboard = async (text) => {
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(text);
+                return;
+            }
+
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            textarea.setAttribute("readonly", "");
+            textarea.style.position = "fixed";
+            textarea.style.top = "0";
+            textarea.style.left = "-9999px";
+            document.body.appendChild(textarea);
+            textarea.focus();
+            textarea.select();
+
+            const copied = document.execCommand("copy");
+            document.body.removeChild(textarea);
+
+            if (!copied) {
+                throw new Error("Copy failed");
+            }
+        };
+
+        document.querySelectorAll("[data-promo-code-claim]").forEach((root) => {
+            const endpoint = root.dataset.endpoint;
+            const buttons = Array.from(
+                root.querySelectorAll("[data-platform]"),
+            );
+            const message = root.querySelector("[data-promo-message]");
+            const result = root.querySelector("[data-promo-result]");
+            const platformLabel = root.querySelector("[data-promo-platform]");
+            const codeValue = root.querySelector("[data-promo-code]");
+            const codeSurface = root.querySelector("[data-copy-surface]");
+            const copyButton = root.querySelector("[data-copy-btn]");
+
+            if (
+                !endpoint ||
+                !message ||
+                !result ||
+                !platformLabel ||
+                !codeValue ||
+                !codeSurface ||
+                !copyButton
+            ) {
+                return;
+            }
+
+            let activeCode = "";
+            let copyResetTimer = 0;
+
+            const resetCopyLabel = () => {
+                copyButton.textContent = "Copy";
+            };
+
+            const setSelectedPlatform = (platform) => {
+                buttons.forEach((button) => {
+                    button.dataset.active =
+                        button.dataset.platform === platform ? "true" : "false";
+                });
+            };
+
+            const setBusy = (busy) => {
+                root.setAttribute("aria-busy", busy ? "true" : "false");
+                buttons.forEach((button) => {
+                    button.disabled = busy;
+                });
+            };
+
+            const showMessage = (text, state) => {
+                root.dataset.state = state;
+                if (text) {
+                    message.hidden = false;
+                    message.textContent = text;
+                } else {
+                    message.hidden = true;
+                    message.textContent = "";
+                }
+            };
+
+            const hideResult = () => {
+                result.hidden = true;
+                codeSurface.disabled = true;
+                copyButton.disabled = true;
+                activeCode = "";
+            };
+
+            const showResult = (platform, code) => {
+                platformLabel.textContent = `${platformLabels[platform]} promo code`;
+                codeValue.textContent = code;
+                codeSurface.disabled = false;
+                copyButton.disabled = false;
+                result.hidden = false;
+                activeCode = code;
+            };
+
+            const handleCopy = async () => {
+                if (!activeCode) {
+                    return;
+                }
+
+                window.clearTimeout(copyResetTimer);
+
+                try {
+                    await copyToClipboard(activeCode);
+                    copyButton.textContent = "Copied";
+                } catch {
+                    copyButton.textContent = "Try again";
+                }
+
+                copyResetTimer = window.setTimeout(() => {
+                    resetCopyLabel();
+                }, 1800);
+            };
+
+            const requestCode = async (platform) => {
+                window.clearTimeout(copyResetTimer);
+                resetCopyLabel();
+                setSelectedPlatform(platform);
+                hideResult();
+                showMessage(
+                    `Getting your ${platformLabels[platform]} promo code...`,
+                    "loading",
+                );
+                setBusy(true);
+
+                try {
+                    const requestUrl = new URL(endpoint);
+                    requestUrl.searchParams.set("platform", platform);
+
+                    const response = await fetch(requestUrl.toString(), {
+                        method: "GET",
+                        mode: "cors",
+                        cache: "no-store",
+                        headers: {
+                            Accept: "application/json",
+                        },
+                    });
+
+                    const payload = await response.json().catch(() => null);
+
+                    if (!response.ok) {
+                        throw new Error(
+                            payload && typeof payload.message === "string"
+                                ? payload.message
+                                : "Could not issue a promo code right now.",
+                        );
+                    }
+
+                    const code =
+                        payload && typeof payload.code === "string"
+                            ? payload.code.trim()
+                            : "";
+                    const resolvedPlatform =
+                        payload &&
+                        (payload.platform === "ios" ||
+                            payload.platform === "android")
+                            ? payload.platform
+                            : platform;
+
+                    if (!code) {
+                        throw new Error(
+                            "The server did not return a promo code.",
+                        );
+                    }
+
+                    showMessage("", "success");
+                    setSelectedPlatform(resolvedPlatform);
+                    showResult(resolvedPlatform, code);
+                } catch (error) {
+                    const text =
+                        error instanceof Error && error.message
+                            ? error.message
+                            : "Could not issue a promo code right now.";
+
+                    hideResult();
+                    showMessage(text, "error");
+                } finally {
+                    setBusy(false);
+                }
+            };
+
+            hideResult();
+            showMessage("", "idle");
+
+            buttons.forEach((button) => {
+                button.addEventListener("click", () => {
+                    const platform = button.dataset.platform;
+
+                    if (platform === "ios" || platform === "android") {
+                        requestCode(platform);
+                    }
+                });
+            });
+
+            copyButton.addEventListener("click", handleCopy);
+            codeSurface.addEventListener("click", handleCopy);
+        });
+    })();
+</script>
