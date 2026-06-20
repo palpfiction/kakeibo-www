@@ -187,6 +187,53 @@ export const en = {
     },
   },
 
+  // -- FAQs --
+  faqs: {
+    title: "Frequently asked questions",
+    items: [
+      {
+        question: "How much does Kakeibo cost?",
+        answer:
+          "A single one-time purchase gives you the full app forever. No subscriptions, no in-app purchases, no premium tiers. Because the price is adjusted per region to ensure everybody makes a similar effort to purchase it, you will have to check the actual price in your platform's app store. It should be approximately less than one month of Netflix.",
+      },
+      {
+        question: "Can I try Kakeibo before buying?",
+        answer:
+          "You can use the app stores' standard refund policies to try Kakeibo risk-free. If it's not for you, request a refund through Apple or Google within their respective windows. Should you have any trouble with the refund, contact us at hola@getkakeibo.com and we'll handle it personally.",
+      },
+      {
+        question: "Can I connect Kakeibo to my bank?",
+        answer:
+          "No, and that's by design. Kakeibo is fully offline and never connects to any bank or financial institution. The act of manually recording each expense is part of the mindfulness practice that makes the method work.",
+      },
+      {
+        question: "Can I import my bank statements?",
+        answer:
+          "Kakeibo does not import bank statements or CSV files. Each transaction is meant to be entered by hand, keeping you aware of every spending decision. This awareness is the core of the Kakeibo philosophy.",
+      },
+      {
+        question: "Is Kakeibo available on both iOS and Android?",
+        answer:
+          "Yes. Kakeibo is available for iPhone and iPad on the App Store, and for Android phones and tablets on Google Play.",
+      },
+      {
+        question: "Do I need to create an account?",
+        answer:
+          "No. There are no accounts, no sign-ups, and no email required. Kakeibo runs entirely on your device with no connection to any server.",
+      },
+      {
+        question: "What happens to my data if I switch phones?",
+        answer:
+          "You can export your data as CSV or a full SQLite backup at any time. Transfer the file to your new device and restore it. Your financial history stays with you.",
+      },
+      {
+        question: "How is Kakeibo different from other budgeting apps?",
+        answer:
+          "Most apps automate everything: they pull transactions, categorize them, and generate reports. You look at the graphs and stats and forget everything in minutes. Kakeibo takes the opposite approach. The act of manually recording each expense builds awareness and changes behavior. You will experience closely and progressively how your expenses affect your plan, learning and adapting, day by day, month by month.",
+      },
+    ],
+  },
+
   // -- Pricing --
   pricing: {
     title: "One price. Forever yours.",

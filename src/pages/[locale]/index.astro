@@ -8,6 +8,7 @@ import Categories from "../../components/Categories.astro";
 import Features from "../../components/Features.astro";
 import Privacy from "../../components/Privacy.astro";
 import Pricing from "../../components/Pricing.astro";
+import Faqs from "../../components/Faqs.astro";
 import CtaFooter from "../../components/CtaFooter.astro";
 
 export const getStaticPaths: GetStaticPaths = () => {
@@ -28,6 +29,7 @@ const t = getTranslations(locale);
         <Features locale={locale} t={t} />
         <Privacy locale={locale} t={t} />
         <Pricing locale={locale} t={t} />
+        <Faqs locale={locale} t={t} />
         <CtaFooter locale={locale} t={t} />
     </main>
 </Layout>
