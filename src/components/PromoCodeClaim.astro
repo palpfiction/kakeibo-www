@@ -1,15 +1,19 @@
 ---
 interface Props {
     endpoint: string;
+    iosStoreUrl: string;
+    androidStoreUrl: string;
 }
 
-const { endpoint } = Astro.props;
+const { endpoint, iosStoreUrl, androidStoreUrl } = Astro.props;
 ---
 
 <section
     class="promo-picker fade-in fade-in-delay-2"
     data-promo-code-claim
     data-endpoint={endpoint}
+    data-ios-store-url={iosStoreUrl}
+    data-android-store-url={androidStoreUrl}
     data-state="idle"
 >
     <div
@@ -28,23 +32,44 @@ const { endpoint } = Astro.props;
     <p class="picker-message" data-promo-message hidden></p>
 
     <div class="promo-result" data-promo-result hidden>
-        <div class="promo-result-head">
-            <p class="promo-result-label" data-promo-platform>Promo code</p>
-            <button type="button" class="copy-btn" data-copy-btn disabled>
-                Copy
-            </button>
-        </div>
+            <div class="promo-result-head">
+                <p class="promo-result-label" data-promo-platform>Promo code</p>
+                <button type="button" class="copy-btn" data-copy-btn disabled>
+                    Copy
+                </button>
+            </div>
 
-        <button
-            type="button"
-            class="promo-code"
-            data-copy-surface
-            disabled
-            aria-label="Copy promo code"
-        >
-            <span data-promo-code></span>
-        </button>
-    </div>
+            <button
+                type="button"
+                class="promo-code"
+                data-copy-surface
+                disabled
+                aria-label="Copy promo code"
+            >
+                <span data-promo-code></span>
+            </button>
+
+            <a
+                class="store-link"
+                data-store-link
+                href=""
+                target="_blank"
+                rel="noopener noreferrer"
+                hidden
+            >
+                Redeem on the
+                <span data-store-name></span>
+                <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    aria-hidden="true"
+                >
+                    <path d="M3 1h8v8M11 1L1 11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </a>
+        </div>
 </section>
 
 <style>
@@ -177,6 +202,21 @@ const { endpoint } = Astro.props;
         cursor: default;
     }
 
+    .store-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: var(--space-md);
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--green);
+        transition: opacity var(--transition-fast);
+    }
+
+    .store-link:hover {
+        opacity: 0.8;
+    }
+
     @media (max-width: 640px) {
         .promo-picker {
             padding: var(--space-md);
@@ -225,7 +265,11 @@ const { endpoint } = Astro.props;
         };
 
         document.querySelectorAll("[data-promo-code-claim]").forEach((root) => {
-            const endpoint = root.dataset.endpoint;
+            const endpoint = root.dataset.endpoint;           
+            const storeUrls = {
+                ios: root.dataset.iosStoreUrl,
+                android: root.dataset.androidStoreUrl,
+            };
             const buttons = Array.from(
                 root.querySelectorAll("[data-platform]"),
             );
@@ -235,6 +279,8 @@ const { endpoint } = Astro.props;
             const codeValue = root.querySelector("[data-promo-code]");
             const codeSurface = root.querySelector("[data-copy-surface]");
             const copyButton = root.querySelector("[data-copy-btn]");
+            const storeLink = root.querySelector("[data-store-link]");
+            const storeName = root.querySelector("[data-store-name]");
 
             if (
                 !endpoint ||
@@ -243,7 +289,9 @@ const { endpoint } = Astro.props;
                 !platformLabel ||
                 !codeValue ||
                 !codeSurface ||
-                !copyButton
+                !copyButton ||
+                !storeLink ||
+                !storeName
             ) {
                 return;
             }
@@ -284,6 +332,7 @@ const { endpoint } = Astro.props;
                 result.hidden = true;
                 codeSurface.disabled = true;
                 copyButton.disabled = true;
+                storeLink.hidden = true;
                 activeCode = "";
             };
 
@@ -292,6 +341,9 @@ const { endpoint } = Astro.props;
                 codeValue.textContent = code;
                 codeSurface.disabled = false;
                 copyButton.disabled = false;
+                storeLink.href = storeUrls[platform];
+                storeName.textContent = `${platformLabels[platform]} App Store`;
+                storeLink.hidden = false;
                 result.hidden = false;
                 activeCode = code;
             };

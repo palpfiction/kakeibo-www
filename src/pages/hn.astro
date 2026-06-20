@@ -13,6 +13,8 @@ const description =
     "Get a free Kakeibo promo code for iOS or Android and send feedback.";
 const promoEndpoint = "https://kakeibot.palpspi.duckdns.org/promo-code";
 const supportEmail = "pablo@getkakeibo.com";
+const iosStoreUrl = "https://apps.apple.com/us/app/kakeibo-budget-mindfully/id6757003812";
+const androidStoreUrl = "https://play.google.com/store/apps/details?id=dev.palpfiction.kakeibo";
 ---
 
 <InnerLayout
@@ -35,7 +37,7 @@ const supportEmail = "pablo@getkakeibo.com";
             </p>
         </div>
 
-        <PromoCodeClaim endpoint={promoEndpoint} />
+        <PromoCodeClaim endpoint={promoEndpoint} iosStoreUrl={iosStoreUrl} androidStoreUrl={androidStoreUrl} />
 
         <p class="fair-use fade-in fade-in-delay-2">
             <strong>Fair use:</strong> one code per IP and platform. If anything breaks,
