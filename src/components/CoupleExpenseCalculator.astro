@@ -1,0 +1,1643 @@
+---
+import { getTranslations, type Locale } from "../i18n";
+import { CURRENCIES } from "../lib/couple-expenses";
+
+interface Props {
+    locale: Locale;
+}
+
+const { locale } = Astro.props as Props;
+const copy = getTranslations(locale).coupleExpenses;
+const titleId = "couple-expense-calculator-title";
+const resultsTitleId = "couple-expense-calculator-results-title";
+
+const people = [
+    { key: "a" as const, badge: "A", fallback: copy.personA },
+    { key: "b" as const, badge: "B", fallback: copy.personB },
+];
+
+const expenseSections = [
+    {
+        key: "fixed" as const,
+        title: copy.fixedTitle,
+        hint: copy.fixedHint,
+        add: copy.addFixed,
+    },
+    {
+        key: "monthly" as const,
+        title: copy.monthlyTitle,
+        hint: copy.monthlyHint,
+        add: copy.addMonthly,
+    },
+];
+---
+
+<section
+    class="calc"
+    data-couple-calculator
+    data-locale={locale}
+    data-person-a={copy.personA}
+    data-person-b={copy.personB}
+    data-zero-income={copy.zeroIncome}
+    data-over-budget={copy.overBudget}
+    data-saved={copy.saved}
+    data-save-error={copy.saveError}
+    data-placeholder-fixed={copy.expenseNamePlaceholder}
+    data-placeholder-monthly={copy.expenseNamePlaceholderMonthly}
+    aria-labelledby={titleId}
+>
+    <header class="calc-header">
+        <h2 class="calc-title" id={titleId}>
+            {copy.title}
+        </h2>
+        <p class="calc-subtitle">{copy.subtitle}</p>
+    </header>
+
+    <div class="calc-trust">
+        <p class="calc-privacy-note">
+            <svg
+                width="12"
+                height="12"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+            >
+                <rect
+                    x="3.25"
+                    y="7"
+                    width="9.5"
+                    height="6.75"
+                    rx="2"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                ></rect>
+                <path
+                    d="M5.5 7V5.25a2.5 2.5 0 015 0V7"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                    stroke-linecap="round"
+                ></path>
+            </svg>
+            <span>{copy.privacyNote}</span>
+        </p>
+
+        <span class="save-status" data-save-status>
+            <span class="save-dot" aria-hidden="true"></span>
+            <span data-save-label>{copy.saved}</span>
+        </span>
+    </div>
+
+    <p class="calc-example-note" data-example-note hidden>
+        <span class="example-dot" aria-hidden="true"></span>
+        <span>{copy.exampleNote}</span>
+    </p>
+
+    <div class="calc-toolbar">
+        <label class="currency-field">
+            <span class="field-label">{copy.currency}</span>
+            <select data-currency>
+                {CURRENCIES.map((currency) => (
+                    <option value={currency.code}>
+                        {currency.code} · {currency.symbol}
+                    </option>
+                ))}
+            </select>
+        </label>
+    </div>
+
+    <div class="people-grid">
+        {people.map((person) => (
+            <div class="person-card" data-person={person.key}>
+                <div class="person-top">
+                    <span class="person-badge" aria-hidden="true">
+                        {person.badge}
+                    </span>
+                    <label class="name-field">
+                        <span class="sr-only">{copy.name}</span>
+                        <input
+                            type="text"
+                            data-name={person.key}
+                            placeholder={
+                                person.key === "a"
+                                    ? copy.namePlaceholderA
+                                    : copy.namePlaceholderB
+                            }
+                            autocomplete="off"
+                            maxlength="32"
+                        />
+                    </label>
+                </div>
+
+                <label class="income-field">
+                    <span class="field-label">{copy.income}</span>
+                    <span class="input-shell">
+                        <span
+                            class="currency-symbol"
+                            data-currency-symbol
+                            aria-hidden="true"
+                        >
+                            €
+                        </span>
+                        <input
+                            type="number"
+                            data-income={person.key}
+                            inputmode="decimal"
+                            min="0"
+                            step="0.01"
+                            placeholder="0"
+                        />
+                    </span>
+                </label>
+            </div>
+        ))}
+    </div>
+
+    <div class="expenses-grid">
+        {expenseSections.map((section) => (
+            <section class="expense-card">
+                <header class="expense-head">
+                    <div>
+                        <h3>{section.title}</h3>
+                        <p class="expense-hint">{section.hint}</p>
+                    </div>
+                    <span class="expense-total" data-list-total={section.key}>
+                        —
+                    </span>
+                </header>
+
+                <div class="expense-list" data-list={section.key}></div>
+
+                <p class="expense-empty" data-empty={section.key}>
+                    {copy.noExpenses}
+                </p>
+
+                <button
+                    type="button"
+                    class="add-expense"
+                    data-add={section.key}
+                >
+                    <span aria-hidden="true">+</span>
+                    {section.add}
+                </button>
+            </section>
+        ))}
+    </div>
+
+    <section class="results" aria-labelledby={resultsTitleId}>
+        <h3 class="results-title" id={resultsTitleId}>
+            {copy.resultsTitle}
+        </h3>
+
+        <div class="summary-grid">
+            <div class="summary-tile">
+                <span>{copy.incomeTotal}</span>
+                <strong data-total-income>—</strong>
+            </div>
+            <div class="summary-tile">
+                <span>{copy.expensesTotal}</span>
+                <strong data-total-expenses>—</strong>
+            </div>
+            <div class="summary-tile">
+                <span>{copy.savingsRate}</span>
+                <strong data-savings-rate>—</strong>
+                <small>
+                    {copy.equalEffort} <span data-effort>—</span>
+                </small>
+            </div>
+            <div class="summary-tile">
+                <span>{copy.combinedSavings}</span>
+                <strong data-combined-savings>—</strong>
+            </div>
+        </div>
+
+        <p class="notice" data-notice aria-live="polite" hidden></p>
+
+        <div class="result-grid">
+            {people.map((person) => (
+                <article class="result-card" data-person-result={person.key}>
+                    <div class="result-head">
+                        <span class="person-badge" aria-hidden="true">
+                            {person.badge}
+                        </span>
+                        <h4 data-result-name={person.key}>{person.fallback}</h4>
+                        <span class="bill-share">
+                            <span data-bill-share={person.key}>—</span>{" "}
+                            {copy.ofBill}
+                        </span>
+                    </div>
+
+                    <div class="result-main">
+                        <strong
+                            class="result-amount"
+                            data-contribution={person.key}
+                        >
+                            —
+                        </strong>
+                        <span class="result-caption">{copy.paysPerMonth}</span>
+                    </div>
+
+                    <div class="result-foot">
+                        <div>
+                            <span>{copy.keeps}</span>
+                            <strong data-savings={person.key}>—</strong>
+                        </div>
+                    </div>
+                </article>
+            ))}
+        </div>
+
+        <div class="split">
+            <div class="split-head">
+                <span>{copy.householdSplit}</span>
+                <span class="split-legend" data-split-legend>
+                    —
+                </span>
+            </div>
+            <div class="split-track" aria-hidden="true">
+                <span class="split-a" data-split-a></span>
+                <span class="split-b" data-split-b></span>
+            </div>
+        </div>
+
+        <div class="split">
+            <div class="split-head">
+                <span>{copy.incomeSplit}</span>
+                <span class="split-legend" data-income-split>
+                    —
+                </span>
+            </div>
+            <div class="split-track" aria-hidden="true">
+                <span class="split-contribution" data-split-contribution></span>
+                <span class="split-savings" data-split-savings></span>
+            </div>
+
+            <div class="calc-legend">
+                <span>
+                    <i class="legend-swatch legend-swatch--contribution"></i>
+                    {copy.contribution}
+                </span>
+                <span>
+                    <i class="legend-swatch legend-swatch--savings"></i>
+                    {copy.savings}
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <template data-expense-template>
+        <div class="expense-row" data-expense-row>
+            <input
+                class="expense-name-input"
+                type="text"
+                data-expense-name
+                placeholder={copy.expenseNamePlaceholder}
+                aria-label={copy.expenseName}
+                autocomplete="off"
+                maxlength="48"
+            />
+            <span class="input-shell expense-amount-input">
+                <span
+                    class="currency-symbol"
+                    data-currency-symbol
+                    aria-hidden="true"
+                >
+                    €
+                </span>
+                <input
+                    type="number"
+                    data-expense-amount
+                    inputmode="decimal"
+                    min="0"
+                    step="0.01"
+                    placeholder="0"
+                    aria-label={copy.amount}
+                />
+            </span>
+            <button
+                class="expense-remove"
+                type="button"
+                data-expense-remove
+                aria-label={copy.removeExpense}
+                title={copy.removeExpense}
+            >
+                <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    aria-hidden="true"
+                >
+                    <path
+                        d="M4 4l8 8M12 4l-8 8"
+                        stroke="currentColor"
+                        stroke-width="1.6"
+                        stroke-linecap="round"
+                    ></path>
+                </svg>
+            </button>
+        </div>
+    </template>
+</section>
+
+<script>
+    import {
+        calculateSplit,
+        createExampleState,
+        createExpense,
+        formatMoney,
+        formatPercent,
+        getCurrencySymbol,
+        isExampleState,
+        normalizeState,
+        parseAmount,
+        sumExpenses,
+        type CoupleExpenseState,
+        type PersonSplit,
+    } from "../lib/couple-expenses";
+
+    const STORAGE_KEY = "kakeibo:couple-expenses:v1";
+    const SAVE_DELAY = 250;
+
+    document
+        .querySelectorAll<HTMLElement>("[data-couple-calculator]")
+        .forEach(setupCalculator);
+
+    function setupCalculator(root: HTMLElement) {
+        const locale = root.dataset.locale === "es" ? "es" : "en";
+        const fallbackA = root.dataset.personA ?? "Person 1";
+        const fallbackB = root.dataset.personB ?? "Person 2";
+        const zeroIncome = root.dataset.zeroIncome ?? "";
+        const overBudget = root.dataset.overBudget ?? "";
+        const savedLabel = root.dataset.saved ?? "";
+        const saveErrorLabel = root.dataset.saveError ?? "";
+        const placeholderFixed = root.dataset.placeholderFixed ?? "";
+        const placeholderMonthly = root.dataset.placeholderMonthly ?? "";
+
+        const template = mustQuery<HTMLTemplateElement>(
+            root,
+            "template[data-expense-template]",
+        );
+        const notice = mustQuery<HTMLElement>(root, "[data-notice]");
+        const saveStatus = mustQuery<HTMLElement>(root, "[data-save-status]");
+        const saveLabel = mustQuery<HTMLElement>(root, "[data-save-label]");
+        const exampleNote = root.querySelector<HTMLElement>(
+            "[data-example-note]",
+        );
+
+        const nameA = mustQuery<HTMLInputElement>(root, '[data-name="a"]');
+        const nameB = mustQuery<HTMLInputElement>(root, '[data-name="b"]');
+        const incomeA = mustQuery<HTMLInputElement>(root, '[data-income="a"]');
+        const incomeB = mustQuery<HTMLInputElement>(root, '[data-income="b"]');
+        const currency = mustQuery<HTMLSelectElement>(root, "[data-currency]");
+
+        let storageWorks = true;
+        let state = loadState();
+        let saveTimer: ReturnType<typeof setTimeout> | undefined;
+
+        syncFields();
+        renderExpenses();
+        update();
+        saveNow();
+        root.dataset.hydrated = "true";
+
+        root.addEventListener("input", handleInput);
+        root.addEventListener("click", handleClick);
+        window.addEventListener("pagehide", saveNow);
+
+        function loadState(): CoupleExpenseState {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (!raw) return createExampleState(locale);
+                return normalizeState(JSON.parse(raw), locale);
+            } catch {
+                storageWorks = false;
+                return createExampleState(locale);
+            }
+        }
+
+        function syncFields() {
+            nameA.value = state.nameA;
+            nameB.value = state.nameB;
+            incomeA.value = state.incomeA ? String(state.incomeA) : "";
+            incomeB.value = state.incomeB ? String(state.incomeB) : "";
+            currency.value = state.currency;
+            syncSymbols();
+        }
+
+        function syncSymbols() {
+            const symbol = getCurrencySymbol(state.currency);
+
+            root.querySelectorAll<HTMLElement>(
+                "[data-currency-symbol]",
+            ).forEach((element) => {
+                element.textContent = symbol;
+            });
+        }
+
+        function renderExpenses() {
+            for (const listName of ["fixed", "monthly"] as const) {
+                const list = mustQuery<HTMLElement>(
+                    root,
+                    `[data-list="${listName}"]`,
+                );
+                list.replaceChildren();
+
+                for (const expense of state[listName]) {
+                    const row = template.content.firstElementChild?.cloneNode(
+                        true,
+                    ) as HTMLElement | undefined;
+
+                    if (!row) continue;
+
+                    row.dataset.id = expense.id;
+
+                    const nameInput = mustQuery<HTMLInputElement>(
+                        row,
+                        "[data-expense-name]",
+                    );
+                    const amountInput = mustQuery<HTMLInputElement>(
+                        row,
+                        "[data-expense-amount]",
+                    );
+
+                    nameInput.value = expense.name;
+                    nameInput.placeholder =
+                        listName === "fixed"
+                            ? placeholderFixed
+                            : placeholderMonthly;
+                    amountInput.value = expense.amount
+                        ? String(expense.amount)
+                        : "";
+
+                    const symbol = mustQuery<HTMLElement>(
+                        row,
+                        "[data-currency-symbol]",
+                    );
+                    symbol.textContent = getCurrencySymbol(state.currency);
+
+                    list.append(row);
+                }
+
+                const empty = root.querySelector<HTMLElement>(
+                    `[data-empty="${listName}"]`,
+                );
+                if (empty) empty.hidden = state[listName].length > 0;
+            }
+        }
+
+        function handleInput(event: Event) {
+            const target = event.target;
+            if (!(
+                target instanceof HTMLInputElement ||
+                target instanceof HTMLSelectElement
+            )) {
+                return;
+            }
+
+            if (target.matches('[data-name="a"]')) {
+                state.nameA = target.value.slice(0, 32);
+            } else if (target.matches('[data-name="b"]')) {
+                state.nameB = target.value.slice(0, 32);
+            } else if (target.matches('[data-income="a"]')) {
+                state.incomeA = parseAmount(target.value);
+            } else if (target.matches('[data-income="b"]')) {
+                state.incomeB = parseAmount(target.value);
+            } else if (target.matches("[data-currency]")) {
+                state.currency = target.value;
+                syncSymbols();
+            } else if (
+                target.matches("[data-expense-name]") ||
+                target.matches("[data-expense-amount]")
+            ) {
+                const row = target.closest<HTMLElement>("[data-expense-row]");
+                const listName = row?.closest<HTMLElement>("[data-list]")
+                    ?.dataset.list as "fixed" | "monthly" | undefined;
+
+                if (!row || !listName) return;
+
+                const expense = state[listName].find(
+                    (item) => item.id === row.dataset.id,
+                );
+                if (!expense) return;
+
+                if (target.matches("[data-expense-name]")) {
+                    expense.name = target.value.slice(0, 48);
+                } else {
+                    expense.amount = parseAmount(target.value);
+                }
+            } else {
+                return;
+            }
+
+            update();
+            scheduleSave();
+        }
+
+        function handleClick(event: Event) {
+            const target = (
+                event.target as HTMLElement | null
+            )?.closest<HTMLElement>("[data-add], [data-expense-remove]");
+
+            if (!target) return;
+
+            if (target.matches("[data-add]")) {
+                const listName = target.dataset.add as "fixed" | "monthly";
+                state[listName].push(createExpense("", 0));
+                renderExpenses();
+                update();
+                focusLastExpense(listName);
+                scheduleSave();
+                return;
+            }
+
+            if (target.matches("[data-expense-remove]")) {
+                const row = target.closest<HTMLElement>("[data-expense-row]");
+                const listName = row?.closest<HTMLElement>("[data-list]")
+                    ?.dataset.list as "fixed" | "monthly" | undefined;
+
+                if (!row || !listName) return;
+
+                state[listName] = state[listName].filter(
+                    (expense) => expense.id !== row.dataset.id,
+                );
+                renderExpenses();
+                update();
+                saveNow();
+            }
+        }
+
+        function focusLastExpense(listName: "fixed" | "monthly") {
+            const rows = root.querySelectorAll<HTMLElement>(
+                `[data-list="${listName}"] [data-expense-row]`,
+            );
+            const lastRow = rows[rows.length - 1];
+
+            lastRow
+                ?.querySelector<HTMLInputElement>("[data-expense-name]")
+                ?.focus();
+        }
+
+        function update() {
+            const result = calculateSplit(state);
+            const fmt = (amount: number) =>
+                formatMoney(amount, state.currency, locale);
+            const pct = (value: number) => formatPercent(value, locale);
+
+            if (exampleNote) {
+                exampleNote.hidden = !isExampleState(state, locale);
+            }
+
+            const nameAValue = state.nameA.trim() || fallbackA;
+            const nameBValue = state.nameB.trim() || fallbackB;
+
+            setText(
+                "[data-total-income]",
+                result.hasIncome ? fmt(result.totalIncome) : "—",
+            );
+            setText("[data-total-expenses]", fmt(result.totalExpenses));
+
+            const savingsRate = root.querySelector<HTMLElement>(
+                "[data-savings-rate]",
+            );
+            if (savingsRate) {
+                savingsRate.textContent =
+                    result.savingsRate === null ? "—" : pct(result.savingsRate);
+                savingsRate.classList.toggle(
+                    "is-negative",
+                    result.savingsRate !== null && result.savingsRate < 0,
+                );
+            }
+
+            const effort = root.querySelector<HTMLElement>("[data-effort]");
+            if (effort) {
+                effort.textContent =
+                    result.effort === null ? "—" : pct(result.effort);
+                effort.classList.toggle("is-negative", result.overBudget);
+            }
+
+            const combinedSavings = root.querySelector<HTMLElement>(
+                "[data-combined-savings]",
+            );
+            if (combinedSavings) {
+                combinedSavings.textContent = result.hasIncome
+                    ? fmt(result.combinedSavings)
+                    : "—";
+                combinedSavings.classList.toggle(
+                    "is-negative",
+                    result.combinedSavings < 0,
+                );
+            }
+
+            for (const listName of ["fixed", "monthly"] as const) {
+                setText(
+                    `[data-list-total="${listName}"]`,
+                    fmt(sumExpenses(state[listName])),
+                );
+            }
+
+            updatePerson(
+                "a",
+                result.a,
+                nameAValue,
+                result.hasIncome,
+                result.totalExpenses,
+                fmt,
+                pct,
+            );
+            updatePerson(
+                "b",
+                result.b,
+                nameBValue,
+                result.hasIncome,
+                result.totalExpenses,
+                fmt,
+                pct,
+            );
+
+            const splitA =
+                result.hasIncome && result.totalExpenses > 0
+                    ? (result.a.contribution / result.totalExpenses) * 100
+                    : 0;
+            const splitB =
+                result.hasIncome && result.totalExpenses > 0 ? 100 - splitA : 0;
+
+            setBar(root.querySelector("[data-split-a]"), splitA);
+            setBar(root.querySelector("[data-split-b]"), splitB);
+
+            const incomeContribution = result.hasIncome
+                ? clamp(result.effort ?? 0)
+                : 0;
+            setBar(
+                root.querySelector("[data-split-contribution]"),
+                incomeContribution,
+            );
+            setBar(
+                root.querySelector("[data-split-savings]"),
+                result.hasIncome ? Math.max(0, 100 - incomeContribution) : 0,
+            );
+            setText(
+                "[data-income-split]",
+                result.hasIncome ? fmt(result.totalIncome) : "—",
+            );
+
+            const legend = root.querySelector<HTMLElement>(
+                "[data-split-legend]",
+            );
+            if (legend) {
+                legend.textContent =
+                    result.hasIncome && result.totalExpenses > 0
+                        ? `${nameAValue} ${pct(splitA)} · ${nameBValue} ${pct(splitB)}`
+                        : "—";
+            }
+
+            if (!result.hasIncome) {
+                notice.hidden = false;
+                notice.textContent = zeroIncome;
+                notice.classList.remove("is-warning");
+            } else if (result.overBudget) {
+                notice.hidden = false;
+                notice.textContent = overBudget;
+                notice.classList.add("is-warning");
+            } else {
+                notice.hidden = true;
+                notice.textContent = "";
+            }
+        }
+
+        function updatePerson(
+            key: "a" | "b",
+            person: PersonSplit,
+            name: string,
+            hasIncome: boolean,
+            totalExpenses: number,
+            fmt: (amount: number) => string,
+            pct: (value: number) => string,
+        ) {
+            setText(`[data-result-name="${key}"]`, name);
+            setText(
+                `[data-contribution="${key}"]`,
+                hasIncome ? fmt(person.contribution) : "—",
+            );
+            setText(
+                `[data-savings="${key}"]`,
+                hasIncome ? fmt(person.savings) : "—",
+            );
+
+            const billShare = root.querySelector<HTMLElement>(
+                `[data-bill-share="${key}"]`,
+            );
+            if (billShare) {
+                billShare.textContent =
+                    hasIncome && totalExpenses > 0
+                        ? pct((person.contribution / totalExpenses) * 100)
+                        : "—";
+            }
+
+            const savings = root.querySelector<HTMLElement>(
+                `[data-savings="${key}"]`,
+            );
+            savings?.classList.toggle("is-negative", person.savings < 0);
+
+            const card = root.querySelector<HTMLElement>(
+                `[data-person-result="${key}"]`,
+            );
+            card?.classList.toggle("is-over", person.savings < 0);
+        }
+
+        function setText(selector: string, text: string) {
+            const element = root.querySelector<HTMLElement>(selector);
+            if (element) element.textContent = text;
+        }
+
+        function setBar(element: Element | null, percent: number) {
+            if (!(element instanceof HTMLElement)) return;
+            element.style.width = `${clamp(percent)}%`;
+        }
+
+        function clamp(value: number): number {
+            return Math.min(100, Math.max(0, value));
+        }
+
+        function scheduleSave() {
+            if (!storageWorks) return;
+
+            window.clearTimeout(saveTimer);
+            saveTimer = window.setTimeout(saveNow, SAVE_DELAY);
+        }
+
+        function saveNow() {
+            if (!storageWorks) {
+                setSaveStatus(false);
+                return;
+            }
+
+            window.clearTimeout(saveTimer);
+
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+                setSaveStatus(true);
+            } catch {
+                storageWorks = false;
+                setSaveStatus(false);
+            }
+        }
+
+        function setSaveStatus(ok: boolean) {
+            saveStatus.classList.toggle("is-error", !ok);
+            saveLabel.textContent = ok ? savedLabel : saveErrorLabel;
+        }
+    }
+
+    function mustQuery<T extends Element>(
+        parent: ParentNode,
+        selector: string,
+    ): T {
+        const element = parent.querySelector<T>(selector);
+        if (!element) {
+            throw new Error(`Missing calculator element: ${selector}`);
+        }
+        return element;
+    }
+</script>
+
+<style>
+    .calc {
+        --accent-a: var(--green);
+        --accent-b: var(--blue);
+        position: relative;
+        margin: var(--space-2xl) 0;
+        padding: clamp(20px, 4vw, 32px);
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        border-radius: var(--radius-xl);
+        background:
+            radial-gradient(
+                circle at 0% 0%,
+                rgba(6, 214, 160, 0.08),
+                transparent 32%
+            ),
+            radial-gradient(
+                circle at 100% 10%,
+                rgba(17, 138, 178, 0.1),
+                transparent 38%
+            ),
+            linear-gradient(
+                180deg,
+                rgba(255, 255, 255, 0.03),
+                rgba(255, 255, 255, 0.01)
+            ),
+            var(--bg-elevated);
+        box-shadow:
+            0 24px 60px rgba(0, 0, 0, 0.22),
+            inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        color-scheme: dark;
+        line-height: 1.5;
+    }
+
+    .calc-header {
+        max-width: 58ch;
+    }
+
+    .calc .calc-title {
+        margin: 0 0 var(--space-sm);
+        color: var(--text);
+        font-family: "Sora", sans-serif;
+        font-size: clamp(1.45rem, 3vw, 1.9rem);
+        font-weight: 600;
+        letter-spacing: -0.04em;
+        line-height: 1.08;
+    }
+
+    .calc .calc-subtitle {
+        margin: 0;
+        color: var(--text-secondary);
+        font-size: 0.92rem;
+        line-height: 1.65;
+    }
+
+    .calc-trust {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-sm) var(--space-md);
+        margin-top: var(--space-md);
+    }
+
+    .calc .calc-privacy-note {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin: 0;
+        color: var(--text-secondary);
+        font-size: 0.72rem;
+        line-height: 1.4;
+    }
+
+    .calc-privacy-note svg {
+        flex: none;
+        color: var(--green);
+        opacity: 0.85;
+    }
+
+    .calc .calc-example-note {
+        display: flex;
+        align-items: flex-start;
+        gap: 6px;
+        margin: var(--space-sm) 0 0;
+        padding: 0.45rem 0.65rem;
+        border: 1px solid rgba(255, 209, 102, 0.16);
+        border-radius: var(--radius-md);
+        background: rgba(255, 209, 102, 0.05);
+        color: #e8d59a;
+        font-size: 0.72rem;
+        line-height: 1.45;
+    }
+
+    .calc .calc-example-note[hidden] {
+        display: none;
+    }
+
+    .example-dot {
+        flex: none;
+        width: 5px;
+        height: 5px;
+        margin-top: 5px;
+        border-radius: 50%;
+        background: var(--yellow);
+    }
+
+    .calc-toolbar {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: var(--space-md);
+        margin-top: var(--space-lg);
+        padding-bottom: var(--space-md);
+        border-bottom: 1px solid var(--border);
+    }
+
+    .currency-field {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        min-width: 9.5rem;
+    }
+
+    .calc .field-label {
+        color: var(--subtext);
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.07em;
+        line-height: 1.4;
+        text-transform: uppercase;
+    }
+
+    .currency-field select {
+        width: 100%;
+        padding: 0.48rem 0.65rem;
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-md);
+        outline: none;
+        background: var(--surface);
+        color: var(--text);
+        font-family: inherit;
+        font-size: 0.82rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+            border-color var(--transition-fast),
+            box-shadow var(--transition-fast);
+    }
+
+    .currency-field select:focus-visible {
+        border-color: var(--green);
+        box-shadow: 0 0 0 3px rgba(6, 214, 160, 0.14);
+    }
+
+    .add-expense:focus-visible,
+    .expense-remove:focus-visible {
+        outline: 2px solid var(--green);
+        outline-offset: 2px;
+    }
+
+    .people-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-md);
+        margin-top: var(--space-lg);
+    }
+
+    .person-card {
+        --accent: var(--accent-a);
+        min-width: 0;
+        padding: var(--space-md);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        background: rgba(255, 255, 255, 0.025);
+    }
+
+    .person-card[data-person="b"] {
+        --accent: var(--accent-b);
+    }
+
+    .person-top {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        margin-bottom: var(--space-md);
+    }
+
+    .person-badge {
+        display: inline-flex;
+        flex: none;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent);
+        border-radius: 50%;
+        background: color-mix(in srgb, var(--accent) 15%, transparent);
+        color: var(--accent);
+        font-size: 0.68rem;
+        font-weight: 700;
+        line-height: 1;
+    }
+
+    .name-field {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .name-field input {
+        width: 100%;
+        padding: 0.22rem 0;
+        border: 0;
+        border-bottom: 1px dashed transparent;
+        outline: none;
+        background: transparent;
+        color: var(--text);
+        font-family: "Sora", sans-serif;
+        font-size: 1rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        line-height: 1.4;
+        transition: border-color var(--transition-fast);
+    }
+
+    .name-field input::placeholder {
+        color: var(--subtext);
+        font-weight: 500;
+    }
+
+    .name-field input:focus {
+        border-bottom-color: var(--accent);
+    }
+
+    .income-field {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .input-shell {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 0.58rem 0.72rem;
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-md);
+        background: rgba(0, 0, 0, 0.22);
+        transition:
+            border-color var(--transition-fast),
+            box-shadow var(--transition-fast);
+    }
+
+    .input-shell:focus-within {
+        border-color: var(--accent, var(--green));
+        box-shadow: 0 0 0 3px
+            color-mix(in srgb, var(--accent, var(--green)) 14%, transparent);
+    }
+
+    .currency-symbol {
+        flex: none;
+        color: var(--subtext);
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+    .input-shell input {
+        width: 100%;
+        min-width: 0;
+        padding: 0;
+        border: 0;
+        outline: none;
+        background: transparent;
+        color: var(--text);
+        font-family: inherit;
+        font-size: 1.08rem;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        line-height: 1.3;
+    }
+
+    .input-shell input::placeholder {
+        color: var(--subtext);
+        font-weight: 400;
+    }
+
+    .input-shell input[type="number"] {
+        appearance: textfield;
+        -moz-appearance: textfield;
+    }
+
+    .input-shell input[type="number"]::-webkit-outer-spin-button,
+    .input-shell input[type="number"]::-webkit-inner-spin-button {
+        margin: 0;
+        -webkit-appearance: none;
+    }
+
+    .expenses-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-md);
+        margin-top: var(--space-md);
+    }
+
+    .expense-card {
+        min-width: 0;
+        padding: var(--space-md);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        background: rgba(0, 0, 0, 0.14);
+    }
+
+    .expense-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: var(--space-sm);
+        margin-bottom: var(--space-md);
+    }
+
+    .calc .expense-head h3 {
+        margin: 0 0 2px;
+        color: var(--text);
+        font-family: "Sora", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        line-height: 1.3;
+    }
+
+    .calc .expense-hint {
+        margin: 0;
+        color: var(--subtext);
+        font-size: 0.74rem;
+        line-height: 1.5;
+    }
+
+    .expense-total {
+        flex: none;
+        color: var(--text-secondary);
+        font-size: 0.78rem;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+    }
+
+    .expense-list {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .expense-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 5.9rem 1.5rem;
+        gap: 4px;
+        align-items: center;
+    }
+
+    .expense-name-input {
+        width: 100%;
+        min-width: 0;
+        padding: 0.42rem 0.4rem;
+        border: 1px solid transparent;
+        border-radius: var(--radius-sm);
+        outline: none;
+        background: transparent;
+        color: var(--text);
+        font-family: inherit;
+        font-size: 0.82rem;
+        line-height: 1.4;
+        transition:
+            background var(--transition-fast),
+            border-color var(--transition-fast);
+    }
+
+    .expense-name-input::placeholder {
+        color: var(--subtext);
+    }
+
+    .expense-name-input:hover {
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    .expense-name-input:focus {
+        border-color: var(--border-light);
+        background: rgba(0, 0, 0, 0.2);
+    }
+
+    .expense-amount-input {
+        padding: 0.34rem 0.42rem;
+    }
+
+    .expense-amount-input .currency-symbol {
+        font-size: 0.74rem;
+    }
+
+    .expense-amount-input input {
+        font-size: 0.82rem;
+    }
+
+    .expense-remove {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background: transparent;
+        color: var(--subtext);
+        cursor: pointer;
+        transition:
+            color var(--transition-fast),
+            background var(--transition-fast);
+    }
+
+    .expense-remove:hover {
+        background: rgba(239, 71, 111, 0.12);
+        color: var(--red);
+    }
+
+    .calc .expense-empty {
+        margin: 0 0 var(--space-sm);
+        color: var(--subtext);
+        font-size: 0.78rem;
+        font-style: italic;
+        line-height: 1.5;
+    }
+
+    .add-expense {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        margin-top: var(--space-sm);
+        padding: 0.4rem 0.6rem;
+        border: 1px dashed var(--border-light);
+        border-radius: var(--radius-md);
+        background: transparent;
+        color: var(--text-secondary);
+        font-family: inherit;
+        font-size: 0.75rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+            color var(--transition-fast),
+            border-color var(--transition-fast),
+            background var(--transition-fast);
+    }
+
+    .add-expense:hover {
+        border-color: var(--green);
+        background: rgba(6, 214, 160, 0.06);
+        color: var(--green);
+    }
+
+    .results {
+        margin-top: var(--space-xl);
+        padding-top: var(--space-lg);
+        border-top: 1px solid var(--border);
+    }
+
+    .calc .results-title {
+        margin: 0 0 var(--space-md);
+        color: var(--text);
+        font-family: "Sora", sans-serif;
+        font-size: 1.02rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        line-height: 1.3;
+    }
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: var(--space-sm);
+    }
+
+    .summary-tile {
+        min-width: 0;
+        padding: 0.7rem 0.8rem;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        background: rgba(255, 255, 255, 0.02);
+    }
+
+    .summary-tile > span {
+        display: block;
+        overflow: hidden;
+        margin-bottom: 2px;
+        color: var(--subtext);
+        font-size: 0.64rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        line-height: 1.4;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    .summary-tile strong {
+        display: block;
+        overflow: hidden;
+        color: var(--text);
+        font-family: "Sora", sans-serif;
+        font-size: 1.02rem;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: -0.02em;
+        line-height: 1.3;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .summary-tile small {
+        display: block;
+        color: var(--subtext);
+        font-size: 0.62rem;
+        line-height: 1.4;
+    }
+
+    .summary-tile small span {
+        color: var(--text-secondary);
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .is-negative {
+        color: var(--red) !important;
+    }
+
+    .calc .notice {
+        margin: var(--space-md) 0 0;
+        padding: 0.62rem 0.8rem;
+        border: 1px solid rgba(255, 209, 102, 0.2);
+        border-radius: var(--radius-md);
+        background: rgba(255, 209, 102, 0.08);
+        color: var(--text);
+        font-size: 0.8rem;
+        line-height: 1.5;
+    }
+
+    .calc .notice[hidden] {
+        display: none;
+    }
+
+    .calc .notice.is-warning {
+        border-color: rgba(239, 71, 111, 0.22);
+        background: rgba(239, 71, 111, 0.08);
+        color: #ffd7df;
+    }
+
+    .result-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-md);
+        margin-top: var(--space-md);
+    }
+
+    .result-card {
+        --accent: var(--accent-a);
+        min-width: 0;
+        padding: var(--space-md);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        background: linear-gradient(
+            180deg,
+            color-mix(in srgb, var(--accent) 6%, transparent),
+            rgba(255, 255, 255, 0.015)
+        );
+    }
+
+    .result-card[data-person-result="b"] {
+        --accent: var(--accent-b);
+    }
+
+    .result-card.is-over {
+        border-color: rgba(239, 71, 111, 0.2);
+    }
+
+    .result-head {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        min-width: 0;
+    }
+
+    .result-head h4 {
+        overflow: hidden;
+        margin: 0;
+        color: var(--text);
+        font-size: 0.88rem;
+        font-weight: 600;
+        line-height: 1.3;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .bill-share {
+        flex: none;
+        margin-left: auto;
+        color: var(--subtext);
+        font-size: 0.66rem;
+        line-height: 1.3;
+        white-space: nowrap;
+    }
+
+    .bill-share > span {
+        color: var(--accent);
+        font-weight: 700;
+    }
+
+    .result-main {
+        margin-top: var(--space-md);
+    }
+
+    .result-amount {
+        display: block;
+        overflow: hidden;
+        color: var(--text);
+        font-family: "Sora", sans-serif;
+        font-size: clamp(1.5rem, 4vw, 2rem);
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: -0.045em;
+        line-height: 1.1;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .result-caption {
+        display: block;
+        margin-top: 3px;
+        color: var(--subtext);
+        font-size: 0.72rem;
+        line-height: 1.4;
+    }
+
+    .result-foot {
+        display: flex;
+        justify-content: space-between;
+        gap: var(--space-sm);
+        margin-top: var(--space-md);
+        padding-top: var(--space-sm);
+        border-top: 1px solid var(--border);
+    }
+
+    .result-foot > div {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        min-width: 0;
+    }
+
+    .result-foot span {
+        overflow: hidden;
+        color: var(--subtext);
+        font-size: 0.62rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        line-height: 1.4;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    .result-foot strong {
+        overflow: hidden;
+        color: var(--text);
+        font-size: 0.9rem;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        line-height: 1.4;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .split {
+        margin-top: var(--space-lg);
+    }
+
+    .split-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: var(--space-sm);
+        margin-bottom: 6px;
+        color: var(--subtext);
+        font-size: 0.68rem;
+        line-height: 1.4;
+    }
+
+    .split-legend {
+        overflow: hidden;
+        color: var(--text-secondary);
+        font-size: 0.66rem;
+        text-align: right;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .split-track {
+        display: flex;
+        overflow: hidden;
+        height: 10px;
+        border-radius: var(--radius-pill);
+        background: rgba(255, 255, 255, 0.07);
+    }
+
+    .split-a {
+        width: 0;
+        background: var(--accent-a);
+        transition: width var(--transition-normal);
+    }
+
+    .split-b {
+        width: 0;
+        background: var(--accent-b);
+        transition: width var(--transition-normal);
+    }
+
+    .split-contribution {
+        width: 0;
+        background: linear-gradient(
+            90deg,
+            var(--accent-a) 0 50%,
+            var(--accent-b) 50% 100%
+        );
+        transition: width var(--transition-normal);
+    }
+
+    .split-savings {
+        width: 0;
+        background: var(--yellow);
+        opacity: 0.72;
+        transition: width var(--transition-normal);
+    }
+
+    .calc-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: var(--space-sm);
+        color: var(--subtext);
+        font-size: 0.68rem;
+        line-height: 1.4;
+    }
+
+    .calc-legend > span {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .legend-swatch {
+        display: inline-block;
+        flex: none;
+        width: 14px;
+        height: 6px;
+        border-radius: var(--radius-pill);
+    }
+
+    .legend-swatch--contribution {
+        background: linear-gradient(
+            90deg,
+            var(--accent-a) 0 50%,
+            var(--accent-b) 50% 100%
+        );
+    }
+
+    .legend-swatch--savings {
+        background: var(--yellow);
+        opacity: 0.72;
+    }
+
+    .save-status {
+        display: inline-flex;
+        flex: none;
+        align-items: center;
+        gap: 5px;
+        color: var(--subtext);
+        font-size: 0.66rem;
+        line-height: 1.4;
+        white-space: nowrap;
+    }
+
+    .save-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--green);
+        box-shadow: 0 0 8px rgba(6, 214, 160, 0.5);
+    }
+
+    .save-status.is-error {
+        color: var(--red);
+    }
+
+    .save-status.is-error .save-dot {
+        background: var(--red);
+        box-shadow: none;
+    }
+
+    @media (max-width: 680px) {
+        .calc-toolbar {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .currency-field {
+            width: 100%;
+        }
+
+        .people-grid,
+        .expenses-grid,
+        .result-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .summary-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    @media (max-width: 420px) {
+        .expense-row {
+            grid-template-columns: minmax(0, 1fr) 5.6rem 1.5rem;
+        }
+
+        .split-head {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .split-legend {
+            text-align: left;
+        }
+    }
+</style>
