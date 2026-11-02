@@ -1,0 +1,259 @@
+---
+import type { GetStaticPaths } from "astro";
+import { locales, getTranslations, type Locale } from "../../i18n";
+import InnerLayout from "../../layouts/InnerLayout.astro";
+
+export const getStaticPaths: GetStaticPaths = () => {
+    return locales.map((locale) => ({
+        params: { locale },
+    }));
+};
+
+const locale = Astro.params.locale as Locale;
+const t = getTranslations(locale);
+const p = t.pressPage;
+
+const email = "pablo@getkakeibo.com";
+const promoSubject = encodeURIComponent(
+    locale === "es"
+        ? "Solicitud de código de prensa — Kakeibo"
+        : "Kakeibo press copy request",
+);
+const promoBody = encodeURIComponent(
+    locale === "es"
+        ? [
+              "Hola Pablo,",
+              "",
+              "Escribo de [medio] y me gustaría probar Kakeibo para [artículo/reseña].",
+              "",
+              "Plataforma: [iOS/Android]",
+              "",
+              "Gracias,",
+              "[Nombre]",
+          ].join("\n")
+        : [
+              "Hi Pablo,",
+              "",
+              "I write for [publication] and I'd like to try Kakeibo for [article/review].",
+              "",
+              "Platform: [iOS/Android]",
+              "",
+              "Thanks,",
+              "[Name]",
+          ].join("\n"),
+);
+const promoHref = `mailto:${email}?subject=${promoSubject}&body=${promoBody}`;
+const contactHref = `mailto:${email}?subject=${encodeURIComponent(
+    locale === "es" ? "Kakeibo — prensa" : "Kakeibo — press",
+)}`;
+
+const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: p.heading,
+    description: p.meta.description,
+    url: `https://getkakeibo.com/${locale}/press/`,
+    inLanguage: locale === "es" ? "es-ES" : "en-US",
+    about: {
+        "@type": "SoftwareApplication",
+        name: "Kakeibo",
+        alternateName: "Kakebo",
+        applicationCategory: "FinanceApplication",
+        operatingSystem: "iOS, Android",
+        url: "https://getkakeibo.com",
+        author: {
+            "@type": "Person",
+            name: "Pablo Muñoz García",
+            url: "https://getkakeibo.com",
+        },
+    },
+};
+---
+
+<InnerLayout
+    locale={locale}
+    t={t}
+    title={p.meta.title}
+    description={p.meta.description}
+    path="press"
+>
+    <article class="letter">
+        <h1>{p.heading}</h1>
+
+        <p>{p.greeting}</p>
+
+        {p.body.map((paragraph: string) => (
+            <p>{paragraph}</p>
+        ))}
+
+        <ul class="facts">
+            {p.facts.map((fact: string) => (
+                <li>{fact}</li>
+            ))}
+        </ul>
+
+        <p>{p.assets}</p>
+        <p>{p.code}</p>
+
+        <div class="actions">
+            <a
+                class="button button-primary"
+                href="/press/kakeibo-press-kit.zip"
+                download
+            >
+                {p.downloadKit}
+            </a>
+            <a class="button" href={promoHref}>
+                {p.requestCode}
+            </a>
+        </div>
+
+        <p class="stores">
+            <a href="https://apps.apple.com/us/app/kakeibo-budget-mindfully/id6757003812">
+                App Store
+            </a>
+            <span>·</span>
+            <a href="https://play.google.com/store/apps/details?id=dev.palpfiction.kakeibo">
+                Google Play
+            </a>
+            <span>·</span>
+            <a href="https://getkakeibo.com">getkakeibo.com</a>
+        </p>
+        <p class="usage">{p.usage}</p>
+    </article>
+</InnerLayout>
+
+<style>
+    .letter {
+        max-width: 620px;
+        margin: 0 auto;
+    }
+
+    h1 {
+        font-family: "Sora", sans-serif;
+        font-size: clamp(1.6rem, 4vw, 2.1rem);
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: -0.025em;
+        margin-bottom: var(--space-xl);
+    }
+
+    p {
+        color: var(--text-secondary);
+        line-height: 1.85;
+        margin-bottom: var(--space-md);
+    }
+
+    .facts {
+        list-style: none;
+        padding: 0;
+        margin: var(--space-lg) 0;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .facts li {
+        position: relative;
+        padding-left: 1.15rem;
+        color: var(--text-secondary);
+        line-height: 1.7;
+    }
+
+    .facts li::before {
+        content: "—";
+        position: absolute;
+        left: 0;
+        color: var(--subtext);
+    }
+
+    .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-sm);
+        margin: var(--space-xl) 0 var(--space-md);
+    }
+
+    .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 0 16px;
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-lg);
+        background: var(--surface);
+        color: var(--text);
+        font-size: 0.88rem;
+        font-weight: 600;
+        transition:
+            transform var(--transition-fast),
+            background-color var(--transition-fast),
+            border-color var(--transition-fast);
+    }
+
+    .button:hover {
+        transform: translateY(-1px);
+        background: var(--surface-hover);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .button-primary {
+        background: var(--green);
+        border-color: transparent;
+        color: #04120d;
+    }
+
+    .button-primary:hover {
+        background: #20e4b0;
+        border-color: transparent;
+    }
+
+    .stores {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        font-size: 0.86rem;
+        color: var(--subtext);
+        margin-bottom: var(--space-2xl);
+    }
+
+    .stores a,
+    .signoff a {
+        color: var(--text-secondary);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        text-decoration-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .stores a:hover,
+    .signoff a:hover {
+        color: var(--text);
+    }
+
+    .signoff {
+        line-height: 1.8;
+        margin-bottom: var(--space-2xl);
+    }
+
+    .signoff strong {
+        color: var(--text);
+        font-weight: 600;
+    }
+
+    .usage {
+        padding-top: var(--space-md);
+        border-top: 1px solid var(--border);
+        font-size: 0.78rem;
+        color: var(--subtext);
+        line-height: 1.65;
+        margin: 0;
+    }
+
+    @media (max-width: 640px) {
+        .actions {
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+</style>

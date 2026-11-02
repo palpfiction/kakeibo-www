@@ -273,6 +273,7 @@ export const es: Translations = {
     appName: "Kakeibo",
     tagline: "Gasta en lo que importa",
     blog: "Blog",
+    press: "Prensa",
     contact: "Contacto",
     privacyPolicy: "Política de privacidad",
     rights: "Todos los derechos reservados.",
@@ -339,5 +340,39 @@ export const es: Translations = {
       title: "Contacto",
       p1: "Si tienes alguna pregunta sobre esta política de privacidad, puedes contactarnos en hola@getkakeibo.com.",
     },
+  },
+
+  // -- Press kit page --
+  pressPage: {
+    meta: {
+      title: "Prensa — Kakeibo",
+      description:
+        "Una nota corta, unos datos y el kit de prensa para quien quiera escribir sobre Kakeibo. Es una app de presupuestos pequeña y offline basada en un método japonés de ahorro. Mantenida por una sola persona.",
+    },
+    heading: "Info de prensa de Kakeibo",
+    greeting: "Hola,",
+    body: [
+      "Soy Pablo y he hecho una app de presupuestos muy muy pequeña basada en el método japonés kakeibo. Consiste en anotar el dinero que entra y sale cada mes de forma fija, apuntar cada gasto manualmente y reflexionar sobre todo lo que ha pasado a final de mes. Su hábitat natural es una libreta, pero esta app la llevas siempre en el bolsillo.",
+      "Estoy muy cansado de las suscripciones, de las versiones de prueba, de los anuncios, de la IA en todos sitios porque sí... Así que esta app va a contracorriente de todo eso: pago único (2.99€-3.99€), sin publicidad, sin cookies, sin LLMs, ni siquiera hay un servidor de por medio. Todo está en tu móvil.",
+      "Si vas a escribir sobre ella, esta es la versión corta:",
+    ],
+    facts: [
+      "Kakeibo: una app de presupuestos para gastar con conciencia",
+      "iOS y Android",
+      "Pago único. Sin suscripción, anuncios, rastreo ni IA.",
+      "Inglés, español e italiano",
+      "En las tiendas desde abril de 2026",
+      "Hecha en Barcelona",
+    ],
+    assets:
+      "En el kit de prensa están las capturas en inglés y español, el icono y una descripción corta.",
+    code: "Si quieres probarla, estaré encantado de darte un código para que la descargues gratuitamente.",
+    downloadKit: "Descargar el kit de prensa",
+    requestCode: "Pídeme un código",
+    signoff: "Gracias,",
+    signature: "Pablo",
+    location: "Barcelona",
+    usage:
+      "Usa las capturas y el icono para cualquier cosa relacionada con Kakeibo. Solo no las edites ni hagas parecer que he respaldado algo que no.",
   },
 } satisfies Translations;

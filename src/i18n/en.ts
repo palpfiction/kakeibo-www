@@ -270,6 +270,7 @@ export const en = {
     appName: "Kakeibo",
     tagline: "Spend on what matters",
     blog: "Blog",
+    press: "Press",
     contact: "Contact",
     privacyPolicy: "Privacy Policy",
     rights: "All rights reserved.",
@@ -336,5 +337,39 @@ export const en = {
       title: "Contact",
       p1: "If you have any questions about this privacy policy, you can contact us at hola@getkakeibo.com.",
     },
+  },
+
+  // -- Press kit page --
+  pressPage: {
+    meta: {
+      title: "Press — Kakeibo",
+      description:
+        "A short note, a few facts and the press kit for anyone writing about Kakeibo. It's a very small offline budgeting app based on a Japanese saving method. Maintained by one person.",
+    },
+    heading: "Kakeibo press info",
+    greeting: "Hi,",
+    body: [
+      "I'm Pablo, and I made a very, very small budgeting app based on the Japanese kakeibo method. It's about writing down the money that comes in and goes out each month, tracking every expense by hand, and reflecting on everything that happened at the end of the month. Its natural habitat is a notebook, but this app is always in your pocket.",
+      "I'm very tired of subscriptions, free trials, ads, AI everywhere for no reason... So this app goes against all of that: one-time purchase (€2.99–€3.99), no ads, no cookies, no LLMs, not even a server involved. Everything stays on your phone.",
+      "If you're writing about it, here's the short version:",
+    ],
+    facts: [
+      "Kakeibo: a budgeting app for spending more consciously",
+      "iOS and Android",
+      "One-time purchase. No subscription, ads, tracking or AI.",
+      "English, Spanish and Italian",
+      "In the stores since April 2026",
+      "Made in Barcelona",
+    ],
+    assets:
+      "The press kit has screenshots in English and Spanish, the app icon and a short description.",
+    code: "If you want to try it, I'll be happy to send you a code so you can download it for free.",
+    downloadKit: "Download the press kit",
+    requestCode: "Ask me for a code",
+    signoff: "Thanks,",
+    signature: "Pablo",
+    location: "Barcelona",
+    usage:
+      "Use the screenshots and icon for anything related to Kakeibo. Just don't edit them or make it look like I endorsed something I didn't.",
   },
 };
