@@ -88,7 +88,9 @@ const jsonLd = {
         <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     </head>
     <body>
-        <LanguageSwitcher locale={locale} t={t} />
+        <div class="home-lang-switcher">
+            <LanguageSwitcher locale={locale} t={t} fixed={false} />
+        </div>
         <slot />
     </body>
 </html>
@@ -238,6 +240,14 @@ const jsonLd = {
         line-height: 1.7;
     }
 
+    /* Homepage language switcher: scrolls with the page, not fixed. */
+    .home-lang-switcher {
+        position: absolute;
+        top: var(--space-md);
+        right: var(--space-md);
+        z-index: 100;
+    }
+
     /* Utility */
     .sr-only {
         position: absolute;
@@ -254,6 +264,11 @@ const jsonLd = {
     @media (max-width: 640px) {
         .section {
             padding: var(--space-3xl) var(--space-md);
+        }
+
+        .home-lang-switcher {
+            top: var(--space-sm);
+            right: var(--space-sm);
         }
     }
 </style>
